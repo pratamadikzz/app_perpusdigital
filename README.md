@@ -22,7 +22,7 @@ PerpusDigital adalah aplikasi perpustakaan digital sederhana berbasis Laravel un
 
 ```bash
 git clone <repo-url> perpusdigital
-cd perpusdigita
+cd perpusdigital
 ```
 
 2. Install dependensi PHP:
