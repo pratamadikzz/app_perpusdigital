@@ -114,14 +114,14 @@
             <!-- Button -->
             <button type="submit"
                 class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition">
-                Login
+                <a href="{{ route('peminjam/index') }}">Login</a>
             </button>
         </form>
 
         <!-- Footer -->
         <p class="text-center text-sm text-gray-500 mt-6">
             Belum punya akun?
-            <a href="{{ route('register') }}" class="text-blue-600 font-medium hover:underline">Daftar</a>
+            <a href="{{ route('auth/register') }}" class="text-blue-600 font-medium hover:underline">Daftar</a>
         </p>
     </div>
 

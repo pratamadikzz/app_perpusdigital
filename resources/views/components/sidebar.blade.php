@@ -498,7 +498,6 @@
                  </button>
 
                  <div class="pengguna-content">
-                     <a href="#" style="color: #7e8a9b"><i class="fa fa-user-shield"></i>Admin</a>
                      <a href="{{ route('admin/dataPengguna/petugas/index') }}" style="color: #7e8a9b"><i
                              class="fa fa-user-tie"></i>Petugas</a>
                      <a href="{{ route('admin/dataPengguna/peminjam/index') }}" style="color: #7e8a9b"><i class="fa fa-user"></i>Peminjam</a>

@@ -152,15 +152,15 @@
         </div>
         <div class="form-regis">
             <h1>Registrasi Akun Peminjam</h1>
-            <form action="">
+            <form action="{{ route('register.process') }}" method="POST">
+                @csrf
                 <input type="text" placeholder="Nama Lengkap" required>
                 <input type="email" placeholder="Email Aktif" required>
                 <input type="text" placeholder="Username" required>
-                <input type="text" placeholder="Nomor Induk Siswa" required>
                 <input type="text" placeholder="Alamat" required>
                 <input type="password" placeholder="Password Baru" required>
                 <input type="password" placeholder="Konfirmasi Password" required>
-                <button>Daftar</button>
+                <button type="submit">Daftar</button>
             </form>
         </div>
     </div>

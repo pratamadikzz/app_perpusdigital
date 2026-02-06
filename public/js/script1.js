@@ -58,3 +58,30 @@
                 }, 200);
             });
         });
+
+
+    const buttons = document.querySelectorAll('.category');
+    const books = document.querySelectorAll('.book');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const category = btn.dataset.category;
+
+            books.forEach(book => {
+                if (category === 'all' ||
+                    book.dataset.category === category) {
+                    book.style.display = "block";
+                } else {
+                    book.style.display = "none";
+                }
+            });
+        });
+    });
+
+    lucide.createIcons();
+
+

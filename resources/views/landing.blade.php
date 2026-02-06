@@ -274,7 +274,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            margin-left: 50px;  
+            margin-left: 50px;
         }
 
         .book-section .box-1 p {
@@ -511,7 +511,7 @@
         <h2>Perpustakaan Digital untuk <br> Akses Ilmu Tanpa Batas</h2>
         <p>Baca Buku Dimana Saja dan Kapan saja</p>
         {{-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> --}}
-        <a href="{{ route('login') }}">Jelajahi Pustaka</a>
+        <a href="{{ route('auth/login') }}">Jelajahi Pustaka</a>
         <img src="img/gambar landing page 1 remove bg.png" alt="">
     </div>
     <br><br><br><br><br><br><br><br><br><br>

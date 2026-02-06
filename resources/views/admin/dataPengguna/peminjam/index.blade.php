@@ -145,13 +145,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ( $users as $user )
                         <tr>
-                            <td>1</td>
-                            <td>dama01</td>
-                            <td>terenskripsi</td>
-                            <td>dama@gmail.com</td>
-                            <td>Damasan</td>
-                            <td>Bogor</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $loop->name }}</td>
+                            <td>{{ $loop->username }}</td>
+                            <td>{{ $loop->email }}</td>
+                            <td>{{ $loop->alamat }}</td>
                             <td>
                                 <a href="#" class="btn-edit">
                                     <i class="fa-solid fa-pen-to-square"></i>
@@ -161,6 +161,7 @@
                                 </a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

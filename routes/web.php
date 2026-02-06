@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('landing');
@@ -43,14 +44,22 @@ Route::get('peminjam/buku/detail', function(){
 })->name('peminjam/buku/detail');
 
 
+Route::get('peminjam/peminjaman/form', function(){
+    return view('peminjam.peminjaman.form');
+})->name('peminjaman/form');
+
 
 
 //Login
 Route::get('login', function() {
-    return view('login');
-})->name('login');
+    return view('/auth/login');
+})->name('auth/login');
+
+Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
 
 //register
 Route::get('register', function(){
-    return view('register');
-})->name('register');
+    return view('auth/register');
+})->name('auth/register');
+
+Route::post('/register', [AuthController::class, 'registerProcess'])->name('register.process');

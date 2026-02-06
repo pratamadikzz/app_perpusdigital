@@ -132,7 +132,7 @@
                 <a href="#">Pesan dari Admin</a>
                 <a href="#">Lihat semua pesan</a>
             </div>
-        </div>
+        </div>  
 
         <!-- NOTIF -->
         <div class="nav-dropdown">
