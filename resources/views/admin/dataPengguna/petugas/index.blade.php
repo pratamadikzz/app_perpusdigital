@@ -121,7 +121,7 @@
 
             <div class="page-header">
                 <h2>Data Petugas</h2>
-                <a href="#" class="btn-add">
+                <a href="{{ url('admin/dataPengguna/petugas/create') }}" class="btn-add">
                     <i class="fa-solid fa-circle-plus"></i> Tambah Petugas
                 </a>
             </div>
@@ -140,20 +140,19 @@
                             <th>Username</th>
                             <th>Email</th>
                             <th>Password</th>
-                            <th>No HP</th>
                             <th>Alamat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ( $staffs as $staff )
                         <tr>
-                            <td>1</td>
-                            <td>Andhika</td>
-                            <td>dhikaDev</td>
-                            <td>andhika@mail.com</td>
-                            <td>terenskripsi</td>
-                            <td>08123456789</td>
-                            <td>Bogor</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $staff->name }}</td>
+                            <td>{{ $staff->username }}</td>
+                            <td>{{ $staff->email }}</td>
+                            <td>Password Terenskripsi</td>
+                            <td>{{ $staff->alamat }}</td>
                             <td>
                                 <a href="#" class="btn-edit">
                                     <i class="fa-solid fa-pen-to-square"></i>
@@ -163,6 +162,7 @@
                                 </a>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

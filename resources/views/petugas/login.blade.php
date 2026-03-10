@@ -90,16 +90,20 @@
       <h1>Login Petugas</h1>
       <p>Perpustakaan Digital</p>
     </div>
-    <form action="#" method="POST">
+    @if(session('error'))
+    <p style="color:red">{{ session('error') }}</p>
+    @endif
+    <form action="/petugas/login" method="POST">
+        @csrf
       <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Masukkan username" required>
+        <label for="username">Email</label>
+        <input type="text"  name="email" placeholder="Masukkan username" required>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+        <input type="password"  name="password" placeholder="Masukkan password" required>
       </div>
-      <button type="submit" class="login-btn">Masuk</button>
+      <button type="submit" class="login-btn">Login</button>
     </form>
     <div class="login-footer">
       © 2026 Perpustakaan Digital

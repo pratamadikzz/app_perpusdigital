@@ -154,12 +154,12 @@
             <h1>Registrasi Akun Peminjam</h1>
             <form action="{{ route('register.process') }}" method="POST">
                 @csrf
-                <input type="text" placeholder="Nama Lengkap" required>
-                <input type="email" placeholder="Email Aktif" required>
-                <input type="text" placeholder="Username" required>
-                <input type="text" placeholder="Alamat" required>
-                <input type="password" placeholder="Password Baru" required>
-                <input type="password" placeholder="Konfirmasi Password" required>
+                <input type="text" placeholder="Nama Lengkap" required name="name">
+                <input type="email" placeholder="Email Aktif" required name="email">
+                <input type="text" placeholder="Username" required name="username">
+                <input type="text" placeholder="Alamat" required name="alamat">
+                <input type="password" placeholder="Password Baru" required name="password">
+                <input type="password" placeholder="Konfirmasi Password" required name="password_confirmation">
                 <button type="submit">Daftar</button>
             </form>
         </div>

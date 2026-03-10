@@ -1,3 +1,4 @@
+
 <style>
     .logout a {
         text-decoration: none;
@@ -111,6 +112,20 @@
         opacity: 1;
         transform: translateY(0);
     }
+
+    .notif-badge {
+        position: absolute;
+        top: 0;
+        right: -6px;
+        background: #ef4444;
+        /* merah */
+        color: white;
+        font-size: 10px;
+        padding: 4px 6px;
+        border-radius: 999px;
+        min-width: 18px;
+        text-align: center;
+    }
 </style>
 
 <div class="main">
@@ -132,24 +147,38 @@
                 <a href="#">Pesan dari Admin</a>
                 <a href="#">Lihat semua pesan</a>
             </div>
-        </div>  
+        </div>
 
         <!-- NOTIF -->
         <div class="nav-dropdown">
-            <div class="nav-trigger">
+            <div class="nav-trigger position-relative">
                 <i class="fa fa-bell"></i>
                 <span>Notif</span>
+
+                @if (isset($pendingCount) && $pendingCount > 0)
+                    <span class="notif-badge">
+                        {{ $pendingCount }}
+                    </span>
+                @endif
+
+
                 <i class="fa fa-chevron-down arrow"></i>
             </div>
+
             <div class="nav-menu">
-                <a href="#">Buku dikembalikan</a>
-                <a href="#">User baru daftar</a>
-                <a href="#">Lihat semua notif</a>
+                @if (isset($pendingCount) && $pendingCount > 0)
+                    <a href="{{ url('/admin/book-requests') }}">
+                        🔔 {{ $pendingCount }} Request Buku Pending
+                    </a>
+                @else
+                    <a href="#">Tidak ada notifikasi</a>
+                @endif
             </div>
         </div>
 
+
         <div class="logout">
-            <a href="#"><i class="fa fa-right-from-bracket"></i> Logout</a>
+            <a href="{{ route('staff.logout') }}"><i class="fa fa-right-from-bracket"></i> Logout</a>
         </div>
     </div>
 

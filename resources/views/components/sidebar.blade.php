@@ -447,15 +447,17 @@
      <div class="profile-card">
          <div class="profile-avatar">
              <img src="{{ asset('img/WhatsApp Image 2026-02-04 at 09.32.43.jpeg') }}" alt="">
-             <span class="badge">New</span>
+             <span class="badge">Admin</span>
 
              <!-- ICON SETTING -->
              <div class="profile-setting">
-                 <i class="fa fa-gear"></i>
+                 <a href="{{ route('admin.settings') }}">
+                     <i class="fa fa-gear"></i>
+                 </a>
              </div>
          </div>
 
-         <h4>Andhika</h4>
+         <h4>{{ session('staff_name') }}</h4>
          <p>Admin Pustaka Digital</p>
 
          <div class="profile-stats">
@@ -500,16 +502,17 @@
                  <div class="pengguna-content">
                      <a href="{{ route('admin/dataPengguna/petugas/index') }}" style="color: #7e8a9b"><i
                              class="fa fa-user-tie"></i>Petugas</a>
-                     <a href="{{ route('admin/dataPengguna/peminjam/index') }}" style="color: #7e8a9b"><i class="fa fa-user"></i>Peminjam</a>
+                     <a href="{{ route('admin/dataPengguna/peminjam/index') }}" style="color: #7e8a9b"><i
+                             class="fa fa-user"></i>Peminjam</a>
                  </div>
              </div>
-             <a href="#"><i class="fa fa-tags"></i>Data Kategori</a>
-             <a href="#"><i class="fa fa-book"></i>Data Buku</a>
+             <a href="{{ url('admin/kategori') }}"><i class="fa fa-tags"></i>Data Kategori</a>
+             <a href="{{ route('admin.dataBuku.index') }}"><i class="fa fa-book"></i>Data Buku</a>
          </div>
      </div>
-
-     <a href="#"><i class="fa fa-book-reader"></i>Peminjaman</a>
-     <a href="#"><i class="fa fa-rotate-left"></i>Pengembalian</a>
+     <a href="{{ route('admin.book.requests') }}"><i class="fa fa-book-reader"></i>Persetujuan</a>
+     <a href="{{ route('admin.peminjaman.index') }}"><i class="fa fa-book-reader"></i>Peminjaman</a>
+     <a href="{{ route('admin.pengembalian') }}"><i class="fa fa-rotate-left"></i>Pengembalian</a>
      <a href="#"><i class="fa fa-chart-bar"></i>Laporan</a>
      {{-- <div class="logout">
          <a href="#"><i class="fa fa-right-from-bracket"></i>Logout</a>

@@ -22,12 +22,13 @@
 
             <div class="row">
                 <!-- Cover -->
+
                 <div class="col-md-4 text-center">
-                    <img src="{{ asset('img/educated.png') }}" class="img-fluid book-cover mb-3">
+                    <img src="{{ asset('storage/' . $book->cover ) }}" class="img-fluid book-cover mb-3">
 
                     <!-- Rating -->
                     <div class="mb-2">
-                        ⭐⭐⭐⭐☆ <span class="text-muted">(4.2)</span>
+                        <div class="book-rating">★★★★☆ <span>(4.1)</span></div>
                     </div>
 
                     <!-- Wishlist -->
@@ -35,21 +36,21 @@
                         ❤ Tambah ke Favorit
                     </button>
                 </div>
-
+                
                 <!-- Info Buku -->
                 <div class="col-md-8 content-right">
 
                     <h2 class="book-title mb-1">
-                        Cara Melawan Rasa Malas
+                        {{ $book->title }}
                     </h2>
 
                     <p class="book-author mb-3">
-                        oleh John Doe
+                        oleh {{ $book->author }}
                     </p>
 
                     <div class="mb-3">
                         <span class="badge bg-success stock-badge">
-                            ✔ Stok tersedia: 12 buku
+                            ✔ Stok tersedia: {{ $book->stock }} buku
                         </span>
                     </div>
 
@@ -66,8 +67,7 @@
             <div class="detail-section">
                 <h4 class="fw-bold">Deskripsi</h4>
                 <p class="text-muted">
-                    Buku ini memberikan panduan praktis untuk meningkatkan
-                    produktivitas dan membangun kebiasaan positif sehari-hari.
+                    {{$book->description}}
                 </p>
             </div>
 
@@ -78,22 +78,22 @@
                     <div class="col-md-6">
                         <div class="detail-item">
                             <span>Penerbit</span>
-                            <strong>Penerbit Contoh</strong>
+                            <strong>{{ $book->publisher }}</strong>
                         </div>
 
                         <div class="detail-item">
                             <span>ISBN</span>
-                            <strong>978xxxxxxx</strong>
+                            <strong>{{ $book->isbn }}</strong>
                         </div>
 
                         <div class="detail-item">
                             <span>Bahasa</span>
-                            <strong>Indonesia</strong>
+                            <strong>{{ $book->languange }}</strong>
                         </div>
 
                         <div class="detail-item">
-                            <span>Panjang Buku</span>
-                            <strong>30 cm</strong>
+                            <span>Panjang Buku (cm)</span>
+                            <strong>{{ $book->book_length }}</strong>
                         </div>
 
                     </div>
@@ -101,22 +101,22 @@
                         <div class="col-md-6">
                             <div class="detail-item">
                                 <span>Tanggal Terbit</span>
-                                <strong>2026</strong>
+                                <strong>{{ $book->publication_year }}</strong>
                             </div>
 
                             <div class="detail-item">
                                 <span>Jumlah Halaman</span>
-                                <strong>300 halaman</strong>
+                                <strong>{{ $book->number_of_books }}</strong>
                             </div>
 
                             <div class="detail-item">
-                                <span>Berat Buku</span>
-                                <strong>500 gram</strong>
+                                <span>Berat Buku (gram)</span>
+                                <strong>{{ $book->book_weight }}</strong>
                             </div>
 
                             <div class="detail-item">
-                                <span>Lebar Buku</span>
-                                <strong>21 cm</strong>
+                                <span>Lebar Buku (cm)</span>
+                                <strong>{{ $book->book_width }}</strong>
                             </div>
                         </div>
                     </div>
@@ -165,10 +165,11 @@
     </div>
 
     <div class="borrow-bar">
-        <button class="btn btn-primary btn-lg w-100">
+        <a href="{{ route('buku.Formpinjam', $book->id) }}" class="btn btn-primary btn-lg w-100">
             Pinjam Buku
-        </button>
+        </a>
     </div>
+
 
 
     <script src="{{ asset('js/script1.js') }}"></script>

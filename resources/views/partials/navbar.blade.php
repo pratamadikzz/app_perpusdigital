@@ -59,7 +59,7 @@
 
         <!-- Icon Menu -->
         <div class="icon-menu">
-            <a href="#" title="Favorit">
+            <a href="{{ route('favorit.index') }}" title="Favorit">
                 <i data-lucide="heart"></i>
             </a>
             <a href="#" title="Koleksi Buku">
@@ -68,7 +68,7 @@
             <a href="#" title="Ulasan Buku">
                 <i data-lucide="message-square"></i>
             </a>
-            <a href="#" title="Riwayat">
+            <a href="{{ route('peminjam.riwayat') }}" title="Riwayat">
                 <i data-lucide="history"></i>
             </a>
         </div>

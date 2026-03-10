@@ -36,11 +36,11 @@
         </div>
 
         <!-- Form Login -->
-        <form action="#" method="POST" class="space-y-6" autocomplete="off">
-
+        <form action="{{ route('login.process') }}" method="POST" class="space-y-6" autocomplete="off">
+            @csrf
             <!-- Username / Email-->
             <div class="relative">
-                <input type="email" name="email" autocomplete="new-password" required placeholder="Email"
+                <input type="email" name="email" autocomplete="new-password" required placeholder="Email" name="email"
                     class="peer w-full px-10 py-3 border rounded-lg placeholder-transparent
                  focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
@@ -65,7 +65,7 @@
                 <input type="password" id="password" name="password" autocomplete="new-password" required
                     placeholder="Password"
                     class="peer w-full px-10 py-3 border rounded-lg placeholder-transparent
-                 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password"/>
 
                 <label
                     class="absolute left-10 top-3 text-gray-400 text-sm transition-all duration-300
@@ -114,7 +114,7 @@
             <!-- Button -->
             <button type="submit"
                 class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition">
-                <a href="{{ route('peminjam/index') }}">Login</a>
+                login
             </button>
         </form>
 

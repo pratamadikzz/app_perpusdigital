@@ -1,0 +1,300 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    background: #f1f5f9;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 230px;
+    height: 90vh;
+    border-radius: 30px;
+    margin-top: 40px;
+    margin-left: 20px;
+    background: #2563eb;
+    padding: 20px;
+    position: fixed;
+    color: white;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== CONTENT ===== */
+.main {
+    margin-left: 230px;
+    width: 100%;
+}
+
+.header {
+    padding: 20px 30px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.header h3 {
+    font-weight: 600;
+}
+
+.profile {
+    position: relative;
+    width: 95px;
+    height: 95px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.user-profile img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.user-info .name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.user-info .role {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.content {
+    padding: 30px;
+}
+
+/* ===== CARD DASHBOARD ===== */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+}
+
+.card h4 {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.card .number {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.icon {
+    float: right;
+    font-size: 24px;
+    color: #2563eb;
+}
+
+.search {
+    position: relative;
+}
+
+.search input {
+    width: 260px;
+    padding: 10px 14px 10px 38px;
+    border-radius: 30px;
+    border: 1px solid #e5e7eb;
+    outline: none;
+    background: #f8fafc;
+    transition: 0.25s;
+    font-size: 14px;
+}
+
+/* icon di dalam input */
+.search i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+/* efek focus */
+.search input:focus {
+    border-color: #2563eb;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* hover */
+.search input:hover {
+    border-color: #cbd5f5;
+}
+
+/* Dropdown */
+.menu-dropdown {
+    margin-bottom: 8px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropdown-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-content {
+    display: none;
+    padding-left: 10px;
+}
+
+.dropdown-content a {
+    font-size: 13px;
+    padding: 10px;
+    display: block;
+    color: #aabbd3;
+}
+
+.menu-dropdown.active .dropdown-content {
+    display: block;
+}
+
+.nav-dropdown {
+    position: relative;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.nav-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #475569;
+}
+
+/* Arrow animasi */
+.arrow {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+/* rotate saat aktif */
+.nav-dropdown.active .arrow {
+    transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+.nav-menu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    min-width: 180px;
+
+    /* animasi */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition:
+        max-height 0.3s ease,
+        opacity 0.3s ease,
+        transform 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.nav-menu a {
+    padding: 10px;
+    text-decoration: none;
+    color: #475569;
+}
+
+.nav-menu a:hover {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+/* aktif */
+.nav-dropdown.active .nav-menu {
+    max-height: 300px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== HAMBURGER ===== */
+.hamburger {
+    font-size: 20px;
+    margin-right: 15px;
+    cursor: pointer;
+    color: #0f172a;
+}
+
+/* sidebar hide */
+.sidebar.hide {
+    transform: translateX(-260px);
+    transition: 0.3s;
+}
+
+/* content ikut geser */
+.main.full {
+    margin-left: 0;
+}

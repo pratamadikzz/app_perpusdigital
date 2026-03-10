@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Peminjam</title>
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -128,39 +128,42 @@
 
             <div class="card">
 
-                <div class="table-tools">
-                    <input type="text" placeholder="Cari peminjam...">
-                </div>
+                {{-- <form action="" method="GET">
+                    <input type="text" name="search" placeholder="Cari peminjam..." id="searchInput">
+                    <button type="button" id="resetSearch">Reset</button>
+                </form> --}}
 
-                <table>
+                <table id="usersTable">
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Nama</th>
                             <th>Username</th>
                             <th>Password</th>
                             <th>Email</th>
-                            <th>Nama</th>
                             <th>Alamat</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ( $users as $user )
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $loop->name }}</td>
-                            <td>{{ $loop->username }}</td>
-                            <td>{{ $loop->email }}</td>
-                            <td>{{ $loop->alamat }}</td>
-                            <td>
-                                <a href="#" class="btn-edit">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <a href="#" class="btn-delete">
-                                    <i class="fa-solid fa-trash-can-arrow-up"></i>
-                                </a>
-                            </td>
-                        </tr>
+                        @foreach ($users as $user)
+                            <tr>
+                                <td></td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->username }}</td>
+                                <td>Password Terenskripsi</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->alamat }}</td>
+                                <td>
+                                    <form action="{{ url('admin/peminjam/delete/'.$user->id) }}" method="POST" >
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-delete">
+                                            <i class="fa-solid fa-trash-can-arrow-up"></i>
+                                            </button>
+                                    </form>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -169,6 +172,45 @@
 
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            let table = $('#usersTable').DataTable({
+                pageLength: 5,
+                lengthMenu: [5, 10, 25, 50],
+                language: {
+                    search: "cari: ",
+                    lengthMenu: "Tampilkan _MENU_ data",
+                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    paginate: {
+                        previous: "Sebelumnya",
+                        next: "Berikutnya"
+                    }
+                }
+            });
+
+            $('#searchInput').on('keyup', function(){
+                table.search(this.value).draw();
+            });
+
+            $('#resetSearch').on('click', function(){
+                $('#searchInput').val('');
+                table.search('').draw();
+            });
+
+            table.on('order.dt search.dt', function(){
+                table.column(0, {search:'applied', order:'applied'})
+                .nodes()
+                .each(function(cell, i){
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });
+    </script>
+
 
 </body>
 

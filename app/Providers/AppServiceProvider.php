@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\BookRequest;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('admin.*', function($view){
+            $pendingCount = BookRequest::where('status', 'pending')->count();
+
+            $view->with('pendingCount', $pendingCount);
+        });
     }
 }

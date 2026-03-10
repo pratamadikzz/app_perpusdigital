@@ -17,15 +17,15 @@
             <div class="cards">
                 <div class="card">
                     <h4>Total Buku</h4>
-                    <span>1.250</span>
+                    <span>{{ $totalBuku }}</span>
                 </div>
                 <div class="card">
                     <h4>Total Kategori</h4>
-                    <span>1.250</span>
+                    <span>{{ $totalKategori }}</span>
                 </div>
                 <div class="card">
                     <h4>User</h4>
-                    <span>320</span>
+                    <span>{{ $totalAkun }}</span>
                 </div>
                 <div class="card">
                     <h4>Dipinjam</h4>
