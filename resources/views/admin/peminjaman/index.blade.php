@@ -13,6 +13,13 @@
     @include('components.navbar')
 
 
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 20px;">
+        <h4 style="margin:0;">Data Peminjaman</h4>
+        <a href="{{ route('laporan.peminjaman') }}" target="_blank" class="btn btn-success btn-sm">
+            <i class="fa-solid fa-file-pdf"></i> Cetak Laporan PDF
+        </a>
+    </div>
+
     <table class="table table-bordered">
         <thead>
             <tr>

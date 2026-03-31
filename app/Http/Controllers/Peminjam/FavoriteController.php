@@ -23,6 +23,16 @@ class FavoriteController extends Controller
 
         $user->favorites()->toggle($bookId);
 
+        // Check if it's an AJAX request
+        if (request()->ajax()) {
+            $isFavorited = $user->favorites()->where('book_id', $bookId)->exists();
+            return response()->json([
+                'success' => true,
+                'is_favorited' => $isFavorited,
+                'message' => $isFavorited ? 'Buku ditambahkan ke favorit' : 'Buku dihapus dari favorit'
+            ]);
+        }
+
         return back();
     }
 }

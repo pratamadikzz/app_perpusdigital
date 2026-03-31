@@ -24,9 +24,14 @@
                 <small class="text-muted">Kelola koleksi buku perpustakaan</small>
             </div>
 
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                + Tambah Buku
-            </button>
+            <div class="d-flex gap-2">
+                <a href="{{ route('laporan.buku') }}" target="_blank" class="btn btn-success">
+                    <i class="fa-solid fa-file-pdf"></i> Cetak Laporan PDF
+                </a>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                    + Tambah Buku
+                </button>
+            </div>
         </div>
 
         <!-- Table Card -->

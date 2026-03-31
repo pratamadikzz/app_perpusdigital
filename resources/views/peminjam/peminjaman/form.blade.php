@@ -5,163 +5,433 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Form Peminjaman Buku</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <title>Form Peminjaman Buku - PustakaDigital</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        :root {
+            --primary: #1b2741;
+            --secondary: #4a90e2;
+            --accent: #f67034;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #f8f9fa;
-            padding: 20px 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
         }
 
-        .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .form-title {
-            color: #333;
-            margin-bottom: 30px;
+        .page-header {
             text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .form-body {
+            padding: 40px;
+        }
+
+        .book-info-section {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .book-info-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .book-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 15px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
-        label {
-            font-weight: 500;
-            color: #555;
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
             margin-bottom: 8px;
+            display: block;
         }
 
-        .required::after {
+        .form-label.required::after {
             content: " *";
-            color: #dc3545;
+            color: var(--danger);
         }
 
-        .btn-container {
-            margin-top: 30px;
-            text-align: center;
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
         }
 
-        .form-control:focus,
-        .form-select:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
         }
 
-        .checkbox-agreement {
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 4px solid #ffc107;
-            border-radius: 4px;
+        .form-control[readonly] {
+            background: var(--light);
+            cursor: not-allowed;
         }
 
-        /* Styling untuk Struk Peminjaman */
-        .struk-container {
-            background-color: white;
+        .form-text {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .date-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .agreement-section {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid var(--warning);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .agreement-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--warning);
+            border-color: var(--warning);
+        }
+
+        .form-check-label {
+            color: #856404;
+            font-weight: 500;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gray);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            border: 1px solid transparent;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .alert i {
+            font-size: 1.2rem;
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: var(--radius);
+            border: none;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--success) 0%, #20c997 100%);
+            color: white;
+            border-radius: var(--radius) var(--radius) 0 0;
+            border: none;
+            padding: 20px 30px;
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .modal-body {
             padding: 30px;
-            border-radius: 8px;
-            max-width: 600px;
-            margin: 0 auto;
+        }
+
+        .struk-container {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
             font-family: 'Courier New', monospace;
-            line-height: 1.8;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .struk-header {
-            text-align: center;
-            border-bottom: 2px solid #333;
+            border-bottom: 2px solid var(--primary);
             padding-bottom: 15px;
             margin-bottom: 20px;
         }
 
         .struk-title {
-            font-size: 18px;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 5px;
+            color: var(--primary);
         }
 
-        .struk-subtitle {
-            font-size: 12px;
-            color: #666;
+        .struk-info {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin: 10px 0;
         }
 
-        .struk-body {
-            font-size: 13px;
-            margin-bottom: 20px;
+        .struk-divider {
+            border-top: 1px dashed var(--border);
+            margin: 15px 0;
         }
 
         .struk-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            padding: 0 5px;
+            margin: 8px 0;
+            font-size: 0.9rem;
         }
 
         .struk-label {
             font-weight: bold;
-            min-width: 120px;
+            color: var(--gray);
         }
 
         .struk-value {
-            flex: 1;
-            text-align: right;
-        }
-
-        .struk-divider {
-            border-top: 1px dashed #333;
-            margin: 15px 0;
+            color: var(--dark);
         }
 
         .struk-footer {
-            text-align: center;
-            border-top: 2px solid #333;
+            margin-top: 20px;
             padding-top: 15px;
-            font-size: 12px;
-            color: #666;
+            border-top: 2px solid var(--primary);
+            font-size: 0.8rem;
+            color: var(--gray);
         }
 
-        .struk-footer p {
-            margin: 0;
-            margin-bottom: 5px;
-        }
-
-        .struk-nomor {
-            display: flex;
-            align-items: center;
+        .modal-footer {
+            border: none;
+            padding: 20px 30px;
             gap: 10px;
-            margin-bottom: 15px;
         }
 
-        .struk-qr {
-            font-size: 11px;
-            text-align: center;
-            color: #999;
+        .btn-modal {
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
         }
 
-        .modal-body {
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .btn-print {
-            margin-top: 15px;
-        }
-
-        @media print {
-            body {
-                background-color: white;
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
             }
 
-            .struk-container {
-                box-shadow: none;
+            .page-title {
+                font-size: 2rem;
             }
 
-            .btn-group {
-                display: none;
+            .form-body {
+                padding: 25px 20px;
+            }
+
+            .book-details {
+                grid-template-columns: 1fr;
+            }
+
+            .date-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
@@ -169,259 +439,436 @@
 
 <body>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="form-container">
-                    <h1 class="form-title">Form Peminjaman Buku</h1>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Form Peminjaman Buku</h1>
+            <p class="page-subtitle">Lengkapi informasi peminjaman buku dengan benar untuk memproses permintaan Anda</p>
+        </div>
 
-                    <form action="{{ route('peminjaman.store') }}" method="POST">
-                        @csrf
+        <!-- Success Alert -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle"></i>
+                <strong>Berhasil!</strong> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
 
-                        <!-- Nomor Peminjaman -->
+        <!-- Form Card -->
+        <div class="form-card">
+            <div class="form-header">
+                <h2><i class="fas fa-book"></i> Detail Peminjaman</h2>
+                <p>Informasi buku dan peminjam akan diproses secara otomatis</p>
+            </div>
+
+            <div class="form-body">
+                <form action="{{ route('peminjaman.store') }}" method="POST">
+                    @csrf
+
+                    <!-- Book Information Section -->
+                    <div class="book-info-section">
+                        <h3 class="book-info-title">
+                            <i class="fas fa-info-circle"></i>
+                            Informasi Buku
+                        </h3>
+                        <div class="book-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Judul Buku</div>
+                                <div class="detail-value">{{ $book->title }}</div>
+                                <input type="hidden" name="buku_id" value="{{ $book->id }}">
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Penulis</div>
+                                <div class="detail-value">{{ $book->author }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Penerbit</div>
+                                <div class="detail-value">{{ $book->publisher ?? 'Tidak tersedia' }}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Stok Tersedia</div>
+                                <div class="detail-value">{{ $book->stock }} buku</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Borrower Information Section -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Informasi Peminjam
+                        </h3>
+
+                        <div class="form-group">
+                            <label class="form-label required">Nama Peminjam</label>
+                            <input type="text" class="form-control" value="{{ auth()->user()->name }}" readonly>
+                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                            <div class="form-text">Peminjaman dilakukan oleh akun yang sedang login</div>
+                        </div>
+
                         <div class="form-group">
                             <label for="nomor_peminjaman" class="form-label required">Nomor Peminjaman</label>
                             <input type="text" class="form-control" id="nomor_peminjaman" name="nomor_peminjaman"
                                 placeholder="Auto Generated" readonly>
-                            <small class="text-muted">Nomor ini akan di-generate secara otomatis</small>
+                            <div class="form-text">Nomor ini akan di-generate secara otomatis</div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="nomor_peminjaman" class="form-label required">Judul</label>
-                            <input type="text" class="form-control" value="{{ $book->title }}" readonly>
-                            <input type="hidden" name="buku_id" value="{{ $book->id }}">
-                            <small class="text-muted">Judul Buku</small>
-                        </div>
+                    <!-- Date Information Section -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-calendar-alt"></i>
+                            Jadwal Peminjaman
+                        </h3>
 
-                        <div class="form-group">
-                            <label for="nomor_peminjaman" class="form-label required">Penulis</label>
-                            <input type="text" class="form-control" value="{{ $book->author }}" readonly>
-                            <input type="hidden" name="buku_id" value="{{ $book->id }}">
-                            <small class="text-muted">Penulis Buku</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="nomor_peminjaman" class="form-label required">Penerbit</label>
-                            <input type="text" class="form-control" value="{{ $book->publisher }}" readonly>
-                            <input type="hidden" name="buku_id" value="{{ $book->id }}">
-                            <small class="text-muted">Penerbit Buku</small>
-                        </div>
-
-                        <!-- User / Peminjam -->
-                        <div class="form-group">
-                            <label class="form-label required">Pengguna / Peminjam</label>
-
-                            <!-- Tampilkan nama user login -->
-                            <input type="text" class="form-control" value="{{ auth()->user()->name }}" readonly>
-                            <!-- Kirim user_id ke database -->
-                            <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-
-                            <small class="text-muted">
-                                Peminjaman dilakukan oleh akun yang sedang login
-                            </small>
-                        </div>
-
-                        <!-- Buku -->
-                        {{-- <div class="form-group">
-                            <label for="buku_id" class="form-label required">Buku</label>
-                            <select class="form-select form-control" id="buku_id" name="buku_id" required>
-                                <option value="">-- Pilih Buku --</option>
-                                @foreach ($books as $book)
-                                    <option value="{{ $book->id }}">{{ $book->title }}</option>
-
-                                @endforeach
-
-                            </select>
-                            <small class="text-muted">Pilih buku yang akan dipinjam</small>
-                        </div> --}}
-
-                        <!-- Tanggal Peminjaman -->
-                        <div class="form-group">
-                            <label for="tanggal_peminjaman" class="form-label required">Tanggal Peminjaman</label>
-                            <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman"
-                                required>
-                        </div>
-
-                        <!-- Tanggal Pengembalian -->
-                        <div class="form-group">
-                            <label for="tanggal_pengembalian" class="form-label required">Tanggal Pengembalian</label>
-                            <input type="date" class="form-control" id="tanggal_pengembalian"
-                                name="tanggal_pengembalian" required>
-                            <small class="text-muted">Tanggal paling lambat untuk pengembalian buku</small>
-                        </div>
-
-                        <!-- Status Peminjaman -->
-                        {{-- <div class="form-group">
-                            <label for="status_peminjaman" class="form-label required">Status Peminjaman</label>
-                            <select class="form-select form-control" id="status_peminjaman" name="status_peminjaman"
-                                required>
-                                <option value="">-- Pilih Status --</option>
-                                <option value="aktif">Aktif</option>
-                                <option value="pending">Pending</option>
-                                <option value="dikembalikan">Dikembalikan</option>
-                                <option value="hilang">Hilang</option>
-                                <option value="rusak">Rusak</option>
-                            </select>
-                        </div> --}}
-
-                        <!-- Checkbox Persetujuan -->
-                        <div class="checkbox-agreement">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="persetujuan_denda"
-                                    name="persetujuan_denda" required>
-                                <label class="form-check-label" for="persetujuan_denda">
-                                    <strong>Saya siap menerima denda apabila buku hilang atau rusak</strong>
-                                </label>
+                        <div class="date-inputs">
+                            <div class="form-group">
+                                <label for="tanggal_peminjaman" class="form-label required">Tanggal Peminjaman</label>
+                                <input type="date" class="form-control" id="tanggal_peminjaman"
+                                    name="tanggal_peminjaman" required>
+                                <div class="form-text">Tanggal mulai peminjaman buku</div>
                             </div>
-                            <small class="text-muted d-block mt-2">
-                                Dengan mencentang kotak ini, Anda menyetujui untuk menanggung biaya penggantian atau
-                                perbaikan buku jika buku yang dipinjam mengalami kerusakan atau kehilangan.
-                            </small>
-                        </div>
 
-                        <!-- Tombol -->
-                        <div class="btn-container">
-                            <button type="submit" class="btn btn-primary btn-lg me-2">
-                                <i class="bi bi-check-circle"></i> Buat Peminjaman
-                            </button>
-                            <button type="reset" class="btn btn-secondary btn-lg">
-                                <i class="bi bi-arrow-clockwise"></i> Reset
-                            </button>
-                            <a href="#" class="btn btn-danger btn-lg ms-2">
-                                <i class="bi bi-x-circle"></i> Batal
-                            </a>
+                            <div class="form-group">
+                                <label for="tanggal_pengembalian" class="form-label required">Tanggal
+                                    Pengembalian</label>
+                                <input type="date" class="form-control" id="tanggal_pengembalian"
+                                    name="tanggal_pengembalian" required>
+                                <div class="form-text">Tanggal paling lambat untuk pengembalian buku</div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <!-- Agreement Section -->
+                    <div class="agreement-section">
+                        <h4 class="agreement-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Persetujuan & Tanggung Jawab
+                        </h4>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="persetujuan_denda"
+                                name="persetujuan_denda" required>
+                            <label class="form-check-label" for="persetujuan_denda">
+                                <strong>Saya siap menerima denda apabila buku hilang atau rusak</strong>
+                            </label>
+                        </div>
+                        <div class="form-text mt-2">
+                            Dengan mencentang kotak ini, Anda menyetujui untuk menanggung biaya penggantian atau
+                            perbaikan buku jika buku yang dipinjam mengalami kerusakan atau kehilangan.
+                        </div>
+                    </div>
+
+                    <!-- Button Group -->
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check-circle"></i>
+                            Buat Peminjaman
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-arrow-clockwise"></i>
+                            Reset Form
+                        </button>
+                        <a href="{{ route('peminjam.buku.detail', $book->id) }}" class="btn btn-danger">
+                            <i class="fas fa-times-circle"></i>
+                            Batal
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <!-- Modal Struk Peminjaman -->
-   @if(isset($peminjaman) && $peminjaman)
-<div class="modal fade" id="modalStruk" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">Pengajuan Peminjaman Berhasil</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-
-                <div id="strukturContent" style="font-family: monospace; font-size:14px;">
-                    <div class="text-center">
-                        <strong>PERPUSTAKAAN DIGITAL</strong><br>
-                        =========================
+    @if (isset($peminjaman) && $peminjaman)
+        <div class="modal fade" id="modalStruk" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-check-circle"></i>
+                            Pengajuan Peminjaman Berhasil
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
 
-                    No : {{ $peminjaman->nomor_peminjaman }} <br>
-                    Tgl: {{ now()->format('d-m-Y H:i') }}
+                    <div class="modal-body">
+                        <div id="strukturContent">
+                            <div class="struk-container">
+                                <div class="struk-header">
+                                    <div class="struk-title">PERPUSTAKAAN DIGITAL</div>
+                                    <div class="struk-info">PustakaDigital - Sistem Modern</div>
+                                </div>
 
-                    <hr>
+                                <div class="struk-info">
+                                    No: {{ $peminjaman->nomor_peminjaman }}<br>
+                                    Tgl: {{ now()->format('d-m-Y H:i') }}
+                                </div>
 
-                    Buku :
-                    {{ $peminjaman->buku->title }} <br>
-                    Penulis :
-                    {{ $peminjaman->buku->author }}
+                                <div class="struk-divider"></div>
 
-                    <hr>
+                                <div class="struk-row">
+                                    <span class="struk-label">Buku:</span>
+                                    <span class="struk-value">{{ $peminjaman->buku->title }}</span>
+                                </div>
 
-                    Peminjam :
-                    {{ $peminjaman->user->name }} <br>
-                    Status :
-                    {{ strtoupper($peminjaman->status) }}
+                                <div class="struk-row">
+                                    <span class="struk-label">Penulis:</span>
+                                    <span class="struk-value">{{ $peminjaman->buku->author }}</span>
+                                </div>
 
-                    <hr>
+                                <div class="struk-divider"></div>
 
-                    Pinjam :
-                    {{ $peminjaman->tanggal_peminjaman }} <br>
-                    Kembali :
-                    {{ $peminjaman->tanggal_pengembalian }}
+                                <div class="struk-row">
+                                    <span class="struk-label">Peminjam:</span>
+                                    <span class="struk-value">{{ $peminjaman->user->name }}</span>
+                                </div>
 
-                    <hr>
-                    <div class="text-center">
-                        TERIMA KASIH
+                                <div class="struk-row">
+                                    <span class="struk-label">Status:</span>
+                                    <span class="struk-value">{{ strtoupper($peminjaman->status) }}</span>
+                                </div>
+
+                                <div class="struk-divider"></div>
+
+                                <div class="struk-row">
+                                    <span class="struk-label">Pinjam:</span>
+                                    <span class="struk-value">{{ $peminjaman->tanggal_peminjaman }}</span>
+                                </div>
+
+                                <div class="struk-row">
+                                    <span class="struk-label">Kembali:</span>
+                                    <span class="struk-value">{{ $peminjaman->tanggal_pengembalian }}</span>
+                                </div>
+
+                                <div class="struk-footer">
+                                    <div>TERIMA KASIH</div>
+                                    <div>Telah menggunakan layanan PustakaDigital</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="{{ route('peminjaman.pdf', $peminjaman->id) }}" class="btn btn-primary btn-modal"
+                            target="_blank">
+                            <i class="fas fa-download"></i>
+                            Download PDF
+                        </a>
+                        <button class="btn btn-success btn-modal" id="btnPrint">
+                            <i class="fas fa-print"></i>
+                            Cetak
+                        </button>
+                        <button class="btn btn-secondary btn-modal" data-bs-dismiss="modal">
+                            <i class="fas fa-times"></i>
+                            Tutup
+                        </button>
                     </div>
                 </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="btnDownload">
-                    Download PDF
-                </button>
-
-                <button class="btn btn-success" id="btnPrint">
-                    Cetak
-                </button>
-
-                <button class="btn btn-secondary" data-bs-dismiss="modal">
-                    Tutup
-                </button>
             </div>
         </div>
-    </div>
-</div>
-@endif
+    @endif
 
-    <!-- Bootstrap JS -->
+    <!-- Hidden struk content for PDF generation -->
+    @if (isset($peminjaman) && $peminjaman)
+        <style>
+            #strukForPDF .struk-container {
+                background: white;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 30px;
+                font-family: 'Courier New', monospace;
+                text-align: center;
+                max-width: 400px;
+                margin: 0 auto;
+                box-sizing: border-box;
+            }
+
+            #strukForPDF .struk-header {
+                border-bottom: 2px solid #3b82f6;
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+
+            #strukForPDF .struk-title {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #3b82f6;
+            }
+
+            #strukForPDF .struk-info {
+                font-size: 0.9rem;
+                color: #6b7280;
+                margin: 10px 0;
+            }
+
+            #strukForPDF .struk-divider {
+                border-top: 1px dashed #e5e7eb;
+                margin: 15px 0;
+            }
+
+            #strukForPDF .struk-row {
+                display: flex;
+                justify-content: space-between;
+                margin: 8px 0;
+                font-size: 0.9rem;
+            }
+
+            #strukForPDF .struk-label {
+                font-weight: bold;
+                color: #6b7280;
+            }
+
+            #strukForPDF .struk-value {
+                color: #1f2937;
+            }
+
+            #strukForPDF .struk-footer {
+                margin-top: 20px;
+                padding-top: 15px;
+                border-top: 2px solid #3b82f6;
+                font-size: 0.8rem;
+                color: #6b7280;
+            }
+        </style>
+        <div id="strukForPDF" style="display: none; position: absolute; left: -9999px;">
+            <div class="struk-container">
+                <div class="struk-header">
+                    <div class="struk-title">PERPUSTAKAAN DIGITAL</div>
+                    <div class="struk-info">PustakaDigital - Sistem Modern</div>
+                </div>
+
+                <div class="struk-info">
+                    No: {{ $peminjaman->nomor_peminjaman }}<br>
+                    Tgl: {{ now()->format('d-m-Y H:i') }}
+                </div>
+
+                <div class="struk-divider"></div>
+
+                <div class="struk-row">
+                    <span class="struk-label">Buku:</span>
+                    <span class="struk-value">{{ $peminjaman->buku->title }}</span>
+                </div>
+
+                <div class="struk-row">
+                    <span class="struk-label">Penulis:</span>
+                    <span class="struk-value">{{ $peminjaman->buku->author }}</span>
+                </div>
+
+                <div class="struk-divider"></div>
+
+                <div class="struk-row">
+                    <span class="struk-label">Peminjam:</span>
+                    <span class="struk-value">{{ $peminjaman->user->name }}</span>
+                </div>
+
+                <div class="struk-row">
+                    <span class="struk-label">Status:</span>
+                    <span class="struk-value">{{ strtoupper($peminjaman->status) }}</span>
+                </div>
+
+                <div class="struk-divider"></div>
+
+                <div class="struk-row">
+                    <span class="struk-label">Pinjam:</span>
+                    <span class="struk-value">{{ $peminjaman->tanggal_peminjaman }}</span>
+                </div>
+
+                <div class="struk-row">
+                    <span class="struk-label">Kembali:</span>
+                    <span class="struk-value">{{ $peminjaman->tanggal_pengembalian }}</span>
+                </div>
+
+                <div class="struk-footer">
+                    <div>TERIMA KASIH</div>
+                    <div>Telah menggunakan layanan PustakaDigital</div>
+                </div>
+            </div>
+        </div>
+    @endif
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- html2pdf library untuk download PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
+    <script>
+        // Auto-generate nomor peminjaman
+        document.addEventListener('DOMContentLoaded', function() {
+            const nomorInput = document.getElementById('nomor_peminjaman');
+            if (!nomorInput.value) {
+                const timestamp = Date.now();
+                const random = Math.floor(Math.random() * 1000);
+                nomorInput.value = `PMJ-${timestamp}-${random}`;
+            }
 
-@if(session('peminjaman_id'))
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    var modal = new bootstrap.Modal(document.getElementById('modalStruk'));
-    modal.show();
-});
-</script>
-@endif
+            // Set minimum date untuk tanggal peminjaman (hari ini)
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal_peminjaman').min = today;
+            document.getElementById('tanggal_peminjaman').value = today;
 
-<script>
-document.getElementById("btnPrint").addEventListener("click", function() {
-    var printContents = document.getElementById("strukturContent").innerHTML;
-    var originalContents = document.body.innerHTML;
+            // Set minimum date untuk tanggal pengembalian (besok)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowStr = tomorrow.toISOString().split('T')[0];
+            document.getElementById('tanggal_pengembalian').min = tomorrowStr;
 
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-    location.reload();
-});
-</script>
+            // Update tanggal pengembalian ketika tanggal peminjaman berubah
+            document.getElementById('tanggal_peminjaman').addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                selectedDate.setDate(selectedDate.getDate() + 7); // Default 7 hari
+                const returnDate = selectedDate.toISOString().split('T')[0];
+                document.getElementById('tanggal_pengembalian').value = returnDate;
+            });
+        });
 
-<script>
-document.getElementById("btnDownload")?.addEventListener("click", function () {
-    const element = document.getElementById("strukturContent");
+        // Modal handling
+        @if (isset($peminjaman) && $peminjaman)
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = new bootstrap.Modal(document.getElementById('modalStruk'));
+                modal.show();
+            });
+        @endif
 
-    html2pdf()
-        .set({
-            margin: 0.5,
-            filename: 'bukti-peminjaman.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-        })
-        .from(element)
-        .save();
-});
-</script>
+        // Print functionality
+        document.getElementById("btnPrint")?.addEventListener("click", function() {
+            var printContents = document.getElementById("strukturContent").innerHTML;
+            var newWindow = window.open('', '', 'width=800,height=600');
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Bukti Peminjaman - PustakaDigital</title>
+                        <style>
+                            body { font-family: 'Courier New', monospace; text-align: center; margin: 20px; }
+                            .struk-container { max-width: 400px; margin: 0 auto; }
+                        </style>
+                    </head>
+                    <body>
+                        ${printContents}
+                    </body>
+                </html>
+            `);
+            newWindow.document.close();
+            newWindow.print();
+        });
 
-<script>
-document.getElementById("btnPrint")?.addEventListener("click", function () {
-    var printContents = document.getElementById("strukturContent").innerHTML;
-    var newWindow = window.open('', '', 'width=800,height=600');
-    newWindow.document.write('<html><head><title>Cetak Bukti</title></head><body>');
-    newWindow.document.write(printContents);
-    newWindow.document.write('</body></html>');
-    newWindow.document.close();
-    newWindow.print();
-});
-</script>
+        // Form validation enhancement
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const tanggalPinjam = new Date(document.getElementById('tanggal_peminjaman').value);
+            const tanggalKembali = new Date(document.getElementById('tanggal_pengembalian').value);
 
+            if (tanggalKembali <= tanggalPinjam) {
+                e.preventDefault();
+                alert('Tanggal pengembalian harus lebih besar dari tanggal peminjaman!');
+                return false;
+            }
 
+            const diffTime = Math.abs(tanggalKembali - tanggalPinjam);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
+            if (diffDays > 30) {
+                if (!confirm('Peminjaman lebih dari 30 hari. Apakah Anda yakin?')) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

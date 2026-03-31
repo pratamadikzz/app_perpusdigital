@@ -7,7 +7,7 @@ use App\Models\Book;
 use App\Models\KategoriBuku;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -140,9 +140,19 @@ class BookController extends Controller
     {
         $peminjaman = null;
 
+        // Coba ambil dari session terlebih dahulu
         if (session('peminjaman_id')) {
             $peminjaman = Peminjaman::with(['user', 'buku'])
                 ->find(session('peminjaman_id'));
+        }
+
+        // Jika tidak ada di session, ambil peminjaman terakhir user yang sedang login
+        if (!$peminjaman && Auth::check()) {
+            $peminjaman = Peminjaman::with(['user', 'buku'])
+                ->where('user_id', Auth::id())
+                ->where('buku_id', $book->id)
+                ->latest()
+                ->first();
         }
 
         return view('peminjam.peminjaman.form', compact('book', 'peminjaman'));

@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Peminjam;
 
 use App\Http\Controllers\Controller;
 use App\Models\Peminjaman;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PeminjamanController extends Controller
 {
@@ -61,6 +62,13 @@ class PeminjamanController extends Controller
             ->latest()
             ->get();
 
+        // Load informasi apakah user sudah memberi ulasan untuk setiap buku
+        foreach ($peminjamans as $pinjam) {
+            $pinjam->sudahUlasan = Review::where('user_id', Auth::id())
+                ->where('book_id', $pinjam->book_id)
+                ->exists();
+        }
+
         $aktif = $peminjamans->where('status', 'aktif');
         $dikembalikan = $peminjamans->where('status', 'dikembalikan');
         $ditolak = $peminjamans->where('status', 'ditolak');
@@ -75,17 +83,15 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::findOrFail($id);
 
-        // hanya yang aktif boleh request pengembalian
         if ($peminjaman->status !== 'aktif') {
-            return back()->with('error', 'Buku tidak bisa dikembalikan');
+            return back();
         }
 
-        // ubah status jadi menunggu
         $peminjaman->update([
-            'status' => 'pending'
+            'status' => 'menunggu'
         ]);
 
-        return back()->with('success', 'Permintaan pengembalian dikirim, menunggu persetujuan petugas');
+        return back()->with('success', 'Permintaan pengembalian dikirim');
     }
 
     public function requestKembali($id)
@@ -96,9 +102,25 @@ class PeminjamanController extends Controller
             abort(403);
         }
 
-        $peminjaman->status = 'request_kembali';
+        $peminjaman->status = 'menunggu';
         $peminjaman->save();
 
         return back()->with('success', 'Permintaan pengembalian dikirim');
+    }
+
+    public function generatePDF($id)
+    {
+        $peminjaman = Peminjaman::with(['user', 'buku'])->findOrFail($id);
+
+        // Pastikan user hanya bisa akses peminjaman miliknya sendiri
+        if ($peminjaman->user_id != Auth::id()) {
+            abort(403);
+        }
+
+        $pdf = Pdf::loadView('peminjam.peminjaman.struk_pdf', compact('peminjaman'))
+            ->setPaper('a4', 'portrait')
+            ->setOptions(['defaultFont' => 'sans-serif']);
+
+        return $pdf->download('bukti-peminjaman-' . $peminjaman->nomor_peminjaman . '.pdf');
     }
 }

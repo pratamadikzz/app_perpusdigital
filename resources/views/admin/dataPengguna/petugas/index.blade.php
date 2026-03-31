@@ -121,9 +121,14 @@
 
             <div class="page-header">
                 <h2>Data Petugas</h2>
-                <a href="{{ url('admin/dataPengguna/petugas/create') }}" class="btn-add">
-                    <i class="fa-solid fa-circle-plus"></i> Tambah Petugas
-                </a>
+                <div style="display:flex; gap:8px;">
+                    <a href="{{ route('laporan.petugas') }}" target="_blank" class="btn-add" style="background:#16a34a;">
+                        <i class="fa-solid fa-file-pdf"></i> Cetak Laporan PDF
+                    </a>
+                    <a href="{{ url('admin/dataPengguna/petugas/create') }}" class="btn-add">
+                        <i class="fa-solid fa-circle-plus"></i> Tambah Petugas
+                    </a>
+                </div>
             </div>
 
             <div class="card">

@@ -121,9 +121,9 @@
 
             <div class="page-header">
                 <h2>Data Peminjam</h2>
-                {{-- <a href="#" class="btn-add">
-                    <i class="fa-solid fa-circle-plus"></i> Tambah Petugas
-                </a> --}}
+                <a href="{{ route('laporan.peminjam') }}" target="_blank" class="btn-add" style="background:#16a34a;">
+                    <i class="fa-solid fa-file-pdf"></i> Cetak Laporan PDF
+                </a>
             </div>
 
             <div class="card">

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,483 +12,516 @@
         rel="stylesheet">
     <title>Perpustakaan Digital</title>
     <style>
-        body {
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(to right,
-                    #b9cceb 0%,
-                    #afc4e6 10%,
-                    #5290F7 100%,
-                    #3B82F6 100%);
+        :root {
+            --primary: #1e40af;
+            --secondary: #2563eb;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e5e7eb;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --transition: 0.25s ease;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #eaf2ff 0%, #f8fafc 50%, #eef2ff 100%);
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* NAVBAR */
         nav {
-            display: flex;
-            justify-content: flex-end;
             position: fixed;
             top: 0;
-            right: 0;
+            left: 0;
             width: 100%;
-            padding: 20px 40px;
-            font-family: 'Poppins', sans-serif;
+            display: flex;
             align-items: center;
-            z-index: 1000;
-            margin-top: -100px;
+            justify-content: space-between;
+            padding: 18px 32px;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.72);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+            z-index: 50;
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         nav .logo img {
-            height: 250px;
-            width: auto;
-            margin-left: 30px;
+            height: 40px;
+            width: 40px;
         }
 
-        nav ul li {
-            list-style-type: none;
-            display: inline;
+        nav .logo span {
+           font-weight: 700;
+           font-size: 18px;
         }
 
         nav ul {
-            margin-left: auto;
+            display: flex;
+            gap: 24px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
         }
 
         nav ul li a {
             position: relative;
             text-decoration: none;
-            margin-left: 40px;
-            padding-bottom: 6px;
-            color: black;
+            padding: 10px 0;
             font-weight: 600;
+            color: var(--text);
+            transition: color var(--transition);
         }
 
         nav ul li a::after {
-            content: "";
+            content: '';
             position: absolute;
             left: 50%;
+            bottom: -2px;
             transform: translateX(-50%);
-            bottom: -5px;
             width: 0;
             height: 2px;
-            background-color: #141B6F;
-            transition: width 0.3s ease;
+            background: var(--primary);
+            border-radius: 999px;
+            transition: width var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
         }
 
         nav ul li a:hover::after {
             width: 100%;
         }
 
-        nav ul .lgn a {
-            color: white;
-            background-color: #1E3A8A;
-            border-radius: 10px;
-            padding: 15px;
+        nav ul li a.button {
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #fff;
         }
 
-        nav ul .lgn a:hover {
-            color: white;
-            background-color: #2f498f;
-            border-radius: 10px;
-            padding: 15px;
+        nav ul li a.button:hover {
+            filter: brightness(1.05);
         }
 
-        .sectfirst {
-            font-family: sans-serif;
-            margin-top: 200px;
-            margin-left: 50px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .sectfirst h2 {
-            font-size: 40px;
-            font-style: italic;
-            font-weight: 800;
-            font-family: 'Inter', sans-serif;
-            margin-top: -20px;
-            color: #1E3A8A;
-        }
-
-        .sectfirst h4 {
-            color: #3216A3;
-        }
-
-        .sectfirst a {
-            text-decoration: none;
-            margin-top: 10px;
-            position: absolute;
-            background: linear-gradient(to right,
-                    #2634D5,
-                    #141B6F);
-            padding: 20px;
-            color: white;
-            border-radius: 10px;
-            transition:
-                background 0.4s ease,
-                transform 0.3s ease,
-                box-shadow 0.3s ease;
-        }
-
-        .sectfirst a:hover {
-            text-decoration: none;
-            margin-top: 10px;
-            position: absolute;
-            background: linear-gradient(to right,
-                    #646cca,
-                    #4a54be);
-            padding: 20px;
-            color: white;
-            border-radius: 10px;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .sectfirst p {
-            font-size: 20px;
-            margin-top: -20px;
-        }
-
-        .sectfirst img {
-            height: 350px;
-            width: auto;
-            position: relative;
-            margin-left: 600px;
-            margin-top: -250px;
-        }
-
-        .timeline-section {
-            padding: 60px 0;
-        }
-
-        .timeline-title {
-            text-align: center;
-            font-size: 32px;
-            font-weight: 700;
-            font-family: 'inter', sans-serif;
-            background: linear-gradient(to right, #1c2691, #141B6F);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 50px;
-        }
-
-        /* Timeline container */
-        .timeline {
-            position: relative;
-            max-width: 900px;
-            margin: auto;
-        }
-
-        /* Garis tengah */
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background-color: #1c2691;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* Item */
-        .timeline-item {
-            padding: 20px 40px;
-            position: relative;
-            width: 50%;
-        }
-
-        .timeline-item.left {
-            left: -6%;
-            text-align: right;
-        }
-
-        .timeline-item.right {
-            left: 47%;
-        }
-
-        /* Card */
-        .timeline-item .content {
-            background: #e5e5e5;
-            padding: 18px 22px;
-            border-radius: 8px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        }
-
-        .timeline-item .content p {
-            font-style: italic;
-            margin: 0 0 8px;
-        }
-
-        .timeline-item .content span {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        /* Panah segitiga */
-        .timeline-item.left .content::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            right: -10px;
-            border-width: 10px 0 10px 10px;
-            border-style: solid;
-            border-color: transparent transparent transparent #e5e5e5;
-        }
-
-        .timeline-item.right .content::after {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: -10px;
-            border-width: 10px 10px 10px 0;
-            border-style: solid;
-            border-color: transparent #e5e5e5 transparent transparent;
-        }
-
-        .box-1 {
-            background-color: white;
-            width: 300px;
-            height: 500px;
-            border-radius: 20px;
-            margin-left: 50px;
-            border: 1px solid black;
-        }
-
-        .img-educated {
-            width: 250px;
-            height: 350px;
-            margin-left: 25px;
-        }
-
-        .img-educated img {
-            width: 250px;
-            height: 350px;
-        }
-
-        /* judul section buku */
-        .tittle-section {
-            font-family: 'inter', sans-serif;
-            color: #0D3071;
-            text-align: center;
-        }
-
-        /* content buku */
-        .container-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-left: 50px;
-        }
-
-        .book-section .box-1 p {
-            font-family: 'poppins', sans-serif;
-            margin-left: 25px;
-        }
-
-        .book-section .box-1 p {
-            font-family: 'poppins', sans-serif;
-            margin-left: 25px;
-        }
-
-        .book-section .box-1 .tittle {
-            font-family: 'poppins', sans-serif;
-            margin-left: 25px;
-            color: #615C5C;
-            margin-top: -10px;
-        }
-
-        .book-section .box-1 .author {
-            font-family: 'poppins', sans-serif;
-            margin-left: 25px;
-            color: #787070;
-        }
-
-        .book-section .box-1 .btn-1 {
-            background-color: #2A399C;
-            margin-left: 25px;
-            margin-top: -20px;
-            padding: 10px 20px 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            color: white;
-            font-family: 'inter', sans-serif;
-        }
-
-        .book-section .box-1 .btn-1 a {
-            width: 300px;
-            height: 300px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: (30, 58, 138, 0.6);
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: #F8FAFC;
-            width: 90%;
-            max-width: 500px;
-            margin: 80px auto;
-            padding: 25px;
-            border-radius: 15px;
-        }
-
-        .modal h2 {
-            color: #1E3A8A;
-        }
-
-        .close {
-            float: right;
-            font-size: 22px;
-            cursor: pointer;
-            color: #1E3A8A;
-        }
-
-        .footer {
-            background: linear-gradient(135deg, #0f172a, #020617);
-            color: #cbd5e1;
-            padding: 60px 40px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: auto;
+        /* Hero */
+        .hero {
+            min-height: 90vh;
+            padding: 120px 32px 64px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            align-items: center;
+            gap: 48px;
+            max-width: 1180px;
+            margin: 0 auto;
         }
 
-        .footer h3,
-        .footer h4 {
-            color: #ffffff;
-            margin-bottom: 16px;
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            line-height: 1.05;
+            margin: 0;
+            color: var(--primary);
         }
 
-        .footer p {
-            font-size: 14px;
+        .hero-text p {
+            margin: 18px 0 30px;
+            max-width: 520px;
+            font-size: 1.05rem;
+            color: var(--muted);
             line-height: 1.6;
         }
 
-        .footer ul {
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-actions .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform var(--transition), box-shadow var(--transition);
+            text-decoration: none;
+        }
+
+        .hero-actions .btn.primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 12px 25px rgba(37, 99, 235, 0.25);
+        }
+
+        .hero-actions .btn.secondary {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--primary);
+        }
+
+        .hero-actions .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-visual img {
+            max-width: 100%;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Features */
+        .features {
+            padding: 80px 32px;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            font-size: 2.25rem;
+            margin: 0 0 20px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .features p {
+            max-width: 680px;
+            margin: 0 auto 48px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 28px 22px;
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        .feature-card i {
+            font-size: 28px;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.15rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 32px;
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .testimonials h2 {
+            font-size: 2.25rem;
+            margin-bottom: 16px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            max-width: 1040px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .testimonial-card p {
+            margin: 0 0 18px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .testimonial-card .role {
+            font-size: 0.9rem;
+            color: rgba(100, 116, 139, 0.9);
+        }
+
+        /* Footer */
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 60px 32px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        footer h3 {
+            margin-bottom: 18px;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        footer p,
+        footer a {
+            color: rgba(203, 213, 225, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #ffffff;
+        }
+
+        .footer-links {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        .footer ul li {
+        .footer-links li {
             margin-bottom: 10px;
         }
 
-        .footer ul li a {
-            text-decoration: none;
-            color: #94a3b8;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .footer ul li a:hover {
-            color: #38bdf8;
-        }
-
-        .badges span {
-            display: inline-block;
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            margin-right: 8px;
-            margin-top: 10px;
-        }
-
-        .section-stats .stats {
-            background-color: white;
-            width: 100%;
-            height: 700px;
-            z-index: 1000;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            justify-items: center;
-        }
-
-        /* Card */
-        .stat-card {
-            width: 320px;
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
+        .socials {
             display: flex;
-            gap: 15px;
-            align-items: flex-start;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            gap: 12px;
+            margin-top: 14px;
         }
 
-        /* Card akses di tengah */
-        .stat-card.center {
-            grid-column: 2 / 3;
+        .socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background var(--transition);
         }
 
-        /* Icon */
-        .icon {
-            width: 60px;
-            height: 50px;
-            border-radius: 10px;
+        .socials a:hover {
+            background: rgba(255, 255, 255, 0.16);
         }
 
-        .icon.blue {
-            background: #1e40af;
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .icon.orange {
-            background: #c58b3a;
+        .newsletter-form input {
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
         }
 
-        .icon.green {
-            background: #2ecc40;
+        .newsletter-form input::placeholder {
+            color: rgba(203, 213, 225, 0.7);
         }
 
-        .icon.red {
-            background: #8b2c2c;
+        .newsletter-form .btn {
+            align-self: flex-start;
+            padding: 8px 16px;
+            font-size: 0.9rem;
         }
 
-        /* Text */
-        .label {
-            font-size: 12px;
-            color: #555;
-            letter-spacing: 1px;
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .stat-content h2 {
-            margin: 5px 0;
-            font-size: 28px;
-            color: #000;
+        .contact-form input,
+        .contact-form textarea {
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            font-family: inherit;
         }
 
-        .stat-content small {
-            color: #666;
-            font-size: 13px;
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(203, 213, 225, 0.7);
         }
 
-        .section-fitur .fitur-unggulan {
-            position: relative;
-            margin-top: -90px;
-            background-color: white;
-            width: 100%;
-            height: 700px;
+        .contact-form .btn {
+            align-self: flex-start;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
             z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
         }
 
-        .section-alasan .alasan {
-            position: relative;
-            margin-top: -90px;
-            background-color: white;
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
             width: 100%;
-            height: 700px;
-            z-index: 1000;
+            max-width: 580px;
+            padding: 26px;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(15, 23, 42, 0.08);
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        /* Responsive */
+        @media (max-width: 860px) {
+            nav {
+                padding: 14px 22px;
+            }
+
+            .hero {
+                padding: 100px 22px 48px;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                display: none;
+            }
+
+            .hero {
+                padding: 90px 18px 42px;
+                grid-template-columns: 1fr;
+            }
+
+            .features,
+            .testimonials {
+                padding: 60px 18px;
+            }
+
+            .hero-actions .btn {
+                min-height: 48px;
+                font-size: 1rem;
+                padding: 16px 24px;
+            }
+
+            .feature-card .btn {
+                min-height: 44px;
+                font-size: 0.95rem;
+                padding: 12px 20px;
+            }
+
+            .newsletter-form .btn,
+            .contact-form .btn {
+                min-height: 44px;
+                font-size: 0.95rem;
+                padding: 12px 20px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .modal-close {
+                width: 44px;
+                height: 44px;
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -495,504 +529,120 @@
 <body>
     <nav>
         <div class="logo">
-            <img src="img/logo pustakadigital.png" alt="logo">
+           <img src="{{ asset('img/logo pustakadigital - Copy.png') }}" alt="">
+             <span style="color: #003A9B">Pustaka<span style="color: #0278F3">Digital</span></span>
         </div>
         <ul>
-            {{-- <li><a href="{{ route('landing') }}">Beranda</a></li> --}}
-            <li><a href="">Tentang</a></li>
-            <li><a href="#" id="openPanduan">Panduan</a></li>
-            <li><a href="">Kontak</a></li>
-            {{-- <li class="lgn"><a href="">Login</a></li> --}}
+            <li><a href="#features">Fitur</a></li>
+            <li><a href="#testimonials">Testimoni</a></li>
+            <li><a href="#books">Karya</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+            <li><a href="{{ route('auth/login') }}" class="button">Login</a></li>
         </ul>
     </nav>
 
-    <div class="sectfirst">
-        <h4>Halo, Selamat Datang</h4>
-        <h2>Perpustakaan Digital untuk <br> Akses Ilmu Tanpa Batas</h2>
-        <p>Baca Buku Dimana Saja dan Kapan saja</p>
-        {{-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> --}}
-        <a href="{{ route('auth/login') }}">Jelajahi Pustaka</a>
-        <img src="img/gambar landing page 1 remove bg.png" alt="">
-    </div>
-    <br><br><br><br><br><br><br><br><br><br>
-
-
-    <section class="timeline-section">
-        <h1 class="timeline-title">Pandangan Para Akademisi</h1>
-
-        <div class="timeline">
-            <div class="timeline-item left">
-                <div class="content">
-                    <p>“Education is not the learning of facts, but the training of the mind to think.”</p>
-                    <span>— Albert Einstein</span>
-                </div>
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Perpustakaan Digital untuk <br> Akses Ilmu Tanpa Batas</h1>
+            <p>Baca buku di mana saja dan kapan saja. Kelola koleksi, pinjam, dan kembalikan dengan mudah.</p>
+            <div class="hero-actions">
+                <a href="{{ route('auth/login') }}" class="btn primary">Jelajahi Pustaka</a>
             </div>
+        </div>
+        <div class="hero-visual">
+            <img src="img/gambar landing page 1 remove bg.png" alt="Ilustrasi perpustakaan digital">
+        </div>
+    </section>
 
-            <div class="timeline-item right">
-                <div class="content">
-                    <p>“An investment in knowledge pays the best interest.”</p>
-                    <span>— Benjamin Franklin</span>
-                </div>
-            </div>
 
-            <div class="timeline-item left">
-                <div class="content">
-                    <p>“The more that you read, the more things you will know.”</p>
-                    <span>— Dr. Seuss</span>
-                </div>
+    <section id="testimonials" class="testimonials">
+        <h2>Pendapat Para Akademisi</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p>“Education is not the learning of facts, but the training of the mind to think.”</p>
+                <div class="author">— Albert Einstein</div>
             </div>
-
-            <div class="timeline-item right">
-                <div class="content">
-                    <p>“Reading is essential for those who seek to rise above the ordinary.”</p>
-                    <span>— Jim Rohn</span>
-                </div>
+            <div class="testimonial-card">
+                <p>“An investment in knowledge pays the best interest.”</p>
+                <div class="author">— Benjamin Franklin</div>
             </div>
-
-            <div class="timeline-item left">
-                <div class="content">
-                    <p>“Once you learn to read, you will be forever free.”</p>
-                    <span>— Frederick Douglass</span>
-                </div>
+            <div class="testimonial-card">
+                <p>“Books are a uniquely portable magic.”</p>
+                <div class="author">— Stephen King</div>
             </div>
-
-            <div class="timeline-item right">
-                <div class="content">
-                    <p>“Information is the oil of the 21st century, and analytics is the combustion engine.”</p>
-                    <span>— Peter Sondergaard (Gartner)</span>
-                </div>
-            </div>
-            <div class="timeline-item left">
-                <div class="content">
-                    <p>“The function of education is to teach one to think intensively and critically."</p>
-                    <span>— Martin Luther King Jr</span>
-                </div>
-            </div>
-
-            <div class="timeline-item right">
-                <div class="content">
-                    <p>“Knowledge comes, but wisdom lingers.”</p>
-                    <span>— Alfred Lord Tennyson</span>
-                </div>
-            </div>
-            <div class="timeline-item left">
-                <div class="content">
-                    <p>“Books are a uniquely portable magic.”</p>
-                    <span>— Stephen King</span>
-                </div>
-            </div>
-
-            <div class="timeline-item right">
-                <div class="content">
-                    <p>“Technology is best when it brings people together.”</p>
-                    <span>— Matt Mullenweg</span>
-                </div>
+            <div class="testimonial-card">
+                <p>“Technology is best when it brings people together.”</p>
+                <div class="author">— Matt Mullenweg</div>
             </div>
         </div>
     </section>
 
 
-    <br><br><br><br><br>
-    <h1 class="tittle-section">Karya Berpengaruh Sepanjang Masa</h1>
-    <div class="container-section">
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
+    <section id="books" class="features">
+        <h2>Karya Terpilih</h2>
+        <p>Selami koleksi terbaik kami dan mulai jelajahi dunia literasi. Semua dapat diakses kapan saja lewat satu
+            akun.</p>
 
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
+        <div class="feature-grid">
+            @php
+                $books = \App\Models\Book::take(6)->get();
+            @endphp
+            @foreach ($books as $book)
+                <div class="feature-card">
+                    <i class="fa fa-book"></i>
+                    <h3>{{ $book->title }}</h3>
+                    <p class="muted">{{ $book->author }} · {{ $book->category->nama ?? 'Kategori' }}</p>
+                    <p class="muted">{{ Str::limit($book->description, 50) }}</p>
+                    <a href="#" class="btn secondary">Lihat Detail</a>
                 </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
+            @endforeach
+        </div>
+    </section>
 
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
+    <section id="features" class="features">
+        <h2>Mulai Sekarang</h2>
+        <p>Jelajahi koleksi, pinjam buku, dan gunakan laporan untuk mengelola perpustakaan secara efisien.</p>
 
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fa fa-id-card"></i>
+                <h3>Daftar dan Masuk</h3>
+                <p>Buat akun dan masukkan informasi Anda untuk mendapatkan akses penuh ke seluruh fitur.</p>
             </div>
-        </section>
+            <div class="feature-card">
+                <i class="fa fa-book-reader"></i>
+                <h3>Pinjam & Kembalikan</h3>
+                <p>Kelola peminjaman dengan mudah, cetak struk, dan serahkan kepada petugas saat mengambil buku.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa fa-chart-line"></i>
+                <h3>Laporan & Statistik</h3>
+                <p>Dapatkan ringkasan aktivitas perpustakaan dalam satu dashboard yang mudah dibaca.</p>
+            </div>
+        </div>
+        <div class="hero-actions" style="justify-content:center; margin-top:32px;">
+            <a href="{{ route('auth/login') }}" class="btn primary">Mulai Sekarang</a>
+            {{-- <button class="btn secondary open-panduan">Lihat Panduan</button> --}}
+        </div>
+    </section>
 
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
-
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
-
-        <section class="book-section">
-            <div class="box-1">
-                <div class="img-educated">
-                    <img src="img/educated.png" alt="">
-                </div>
-                <p class="author">TARA WESTOVER</p>
-                <p class="tittle">Educated (Terdidik): <br> Sebuah Memoar</p>
-                <a href="" class="btn-1">Lihat</a></button>
-            </div>
-        </section>
-    </div>
-
-    {{-- panduan --}}
     <div class="modal" id="panduanModal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-
-            <h2>Panduan APlikasi Perpustakaan Digital</h2>
-            <h4>Cara Menggunakan Website Role Peminjam (user)</h4>
+            <button class="modal-close" aria-label="Tutup">&times;</button>
+            <h2>Panduan Aplikasi Perpustakaan Digital</h2>
             <ol>
-                <li>Login atau Daftar Akun</li>
-                <li>Cari Buku melalui kolom pencarian</li>
-                <li>Pilih Buku Sesuai Kategori</li>
-                <li>Klik Tombol Detail untuk Melihat Deskripsi Buku</li>
-                <li>Klik Tombol Pinjam untuk Meminjam Buku</li>
-                <li>Isi Form Peminjaman Sesuai Data Diri</li>
-                <li>Klik Pinjam, Anda akan Menerima Struk Peminjaman</li>
-                <li>Pergi Ke Perpustakaan untuk Memberi Bukti Peminjaman kepada Petugas</li>
-                <li>Petugas akan Mengambil Buku yang Anda Pinjam sesuai Data yang ada di Struk Peminjaman</li>
+                <li>Login atau daftar akun.</li>
+                <li>Cari buku melalui kolom pencarian.</li>
+                <li>Pilih buku dan lihat detailnya.</li>
+                <li>Ajukan peminjaman dan isi formulir.</li>
+                <li>Cetak struk dan serahkan ke petugas.</li>
             </ol>
         </div>
     </div>
 
-
-    <style>
-        .about {
-            font-family: 'inter', sans-serif;
-            margin-top: 190px;
-        }
-
-        .heading-content {
-            text-align: center
-        }
-
-        .heading1 {
-            background-color: #141B6F;
-            width: 100%;
-            height: 50px;
-            position: absolute;
-            z-index: 1;
-            margin-top: -65px;
-        }
-
-    </style>
-    <div class="about">
-        <div class="heading-content">
-            <h1>Mengapa Website ini Dibuat?</h1>
-        </div>
-        <section class="latarbelakang">
-            <h1 style="z-index: 10; position:relative; text-align:end; margin-right:40px;margin-top:50px;color:white; text-transform:uppercase;">latar Belakang</h1>
-            <div class="heading1"></div>
-            <div class="content1" style="background-color: #1c2691;width:1000px;height:600px;margin: 0px auto;border-radius:10px;">
-                <p style="width:60%; text-align:justify; margin: 0px auto; line-height:30px; font-style:italic; color:white;">Perkembangan teknologi informasi telah membawa perubahan besar dalam cara masyarakat mengakses dan
-                    memperoleh informasi. Saat ini, kebutuhan akan sumber bacaan yang mudah diakses, cepat, dan efisien
-                    menjadi semakin penting, terutama untuk mendukung kegiatan belajar serta meningkatkan minat baca di
-                    berbagai kalangan.
-
-
-                    Namun, apakah akses literasi saat ini sudah benar-benar mudah dan merata bagi semua kalangan?  Pada
-                    kenyataannya, akses literasi belum sepenuhnya merata. Masih banyak masyarakat yang kesulitan
-                    mendapatkan
-                    buku karena keterbatasan lokasi, waktu, dan fasilitas. Oleh karena itu, diperlukan solusi berbasis
-                    teknologi yang mampu menjembatani kesenjangan tersebut.
-                    Perpustakaan digital hadir sebagai alternatif modern dalam menyediakan layanan literasi secara
-                    daring
-                    dengan memanfaatkan teknologi informasi.
-
-
-                    Bagaimana jika membaca buku bisa dilakukan kapan saja tanpa harus datang ke perpustakaan fisik?
-                    Dengan
-                    perpustakaan digital, pengguna dapat mengakses buku kapan pun dan di mana pun selama terhubung
-                    dengan
-                    internet. Hal ini memberikan fleksibilitas dan kemudahan yang tidak dapat diperoleh dari
-                    perpustakaan
-                    konvensional.</p>
-            </div>
-        </section>
-
-        <section class="masalah">
-            <div class="heading2">
-                <h1>Permasalahan Yang Ingin Diselesaikan</h1>
-            </div>
-            <div class="content2">
-                <p>Kenapa sistem perpustakaan lama perlu diperbaiki?  Perpustakaan konvensional masih memiliki berbagai
-                    keterbatasan, seperti jam operasional yang terbatas, pencarian buku yang kurang efisien, serta
-                    keterbatasan jumlah koleksi fisik. Selain itu, pengelolaan data buku dan peminjaman sering kali
-                    masih
-                    dilakukan secara manual.
-
-
-                    Apakah cara tersebut masih relevan di era digital saat ini?  Di era digital, metode manual sudah
-                    kurang
-                    efektif karena memakan waktu, berisiko terjadi kesalahan, dan tidak efisien dalam pengelolaan data.
-                    Oleh
-                    sebab itu, diperlukan sistem digital yang lebih modern dan terstruktur.
-                    Tidak semua pengguna juga memiliki kesempatan untuk datang langsung ke perpustakaan karena faktor
-                    jarak
-                    dan waktu.
-
-
-                    Lalu, bagaimana solusi agar akses buku tetap dapat dinikmati oleh semua orang?  Solusinya adalah
-                    dengan
-                    menghadirkan perpustakaan digital yang memungkinkan akses buku secara daring sehingga siapa pun
-                    dapat
-                    menikmati layanan literasi tanpa hambatan fisik.</p>
-            </div>
-        </section>
-
-        <section class="tujuan-manfaat">
-            <div class="heading3">
-                <h1>Tujuan & Manfaat</h1>
-            </div>
-            <div class="content3">
-                <p>Apa tujuan utama dari website perpustakaan digital ini?  Perpustakaan digital ini dibuat untuk
-                    menyediakan akses buku digital yang mudah, cepat, dan terpusat. Sistem ini bertujuan mendukung
-                    proses
-                    pembelajaran serta meningkatkan budaya literasi berbasis teknologi.
-
-
-                    Bagaimana jika satu platform dapat menjadi solusi untuk berbagai kebutuhan literasi?  Dengan satu
-                    platform digital, pengguna tidak perlu berpindah-pindah tempat untuk mencari sumber bacaan. Semua
-                    kebutuhan literasi dapat diakses dalam satu sistem yang terintegrasi.
-                    Manfaat yang diharapkan antara lain:
-                    Memudahkan pengguna dalam mencari dan mengakses buku
-                    Menghemat waktu dan tenaga dalam memperoleh informasi
-                    Mendukung pembelajaran mandiri secara digital
-
-
-                    Bukankah kemudahan akses informasi dapat mendorong semangat belajar yang lebih tinggi?  Ya,
-                    kemudahan
-                    akses informasi dapat meningkatkan motivasi belajar karena pengguna dapat memperoleh bahan bacaan
-                    dengan
-                    cepat dan sesuai kebutuhan mereka.</p>
-            </div>
-        </section>
-
-        <section class="konsep">
-            <div class="heading4">
-                <h1>Konsep & Cara Kerja Perpustakaan Digital</h1>
-            </div>
-            <div class="content4">
-                <p>Bagaimana konsep kerja dari perpustakaan digital ini?  Perpustakaan digital ini dirancang sebagai
-                    sistem
-                    berbasis web yang memungkinkan pengguna untuk menjelajahi koleksi buku, melihat informasi detail,
-                    serta
-                    membaca buku secara daring.
-
-
-                    Bagaimana jika seluruh koleksi buku dapat ditemukan hanya dengan beberapa klik?  Melalui fitur
-                    pencarian
-                    berdasarkan judul, penulis, dan kategori, pengguna dapat menemukan buku yang diinginkan dengan cepat
-                    dan
-                    efisien tanpa harus mencari secara manual.
-                    Untuk membaca buku secara penuh, pengguna diwajibkan melakukan login. Sementara itu, pengelola
-                    memiliki
-                    akses khusus untuk mengelola data buku dan pengguna.
-
-
-                    Apakah sistem yang terstruktur tidak akan membuat pengelolaan menjadi lebih efektif?  Sistem yang
-                    terstruktur justru mempermudah pengelolaan karena data tersimpan rapi, aman, dan mudah diperbarui
-                    kapan
-                    saja.</p>
-            </div>
-        </section>
-
-        <section class="nilai & prinsip">
-            <div class="heading5">
-                <h1>Nilai & Prinsip Yang Diterapkan</h1>
-            </div>
-            <div class="content5">
-                <p>Nilai apa yang diterapkan dalam pengembangan sistem ini?  Perpustakaan digital ini dibangun dengan
-                    mengedepankan nilai kemudahan, keterbukaan, dan kenyamanan pengguna. Setiap fitur dirancang agar
-                    mudah
-                    dipahami dan digunakan.
-
-
-                    Bukankah sistem yang mudah digunakan akan lebih bermanfaat bagi banyak orang?  Sistem yang
-                    user-friendly
-                    memungkinkan semua kalangan, termasuk pemula, dapat menggunakan layanan tanpa kesulitan.
-                    Selain itu, prinsip keberlanjutan juga diterapkan agar sistem dapat terus dikembangkan.
-
-
-                    Bagaimana jika perpustakaan ini terus berkembang seiring kemajuan teknologi?  Dengan konsep
-                    keberlanjutan, perpustakaan digital dapat terus menyesuaikan diri dengan kebutuhan pengguna dan
-                    perkembangan teknologi di masa depan.</p>
-            </div>
-        </section>
-
-        <section class="siapa">
-            <div class="heading6">
-                <h1>Siapa Yang Dapat Menggunakan</h1>
-            </div>
-            <div class="content6">
-                <p>Siapa saja yang dapat memanfaatkan website ini?  Perpustakaan digital ini ditujukan bagi siswa, guru,
-                    mahasiswa, serta masyarakat umum yang membutuhkan sumber bacaan dan referensi digital.
-
-
-                    Siapa pun yang ingin belajar dan menambah wawasan, bukankah membutuhkan akses literasi yang mudah?
-                    Akses literasi yang mudah merupakan kebutuhan semua orang, sehingga sistem ini dirancang agar dapat
-                    digunakan oleh berbagai kalangan tanpa batasan.</p>
-            </div>
-        </section>
-
-        <section class="dampak">
-            <div class="heading7">
-                <h1>Dampak Yang Diharapkan</h1>
-            </div>
-            <div class="content7">
-                <p>Apa dampak yang ingin dicapai dari adanya perpustakaan digital ini?  Dengan adanya perpustakaan
-                    digital,
-                    diharapkan dapat meningkatkan minat baca, memperluas akses terhadap sumber informasi, serta
-                    mendukung
-                    pembelajaran berbasis teknologi.
-
-
-                    Bagaimana jika budaya literasi dapat tumbuh lebih kuat melalui pemanfaatan teknologi digital?
-                    Pemanfaatan teknologi digital memungkinkan literasi berkembang lebih luas dan menjangkau lebih
-                    banyak
-                    orang secara efektif.</p>
-            </div>
-        </section>
-
-        <section class="komitmen pengelola">
-            <div class="heading8">
-                <h1>Komitmen Pengelola</h1>
-            </div>
-            <div class="content8">
-                <p>Apa komitmen pengelola terhadap sistem ini?  Pengelola berkomitmen untuk menjaga kualitas sistem,
-                    memperbarui koleksi buku secara berkala, serta memastikan layanan berjalan dengan baik.
-
-
-                    Bukankah komitmen yang berkelanjutan akan menciptakan layanan perpustakaan digital yang lebih baik?
-                    Dengan komitmen yang berkelanjutan, perpustakaan digital dapat terus berkembang, relevan, dan
-                    memberikan
-                    manfaat jangka panjang bagi penggunanya.</p>
-            </div>
-        </section>
-    </div>
-
-    <section class="section-stats">
-        <div class="stats">
-
-            <div class="stat-card">
-                <div class="icon blue"></div>
-                <div class="stat-content">
-                    <span class="label">KOLEKSI BUKU</span>
-                    <h2>1200</h2>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="icon orange"></div>
-                <div class="stat-content">
-                    <span class="label">KATEGORI BUKU</span>
-                    <h2>120</h2>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="icon green"></div>
-                <div class="stat-content">
-                    <span class="label">PENGGUNA</span>
-                    <h2>500</h2>
-                </div>
-            </div>
-
-            <div class="stat-card center">
-                <div class="icon red"></div>
-                <div class="stat-content">
-                    <span class="label">AKSES</span>
-                    <h2>24</h2>
-                    <small>Jam / Hari</small>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-
-    <section class="section-fitur">
-        <div class="fitur-unggulan">
-            <h1>Fitur Unggulan</h1>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </section>
-
-
-    <section class="section-alasan">
-        <div class="alasan">
-            <h1>Mengapa Memilih PustakaDigital?</h1>
-            <img src="" alt="">
-        </div>
-    </section>
-
     {{-- footer --}}
-    <footer class="footer">
-        <div class="footer-container">
+    <footer id="kontak" class="footer">
+        <div class="footer-grid">
 
             <div class="footer-col">
                 <h3>PustakaDigital</h3>
@@ -1005,33 +655,48 @@
 
             <div class="footer-col">
                 <h4>Menu</h4>
-                <ul>
-                    <li><a href="#">Beranda</a></li>
-                    <li><a href="#">Koleksi Buku</a></li>
-                    <li><a href="#">Kategori</a></li>
-                    <li><a href="#">Tentang Kami</a></li>
+                <ul class="footer-links">
+                    <li><a href="#hero">Beranda</a></li>
+                    <li><a href="#features">Fitur</a></li>
+                    <li><a href="#books">Karya</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
                 </ul>
             </div>
 
-            <div class="footer-col">
+            {{-- <div class="footer-col">
                 <h4>Layanan</h4>
-                <ul>
+                <ul class="footer-links">
                     <li><a href="#">Baca Online</a></li>
                     <li><a href="#">Unduh Buku</a></li>
                     <li><a href="#">Keanggotaan</a></li>
                     <li><a href="#">Bantuan</a></li>
                 </ul>
-            </div>
+            </div> --}}
+
+            {{-- <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p>Berlangganan untuk update terbaru koleksi buku.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email Anda" required>
+                    <button type="submit" class="btn primary">Berlangganan</button>
+                </form>
+            </div> --}}
 
             <div class="footer-col">
-                <h4>Kontak</h4>
+                <h4>Kontak Kami</h4>
                 <p>Email: support@pustakadigital.id</p>
                 <p>Tel: +62 821-2509-8439</p>
                 <div class="socials">
-                    <a href="#">Facebook</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">LinkedIn</a>
+                    <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>
                 </div>
+                <form class="contact-form" style="margin-top: 16px;">
+                    <input type="text" placeholder="Nama" required>
+                    <input type="email" placeholder="Email" required>
+                    <textarea placeholder="Pesan" rows="3" required></textarea>
+                    <button type="submit" class="btn secondary">Kirim</button>
+                </form>
             </div>
 
         </div>
@@ -1039,18 +704,22 @@
 
     {{-- script modal panduan --}}
     <script>
-        const openBtn = document.getElementById('openPanduan');
+        const openButtons = document.querySelectorAll('.open-panduan');
         const modal = document.getElementById('panduanModal');
-        const closeBtn = document.querySelector('.close');
+        const closeBtn = document.querySelector('.modal-close');
 
-        openBtn.onclick = () => modal.style.display = 'block';
-        closeBtn.onclick = () => modal.style.display = 'none';
+        openButtons.forEach((btn) => {
+            btn.addEventListener('click', () => modal.classList.add('show'));
+        });
 
-        window.onclick = (e) => {
+        closeBtn.addEventListener('click', () => modal.classList.remove('show'));
+
+        window.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.style.display = 'none';
+                modal.classList.remove('show');
             }
-        };
+        });
     </script>
 </body>
+
 </html>

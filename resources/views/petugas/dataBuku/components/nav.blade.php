@@ -1,6 +1,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/petugas_style.css">
 <style>
+    :root {
+        --primary-color: #1e40af;
+        --secondary-color: #3b82f6;
+        --accent-color: #f59e0b;
+        --text-light: #ffffff;
+        --text-dark: #1f2937;
+        --bg-light: #f8fafc;
+        --bg-card: #ffffff;
+        --border-color: #e5e7eb;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition: all 0.3s ease;
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -10,297 +23,279 @@
 
     body {
         display: flex;
-        background: #f1f5f9;
+        background: var(--bg-light);
     }
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-        width: 230px;
+        width: 250px;
         height: 90vh;
-        border-radius: 30px;
-        margin-top: 40px;
+        border-radius: 20px;
+        margin-top: 20px;
         margin-left: 20px;
-        background: #2563eb;
-        padding: 20px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 25px;
         position: fixed;
-        color: white;
+        color: var(--text-light);
+        box-shadow: var(--shadow);
+        transition: var(--transition);
     }
 
     .sidebar h2 {
-        margin-bottom: 30px;
-        font-size: 20px;
+        margin-bottom: 40px;
+        font-size: 22px;
+        font-weight: 700;
+        text-align: center;
     }
 
     .sidebar a {
-        display: block;
-        color: white;
+        display: flex;
+        align-items: center;
+        color: var(--text-light);
         text-decoration: none;
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        font-size: 14px;
+        padding: 15px 20px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        transition: var(--transition);
+        gap: 12px;
     }
 
     .sidebar a:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(5px);
+    }
+
+    .sidebar a i {
+        font-size: 18px;
     }
 
     /* ===== CONTENT ===== */
     .main {
-        margin-left: 230px;
+        margin-left: 270px;
         width: 100%;
+        transition: var(--transition);
+    }
+
+    .main.full {
+        margin-left: 0;
     }
 
     .header {
-        padding: 20px 30px;
-        margin-top: 40px;
+        padding: 25px 40px;
+        margin-top: 20px;
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 20px;
         justify-content: space-between;
+        background: var(--bg-card);
+        border-radius: 15px;
+        margin-right: 20px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
     }
 
     .header h3 {
-        font-weight: 600;
+        font-weight: 700;
+        color: var(--text-dark);
     }
 
-    .profile {
-        position: relative;
-        width: 95px;
-        height: 95px;
-        margin: auto;
-        margin-bottom: 10px;
-    }
-
-    .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-left: 10px;
-        cursor: pointer;
-    }
-
-    .user-profile img {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #e5e7eb;
-    }
-
-    .user-info {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.1;
-    }
-
-    .user-info .name {
-        font-size: 14px;
-        font-weight: 600;
-        color: #0f172a;
-    }
-
-    .user-info .role {
-        font-size: 12px;
-        color: #64748b;
-    }
-
-    .content {
-        padding: 30px;
-    }
-
-    /* ===== CARD DASHBOARD ===== */
-    .cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 20px;
-    }
-
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 14px;
-        border: 1px solid #e5e7eb;
-    }
-
-    .card h4 {
-        color: #64748b;
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-
-    .card .number {
-        font-size: 26px;
-        font-weight: 600;
-    }
-
-    .icon {
-        float: right;
+    .hamburger {
         font-size: 24px;
-        color: #2563eb;
+        cursor: pointer;
+        color: var(--primary-color);
+        transition: var(--transition);
+    }
+
+    .hamburger:hover {
+        color: var(--secondary-color);
+        transform: scale(1.1);
     }
 
     .search {
         position: relative;
+        flex: 1;
+        max-width: 400px;
     }
 
     .search input {
-        width: 260px;
-        padding: 10px 14px 10px 38px;
-        border-radius: 30px;
-        border: 1px solid #e5e7eb;
+        width: 100%;
+        padding: 12px 16px 12px 45px;
+        border-radius: 25px;
+        border: 2px solid var(--border-color);
         outline: none;
-        background: #f8fafc;
-        transition: 0.25s;
-        font-size: 14px;
+        background: var(--bg-light);
+        transition: var(--transition);
+        font-size: 16px;
+        color: var(--text-dark);
     }
 
-    /* icon di dalam input */
     .search i {
         position: absolute;
-        left: 14px;
+        left: 16px;
         top: 50%;
         transform: translateY(-50%);
-        color: #94a3b8;
-        font-size: 14px;
+        color: #9ca3af;
+        font-size: 16px;
     }
 
-    /* efek focus */
     .search input:focus {
-        border-color: #2563eb;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        border-color: var(--secondary-color);
+        background: var(--bg-card);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
     }
 
-    /* hover */
     .search input:hover {
-        border-color: #cbd5f5;
-    }
-
-    /* Dropdown */
-    .menu-dropdown {
-        margin-bottom: 8px;
-    }
-
-    .dropdown-btn {
-        width: 100%;
-        background: none;
-        border: none;
-        color: white;
-        padding: 12px;
-        text-align: left;
-        font-size: 14px;
-        border-radius: 8px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .dropdown-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    .dropdown-content {
-        display: none;
-        padding-left: 10px;
-    }
-
-    .dropdown-content a {
-        font-size: 13px;
-        padding: 10px;
-        display: block;
-        color: #aabbd3;
-    }
-
-    .menu-dropdown.active .dropdown-content {
-        display: block;
+        border-color: var(--secondary-color);
     }
 
     .nav-dropdown {
         position: relative;
-        margin-right: 20px;
         cursor: pointer;
     }
 
     .nav-trigger {
         display: flex;
         align-items: center;
-        gap: 6px;
-        color: #475569;
+        gap: 8px;
+        color: var(--text-dark);
+        padding: 10px 15px;
+        border-radius: 10px;
+        transition: var(--transition);
+        font-weight: 500;
     }
 
-    /* Arrow animasi */
+    .nav-trigger:hover {
+        background: var(--bg-light);
+    }
+
+    .nav-trigger i {
+        font-size: 18px;
+        color: var(--primary-color);
+    }
+
     .arrow {
-        font-size: 12px;
-        transition: transform 0.3s ease;
+        font-size: 14px;
+        transition: var(--transition);
     }
 
-    /* rotate saat aktif */
     .nav-dropdown.active .arrow {
         transform: rotate(180deg);
     }
 
-    /* Dropdown menu */
     .nav-menu {
         position: absolute;
-        top: 40px;
+        top: 50px;
         right: 0;
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        min-width: 180px;
-
-        /* animasi */
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        min-width: 200px;
         max-height: 0;
         overflow: hidden;
         opacity: 0;
         transform: translateY(-10px);
-        transition:
-            max-height 0.3s ease,
-            opacity 0.3s ease,
-            transform 0.3s ease;
-
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        box-shadow: var(--shadow);
+        z-index: 1000;
     }
 
     .nav-menu a {
-        padding: 10px;
+        padding: 12px 16px;
         text-decoration: none;
-        color: #475569;
+        color: var(--text-dark);
+        display: block;
+        transition: var(--transition);
+        font-size: 14px;
     }
 
     .nav-menu a:hover {
-        background: #eff6ff;
-        color: #2563eb;
+        background: var(--bg-light);
+        color: var(--secondary-color);
     }
 
-    /* aktif */
     .nav-dropdown.active .nav-menu {
         max-height: 300px;
         opacity: 1;
         transform: translateY(0);
     }
 
-    /* ===== HAMBURGER ===== */
-    .hamburger {
-        font-size: 20px;
-        margin-right: 15px;
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
         cursor: pointer;
-        color: #0f172a;
+        padding: 8px 12px;
+        border-radius: 12px;
+        transition: var(--transition);
     }
 
-    /* sidebar hide */
+    .user-profile:hover {
+        background: var(--bg-light);
+    }
+
+    .user-profile img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--secondary-color);
+    }
+
+    .user-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+
+    .user-info .name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    .user-info .role {
+        font-size: 13px;
+        color: #6b7280;
+        font-weight: 400;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+        .main {
+            margin-left: 0;
+        }
+
+        .header {
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search {
+            order: 3;
+            width: 100%;
+            max-width: none;
+        }
+
+        .nav-dropdown {
+            display: none;
+        }
+    }
+
+    /* Sidebar hide animation */
     .sidebar.hide {
         transform: translateX(-260px);
-        transition: 0.3s;
     }
-
-    /* content ikut geser */
-    .main.full {
-        margin-left: 0;
-    }
+</style>
 </style>
 <div class="header">
     <div class="hamburger" id="hamburger">
@@ -347,6 +342,3 @@
 
 </div>
 <script src="js/petugas.js"></script>
-
-
-

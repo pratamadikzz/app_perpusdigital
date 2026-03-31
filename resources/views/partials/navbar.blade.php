@@ -1,9 +1,28 @@
+<style>
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo span {
+        font-weight: 700;
+        font-size: 18px;
+    }
+</style>
+
 <header class="header">
     <div class="header-top">
 
         <!-- Logo + Kategori -->
         <div class="left">
-            <div class="logo">📘 PustakaDigital</div>
+            <div class="logo"> <img src="{{ asset('img/logo pustakadigital - Copy.png') }}" alt="">
+             <span style="color: #003A9B">Pustaka<span style="color: #0278F3">Digital</span></span></div>
 
             <div class="kategori-wrapper" id="kategoriWrapper">
                 <button class="kategori-btn" id="kategoriBtn">Kategori ▾</button>

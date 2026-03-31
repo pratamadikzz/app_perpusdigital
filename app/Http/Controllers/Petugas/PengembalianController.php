@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Petugas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Peminjaman;
+use Illuminate\Http\Request;
 
 class PengembalianController extends Controller
 {
@@ -29,7 +30,7 @@ class PengembalianController extends Controller
             return in_array($item->status, ['dikembalikan', 'selesai']);
         })->values();
 
-        return view('admin.pengembalian.index', compact('pengembalianMenunggu', 'pengembalianDitolakMenunggu', 'riwayatSelesai'));
+        return view('petugas.pengembalian.index', compact('pengembalianMenunggu', 'pengembalianDitolakMenunggu', 'riwayatSelesai'));
     }
 
     public function approve($id)
@@ -59,13 +60,45 @@ class PengembalianController extends Controller
         return back()->with('success', 'Pengembalian buku disetujui');
     }
 
-    public function tolak($id)
+    public function tolak(Request $request, $id)
     {
-        $pinjam = Peminjaman::findOrFail($id);
+        $request->validate([
+            'alasan' => 'required|in:hilang,rusak,terlambat',
+            'denda' => 'required|numeric|min:0'
+        ], [
+            'alasan.required' => 'Alasan penolakan harus dipilih',
+            'alasan.in' => 'Alasan penolakan tidak valid',
+            'denda.required' => 'Denda harus ditentukan',
+            'denda.numeric' => 'Denda harus berupa angka',
+            'denda.min' => 'Denda minimal 0'
+        ]);
 
-        $pinjam->status = 'ditolak';
-        $pinjam->save();
+        $peminjaman = Peminjaman::findOrFail($id);
 
-        return back()->with('success', 'Pengembalian ditolak');
+        if ($peminjaman->status !== 'menunggu') {
+            return back()->with('error', 'Status tidak valid');
+        }
+
+        // Validasi denda sesuai alasan
+        $dendaMap = [
+            'hilang' => 100000,
+            'rusak' => 50000,
+            'terlambat' => 10000
+        ];
+
+        $expectedDenda = $dendaMap[$request->alasan] ?? 0;
+        $actualDenda = (int) $request->denda;
+
+        if ($actualDenda !== $expectedDenda) {
+            return back()->with('error', 'Denda tidak sesuai dengan alasan penolakan');
+        }
+
+        $peminjaman->update([
+            'status' => 'menunggu',
+            'alasan_penolakan' => $request->alasan,
+            'denda' => $actualDenda
+        ]);
+
+        return back()->with('success', 'Pengembalian ditolak. Menunggu peminjam bertanggung jawab');
     }
 }

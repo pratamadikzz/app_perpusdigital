@@ -22,7 +22,8 @@
         .main-content {
             flex: 1;
             min-height: 100vh;
-            margin-left: 250px; /* penting kalau sidebar pakai fixed */
+            margin-left: 250px;
+            /* penting kalau sidebar pakai fixed */
         }
 
         .content-wrapper {
@@ -69,7 +70,9 @@
 
             <div class="card shadow-sm border-0">
                 <div class="card-body">
-
+                    <a href="{{ route('laporan.peminjaman') }}" target="_blank" class="btn btn-success btn-sm">
+                        <i class="fa-solid fa-file-pdf"></i> Cetak Laporan PDF
+                    </a>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover align-middle text-center">
                             <thead>
@@ -93,7 +96,11 @@
                                             @if ($item->status == 'pending')
                                                 <span class="badge bg-warning text-dark">Pending</span>
                                             @elseif($item->status == 'aktif')
-                                                <span class="badge bg-success">Aktif</span>
+                                                <span class="badge bg-success">Sedang Dipinjam</span>
+                                            @elseif($item->status == 'menunggu')
+                                                <span class="badge bg-info">Menunggu Persetujuan Pengembalian</span>
+                                            @elseif($item->status == 'dikembalikan')
+                                                <span class="badge bg-secondary">Sudah Dikembalikan</span>
                                             @elseif($item->status == 'ditolak')
                                                 <span class="badge bg-danger">Ditolak</span>
                                             @endif
@@ -101,22 +108,30 @@
                                         <td>
                                             @if ($item->status == 'pending')
                                                 <div class="d-flex justify-content-center gap-2">
-                                                    <form action="{{ route('petugas.peminjaman.approve', $item->id) }}" method="POST">
+                                                    <form action="{{ route('petugas.peminjaman.approve', $item->id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         <button class="btn btn-success btn-sm">
                                                             Approve
                                                         </button>
                                                     </form>
 
-                                                    <form action="{{ route('petugas.peminjaman.reject', $item->id) }}" method="POST">
+                                                    <form action="{{ route('petugas.peminjaman.reject', $item->id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         <button class="btn btn-danger btn-sm">
                                                             Tolak
                                                         </button>
                                                     </form>
                                                 </div>
-                                            @else
-                                                <span class="text-muted">Sudah Diproses</span>
+                                            @elseif($item->status == 'aktif')
+                                                <span class="badge bg-light text-dark">Dipinjam</span>
+                                            @elseif($item->status == 'menunggu')
+                                                <span class="badge bg-light text-dark">Menunggu</span>
+                                            @elseif($item->status == 'dikembalikan')
+                                                <span class="text-success fw-bold">✓ Selesai</span>
+                                            @elseif($item->status == 'ditolak')
+                                                <span class="text-danger fw-bold">✗ Ditolak</span>
                                             @endif
                                         </td>
                                     </tr>

@@ -15,7 +15,7 @@
 
      /* Sidebar */
      .sidebar {
-         width: 260px;
+         width: 290px;
          background: #ffffff;
          color: #0f172a;
          padding: 24px;
@@ -394,10 +394,34 @@
      }
 
      /* Jabatan */
-     .profile-card p {
-         margin: 0;
-         font-size: 12px;
+     /* Profile Stats */
+     .profile-stats {
+         display: flex;
+         justify-content: space-between;
+         margin-top: 15px;
+         padding: 15px 0;
+         border-top: 1px solid #e5e7eb;
+     }
+
+     .profile-stats>div {
+         text-align: center;
+         flex: 1;
+     }
+
+     .profile-stats strong {
+         display: block;
+         font-size: 18px;
+         font-weight: 700;
+         color: #2563eb;
+         margin-bottom: 2px;
+     }
+
+     .profile-stats span {
+         font-size: 11px;
          color: #64748b;
+         text-transform: uppercase;
+         letter-spacing: 0.5px;
+     }
      }
 
      /* Statistik */
@@ -460,17 +484,13 @@
          <h4>{{ session('staff_name') }}</h4>
          <p>Admin Pustaka Digital</p>
 
-         <div class="profile-stats">
+         <div class="profile-stats" style="gap: 8px">
              <div>
-                 <strong>19.8k</strong>
-                 <span>user Aktif</span>
-             </div>
-             <div>
-                 <strong>2 year</strong>
+                 <strong>{{ number_format($pinjamHariIni ?? 0) }}</strong>
                  <span>Pinjam Hari Ini</span>
              </div>
              <div>
-                 <strong>95.2k</strong>
+                 <strong>{{ number_format($totalPengembalian ?? 0) }}</strong>
                  <span>Pengembalian</span>
              </div>
          </div>
@@ -513,7 +533,7 @@
      <a href="{{ route('admin.book.requests') }}"><i class="fa fa-book-reader"></i>Persetujuan</a>
      <a href="{{ route('admin.peminjaman.index') }}"><i class="fa fa-book-reader"></i>Peminjaman</a>
      <a href="{{ route('admin.pengembalian') }}"><i class="fa fa-rotate-left"></i>Pengembalian</a>
-     <a href="#"><i class="fa fa-chart-bar"></i>Laporan</a>
+     {{-- <a href="#"><i class="fa fa-chart-bar"></i>Laporan</a> --}}
      {{-- <div class="logout">
          <a href="#"><i class="fa fa-right-from-bracket"></i>Logout</a>
      </div> --}}

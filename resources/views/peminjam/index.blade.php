@@ -55,7 +55,7 @@
 
 
     <!-- SECTION KATEGORI -->
-    <div class="section">
+    {{-- <div class="section">
         <h2>Jelajahi Berdasarkan Kategori</h2>
 
         <div class="category-books">
@@ -101,7 +101,7 @@
             </div>
 
         </div>
-    </div>
+    </div> --}}
 
 
     {{-- <div class="books">
@@ -198,6 +198,7 @@
             height: 400px;
             perspective: 1000px;
             position: relative;
+            overflow: hidden;
         }
 
         .book-inner {
@@ -208,12 +209,9 @@
             transform-style: preserve-3d;
         }
 
-        .book:hover:not(:has(.btn-detail:hover)) .book-inner {
+        .book:hover .book-inner {
             transform: rotateY(180deg);
         }
-
-
-
 
         .book-front,
         .book-back {
@@ -244,7 +242,6 @@
             line-height: 1.5;
             color: #444;
         }
-
 
         .book:hover {
             transform: translateY(-6px);
@@ -280,11 +277,92 @@
             height: 18px;
         }
 
+        .wishlist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .wishlist-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .wishlist-btn:active {
+            transform: scale(0.95);
+        }
+
+        .heart-icon {
+            width: 20px;
+            height: 20px;
+            color: gray;
+            transition: all 0.3s ease;
+        }
+
+        .heart-icon.favorited {
+            color: #e74c3c;
+            fill: #e74c3c;
+        }
+
+        .heart-icon.clicked {
+            animation: heartPulse 0.6s ease;
+        }
+
+        @keyframes heartPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background: #e74c3c;
+        }
+
         .book-info {
             padding: 14px;
             display: flex;
             flex-direction: column;
             gap: 6px;
+            flex-grow: 1;
         }
 
         .book-title {
@@ -322,18 +400,36 @@
         }
 
         .btn-detail {
-            margin-top: 8px;
-            padding: 8px;
+            position: absolute;
+            bottom: -50px;
+            left: 14px;
+            right: 14px;
+            padding: 10px 16px;
             border: none;
             border-radius: 8px;
-            background: #1b2741;
+            background: linear-gradient(135deg, #1b2741 0%, #2c3e50 100%);
             color: white;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            z-index: 5;
+        }
+
+        .book:hover .btn-detail {
+            opacity: 1;
+            transform: translateY(0);
+            bottom: 14px;
         }
 
         .btn-detail:hover {
-            opacity: 0.9;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            box-shadow: 0 4px 12px rgba(27, 39, 65, 0.3);
+            transform: translateY(-2px);
         }
     </style>
 
@@ -346,24 +442,19 @@
             <!-- BOOK 1 -->
             @foreach ($books as $book)
                 <div class="book">
-                    <form action="{{ route('favorit.toggle', $book->id) }}" method="POST">
-                        @csrf
-                        @auth
-                            <button type="submit" style="background:none;border:none;">
-                                <i data-lucide="heart"
-                                    style="color:
-           {{ auth()->user()->favorites->contains($book->id) ? 'red' : 'gray' }};
-           ">
-                                </i>
-                            </button>
-                        @endauth
+                    @auth
+                        <button type="button" class="wishlist-btn" data-book-id="{{ $book->id }}"
+                            data-is-favorited="{{ auth()->user()->favorites->contains($book->id) ? 'true' : 'false' }}">
+                            <i data-lucide="heart"
+                                class="heart-icon {{ auth()->user()->favorites->contains($book->id) ? 'favorited' : '' }}"></i>
+                        </button>
+                    @endauth
 
-                        @guest
-                            <a href="/login">
-                                <i data-lucide="heart" style="color: gray;"></i>
-                            </a>
-                        @endguest
-                    </form>
+                    @guest
+                        <a href="/login" class="wishlist-btn">
+                            <i data-lucide="heart" class="heart-icon"></i>
+                        </a>
+                    @endguest
 
                     <div class="book-inner">
                         <div class="book-front">
@@ -375,13 +466,10 @@
                                 <h3 class="book-title">{{ $book->title }}</h3>
                                 <p class="book-author">{{ $book->author }}</p>
 
-                                <div class="book-rating">★★★★☆ <span>(4.0)</span></div>
+                                <div class="book-rating">★{{ number_format($book->reviews_avg_rating ?? 0, 1) }}</div>
                                 <div class="book-stock">
                                     Stok tersedia: {{ $book->stock }} buku
                                 </div>
-
-                                <a href="{{ route('peminjam.buku.detail', $book->id) }}" class="btn-detail">Detail
-                                    Buku</a>
                             </div>
                         </div>
 
@@ -390,6 +478,8 @@
                             <p>{{ Str::limit($book->description, 120) }}</p>
                         </div>
                     </div>
+
+                    <a href="{{ route('peminjam.buku.detail', $book->id) }}" class="btn-detail">Detail Buku</a>
                 </div>
             @endforeach
 
@@ -398,8 +488,99 @@
     </div>
 
 
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
     <script src="{{ asset('js/script1.js') }}"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+
+            wishlistButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Jika guest, redirect ke login
+                    if (!this.hasAttribute('data-book-id')) {
+                        window.location.href = '/login';
+                        return;
+                    }
+
+                    const bookId = this.getAttribute('data-book-id');
+                    const heartIcon = this.querySelector('.heart-icon');
+                    const isFavorited = this.getAttribute('data-is-favorited') === 'true';
+
+                    // Add click animation
+                    heartIcon.classList.add('clicked');
+                    setTimeout(() => {
+                        heartIcon.classList.remove('clicked');
+                    }, 600);
+
+                    // Send AJAX request
+                    console.log('Sending request to:', window.location.origin +
+                        `/favorit/${bookId}`);
+                    fetch(window.location.origin + `/favorit/${bookId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(response => {
+                            console.log('Response status:', response.status);
+                            if (response.status === 401) {
+                                showToast('Sesi login telah berakhir. Silakan login kembali.',
+                                    'error');
+                                setTimeout(() => {
+                                    window.location.href = '/login';
+                                }, 2000);
+                                return;
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Response data:', data);
+                            if (data.success) {
+                                // Toggle favorited state
+                                if (data.is_favorited) {
+                                    heartIcon.classList.add('favorited');
+                                    this.setAttribute('data-is-favorited', 'true');
+                                    showToast('Buku ditambahkan ke favorit');
+                                } else {
+                                    heartIcon.classList.remove('favorited');
+                                    this.setAttribute('data-is-favorited', 'false');
+                                    showToast('Buku dihapus dari favorit');
+                                }
+                            } else {
+                                showToast('Terjadi kesalahan', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            showToast('Terjadi kesalahan', 'error');
+                        });
+                });
+            });
+
+            function showToast(message, type = 'success') {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.className = 'toast';
+                if (type === 'error') {
+                    toast.classList.add('error');
+                }
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
 
 </body>
 

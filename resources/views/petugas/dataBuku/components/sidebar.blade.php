@@ -1,6 +1,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/petugas_style.css">
 <style>
+    :root {
+        --primary-color: #1e40af;
+        --secondary-color: #3b82f6;
+        --accent-color: #f59e0b;
+        --text-light: #ffffff;
+        --text-dark: #1f2937;
+        --bg-light: #f8fafc;
+        --bg-card: #ffffff;
+        --border-color: #e5e7eb;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition: all 0.3s ease;
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -10,321 +23,198 @@
 
     body {
         display: flex;
-        background: #f1f5f9;
+        background: var(--bg-light);
     }
 
     /* ===== SIDEBAR ===== */
     .sidebar {
-        width: 230px;
+        width: 250px;
         height: 90vh;
-        border-radius: 30px;
-        margin-top: 40px;
+        border-radius: 20px;
+        margin-top: 20px;
         margin-left: 20px;
-        background: #2563eb;
-        padding: 20px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 25px;
         position: fixed;
-        color: white;
+        color: var(--text-light);
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        overflow-y: auto;
     }
 
     .sidebar h2 {
-        margin-bottom: 30px;
-        font-size: 20px;
+        margin-bottom: 40px;
+        font-size: 24px;
+        font-weight: 700;
+        text-align: center;
+        color: var(--text-light);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     .sidebar a {
-        display: block;
-        color: white;
+        display: flex;
+        align-items: center;
+        color: var(--text-light);
         text-decoration: none;
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 8px;
-        font-size: 14px;
+        padding: 15px 20px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        transition: var(--transition);
+        gap: 12px;
+        position: relative;
     }
 
     .sidebar a:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar a.active {
         background: rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* ===== CONTENT ===== */
-    .main {
-        margin-left: 230px;
-        width: 100%;
+    .sidebar a i {
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
     }
 
-    .header {
-        padding: 20px 30px;
-        margin-top: 40px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        justify-content: space-between;
-    }
-
-    .header h3 {
-        font-weight: 600;
-    }
-
-    .profile {
-        position: relative;
-        width: 95px;
-        height: 95px;
-        margin: auto;
-        margin-bottom: 10px;
-    }
-
-    .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-left: 10px;
-        cursor: pointer;
-    }
-
-    .user-profile img {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #e5e7eb;
-    }
-
-    .user-info {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.1;
-    }
-
-    .user-info .name {
-        font-size: 14px;
-        font-weight: 600;
-        color: #0f172a;
-    }
-
-    .user-info .role {
-        font-size: 12px;
-        color: #64748b;
-    }
-
-    .content {
-        padding: 30px;
-    }
-
-    /* ===== CARD DASHBOARD ===== */
-    .cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 20px;
-    }
-
-    .card {
-        background: white;
-        padding: 20px;
-        border-radius: 14px;
-        border: 1px solid #e5e7eb;
-    }
-
-    .card h4 {
-        color: #64748b;
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-
-    .card .number {
-        font-size: 26px;
-        font-weight: 600;
-    }
-
-    .icon {
-        float: right;
-        font-size: 24px;
-        color: #2563eb;
-    }
-
-    .search {
-        position: relative;
-    }
-
-    .search input {
-        width: 260px;
-        padding: 10px 14px 10px 38px;
-        border-radius: 30px;
-        border: 1px solid #e5e7eb;
-        outline: none;
-        background: #f8fafc;
-        transition: 0.25s;
-        font-size: 14px;
-    }
-
-    /* icon di dalam input */
-    .search i {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #94a3b8;
-        font-size: 14px;
-    }
-
-    /* efek focus */
-    .search input:focus {
-        border-color: #2563eb;
-        background: white;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    }
-
-    /* hover */
-    .search input:hover {
-        border-color: #cbd5f5;
-    }
-
-    /* Dropdown */
+    /* Dropdown styles */
     .menu-dropdown {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
     .dropdown-btn {
         width: 100%;
         background: none;
         border: none;
-        color: white;
-        padding: 12px;
+        color: var(--text-light);
+        padding: 15px 20px;
         text-align: left;
-        font-size: 14px;
-        border-radius: 8px;
+        font-size: 15px;
+        border-radius: 12px;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+        transition: var(--transition);
+        gap: 12px;
     }
 
     .dropdown-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(5px);
+    }
+
+    .dropdown-btn i {
+        font-size: 18px;
+        width: 20px;
     }
 
     .dropdown-content {
         display: none;
-        padding-left: 10px;
+        padding-left: 20px;
+        margin-top: 5px;
     }
 
     .dropdown-content a {
-        font-size: 13px;
-        padding: 10px;
-        display: block;
-        color: #aabbd3;
+        font-size: 14px;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        margin-bottom: 5px;
+        transition: var(--transition);
+    }
+
+    .dropdown-content a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-light);
     }
 
     .menu-dropdown.active .dropdown-content {
         display: block;
     }
 
-    .nav-dropdown {
-        position: relative;
-        margin-right: 20px;
-        cursor: pointer;
-    }
-
-    .nav-trigger {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        color: #475569;
-    }
-
-    /* Arrow animasi */
     .arrow {
-        font-size: 12px;
-        transition: transform 0.3s ease;
+        font-size: 14px;
+        transition: var(--transition);
     }
 
-    /* rotate saat aktif */
-    .nav-dropdown.active .arrow {
+    .menu-dropdown.active .arrow {
         transform: rotate(180deg);
     }
 
-    /* Dropdown menu */
-    .nav-menu {
-        position: absolute;
-        top: 40px;
-        right: 0;
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-radius: 10px;
-        min-width: 180px;
-
-        /* animasi */
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition:
-            max-height 0.3s ease,
-            opacity 0.3s ease,
-            transform 0.3s ease;
-
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    /* ===== CONTENT ===== */
+    .main {
+        margin-left: 270px;
+        width: 100%;
+        transition: var(--transition);
     }
 
-    .nav-menu a {
-        padding: 10px;
-        text-decoration: none;
-        color: #475569;
-    }
-
-    .nav-menu a:hover {
-        background: #eff6ff;
-        color: #2563eb;
-    }
-
-    /* aktif */
-    .nav-dropdown.active .nav-menu {
-        max-height: 300px;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* ===== HAMBURGER ===== */
-    .hamburger {
-        font-size: 20px;
-        margin-right: 15px;
-        cursor: pointer;
-        color: #0f172a;
-    }
-
-    /* sidebar hide */
-    .sidebar.hide {
-        transform: translateX(-260px);
-        transition: 0.3s;
-    }
-
-    /* content ikut geser */
     .main.full {
         margin-left: 0;
     }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .sidebar {
+            transform: translateX(-100%);
+            z-index: 1000;
+        }
+
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+        .main {
+            margin-left: 0;
+        }
+    }
+
+    /* Sidebar hide animation */
+    .sidebar.hide {
+        transform: translateX(-260px);
+    }
+</style>
 </style>
 <!-- Sidebar -->
 <div class="sidebar">
-    <h2>PustakaDigital</h2>
+    <h2><i class="fa fa-book-open"></i> PustakaDigital</h2>
 
-    <a href="{{ url('/petugas/dashboard') }}"><i class="fa fa-home"></i> Dashboard</a>
+    <a href="{{ url('/petugas/dashboard') }}" class="active"><i class="fa fa-home"></i> Dashboard</a>
 
     <!-- Master Data Dropdown -->
     <div class="menu-dropdown">
         <button class="dropdown-btn">
-            <span><i class="fa fa-database"></i> Master Data</span>
+            <i class="fa fa-database"></i> <span>Master Data</span>
             <span class="arrow">▾</span>
         </button>
 
         <div class="dropdown-content">
             <a href="{{ url('petugas/dataBuku') }}"><i class="fa fa-book"></i> Data Buku</a>
-            <a href="#"><i class="fa fa-tags"></i> Data Kategori</a>
+            <a href="{{ route('petugas.dataKategori.index') }}"><i class="fa fa-tags"></i> Data Kategori</a>
         </div>
     </div>
 
     <a href="{{ route('petugas.peminjaman.index') }}"><i class="fa fa-arrow-right-arrow-left"></i> Peminjaman</a>
-    <a href="#"><i class="fa fa-rotate-left"></i> Pengembalian</a>
-    <a href="#"><i class="fa fa-file"></i> Laporan</a>
-    <a href="{{ route('petugas.login') }}"><i class="fa fa-right-from-bracket"></i> Logout</a>
+    <a href="{{ route('petugas.pengembalian.index') }}"><i class="fa fa-rotate-left"></i> Pengembalian</a>
+    <a href="#"><i class="fa fa-file-alt"></i> Laporan</a>
+    <a href="{{ route('petugas.login') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
 
-<script src="js/petugas.js"></script>
+<script>
+    // Dropdown toggle
+    document.querySelectorAll('.dropdown-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.classList.toggle('active');
+        });
+    });
+</script>
