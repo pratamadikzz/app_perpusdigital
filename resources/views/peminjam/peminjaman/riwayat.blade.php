@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Riwayat Peminjaman</title>
     <link rel="stylesheet" href="{{ asset('css/style1.css') }}">
@@ -121,18 +124,26 @@
 
         .btn-ulasan {
             padding: 10px 16px;
-            background: #f97316;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             font-size: 13px;
             font-weight: 600;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            justify-content: center;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
         }
 
         .btn-ulasan:hover {
-            background: #ea580c;
+            background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
         }
 
         .review-form {
@@ -199,14 +210,24 @@
             color: #7f1d1d;
         }
 
-        @media (max-width: 768px) {
-            .riwayat-card {
-                grid-template-columns: 1fr;
-            }
+        .review-completed {
+            animation: fadeInUp 0.6s ease-out;
+            transition: all 0.3s ease;
+        }
 
-            .riwayat-cover {
-                width: 100%;
-                height: auto;
+        .review-completed:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
@@ -264,16 +285,24 @@
                                         Kembalikan Buku
                                     </button>
                                 </form>
-                            @elseif ($pinjam->status == 'dikembalikan')
+                            @elseif ($pinjam->status == 'dikembalikan' || $pinjam->status == 'selesai')
                                 @if ($pinjam->sudahUlasan)
-                                    <div
-                                        style="background: #d1fae5; padding: 10px 16px; border-radius: 8px; text-align: center; font-weight: 600; color: #047857; font-size: 13px;">
-                                        ✓ Sudah Diberi Ulasan
+                                    <div class="review-completed" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 12px 16px; border-radius: 12px; text-align: center; color: white; font-weight: 600; font-size: 13px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); border: 2px solid #047857;">
+                                        <i class="fas fa-check-circle" style="margin-right: 8px;"></i>
+                                        Sudah Memberikan Ulasan
+                                        @if($pinjam->userReview)
+                                            <div style="font-size: 11px; opacity: 0.9; margin-top: 4px;">
+                                                Rating Anda: {{ str_repeat('⭐', $pinjam->userReview->rating) }} ({{ $pinjam->userReview->rating }}/5)
+                                            </div>
+                                        @endif
+                                        <div style="font-size: 11px; opacity: 0.9; margin-top: 2px;">
+                                            Terima kasih atas feedback Anda! 💝
+                                        </div>
                                     </div>
                                 @else
                                     <button type="button" class="btn-ulasan"
                                         onclick="toggleReviewForm({{ $pinjam->id }})">
-                                        ✍️ Beri Ulasan
+                                        <i class="fas fa-star"></i> Beri Ulasan
                                     </button>
                                 @endif
                             @elseif ($pinjam->status == 'menunggu' && $pinjam->alasan_penolakan)
@@ -359,33 +388,58 @@
                     </div>
 
                     <!-- Form Ulasan (Hidden by default) -->
-                    @if ($pinjam->status == 'dikembalikan' && !$pinjam->sudahUlasan)
+                    @php
+                        $bolehUlas = false;
+                        if (in_array($pinjam->status, ['dikembalikan', 'selesai'])) {
+                            // Pastikan user sudah pernah meminjam buku ini
+                            $sudahPinjam = \App\Models\Peminjaman::where('user_id', auth()->id())
+                                ->where('buku_id', $pinjam->book->id)
+                                ->whereIn('status', ['dikembalikan', 'selesai'])
+                                ->exists();
+
+                            if ($sudahPinjam) {
+                                $bolehUlas = true;
+                            }
+                        }
+                    @endphp
+
+                    @if ($bolehUlas && !$pinjam->sudahUlasan)
                         <div id="review-form-{{ $pinjam->id }}" style="display: none; margin-bottom: 16px;">
                             <div
-                                style="background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px;">
-                                <h4 style="margin-top: 0;">Beri Ulasan untuk {{ $pinjam->book->title }}</h4>
-                                <form action="{{ route('review.store') }}" method="POST" class="review-form">
+                                style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #f97316, #10b981, #3b82f6);"></div>
+                                <h4 style="margin-top: 0; margin-bottom: 20px; color: #1f2937; font-size: 18px; display: flex; align-items: center; gap: 10px;">
+                                    <i class="fas fa-star" style="color: #f97316;"></i>
+                                    Beri Ulasan untuk <strong>"{{ $pinjam->book->title }}"</strong>
+                                </h4>
+                                <p style="color: #6b7280; font-size: 14px; margin-bottom: 20px; padding: 12px; background: #f8fafc; border-radius: 8px; border-left: 3px solid #f97316;">
+                                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                                    Ulasan Anda akan membantu pembaca lain dalam memilih buku yang tepat. Bagikan pengalaman membaca Anda! 📚
+                                </p>
+                                <form action="{{ route('review.store') }}" method="POST" class="review-form" onsubmit="return validateReviewForm(this)">
                                     @csrf
                                     <input type="hidden" name="book_id" value="{{ $pinjam->book->id }}">
 
-                                    <label for="rating-{{ $pinjam->id }}">Rating</label>
-                                    <select name="rating" id="rating-{{ $pinjam->id }}" required>
+                                    <label for="rating-{{ $pinjam->id }}">Rating <span style="color: #dc2626;">*</span></label>
+                                    <select name="rating" id="rating-{{ $pinjam->id }}" required style="margin-bottom: 12px;">
                                         <option value="">Pilih Rating</option>
-                                        <option value="5">⭐⭐⭐⭐⭐ - Sangat Baik</option>
-                                        <option value="4">⭐⭐⭐⭐ - Baik</option>
-                                        <option value="3">⭐⭐⭐ - Cukup</option>
-                                        <option value="2">⭐⭐ - Kurang</option>
-                                        <option value="1">⭐ - Buruk</option>
+                                        <option value="5">⭐⭐⭐⭐⭐ - Sangat Bagus (5)</option>
+                                        <option value="4">⭐⭐⭐⭐ - Bagus (4)</option>
+                                        <option value="3">⭐⭐⭐ - Cukup (3)</option>
+                                        <option value="2">⭐⭐ - Kurang (2)</option>
+                                        <option value="1">⭐ - Buruk (1)</option>
                                     </select>
 
-                                    <label for="ulasan-{{ $pinjam->id }}">Ulasan</label>
-                                    <textarea name="ulasan" id="ulasan-{{ $pinjam->id }}" placeholder="Tulis ulasan buku..." required></textarea>
+                                    <label for="ulasan-{{ $pinjam->id }}">Ulasan Anda <span style="color: #dc2626;">*</span></label>
+                                    <textarea name="ulasan" id="ulasan-{{ $pinjam->id }}" placeholder="Bagikan pengalaman membaca buku ini..." required style="margin-bottom: 12px; resize: vertical;"></textarea>
 
                                     <div style="display: flex; gap: 10px;">
-                                        <button type="submit" class="btn-ulasan">Kirim Ulasan</button>
+                                        <button type="submit" class="btn-ulasan" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);">
+                                            <i class="fas fa-paper-plane"></i> Kirim Ulasan
+                                        </button>
                                         <button type="button" class="btn-kembali" style="background: #6b7280;"
                                             onclick="toggleReviewForm({{ $pinjam->id }})">
-                                            Batal
+                                            <i class="fas fa-times"></i> Batal
                                         </button>
                                     </div>
                                 </form>
@@ -402,10 +456,119 @@
         function toggleReviewForm(id) {
             const form = document.getElementById('review-form-' + id);
             if (form) {
-                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+                if (form.style.display === 'none' || form.style.display === '') {
+                    form.style.display = 'block';
+                    form.style.animation = 'slideDown 0.4s ease-out';
+                    // Scroll to form
+                    setTimeout(() => {
+                        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                } else {
+                    form.style.animation = 'slideUp 0.3s ease-in';
+                    setTimeout(() => {
+                        form.style.display = 'none';
+                    }, 300);
+                }
             }
         }
+
+        // Auto-show success animation if there's a success message
+        document.addEventListener('DOMContentLoaded', function() {
+            const successAlert = document.querySelector('.alert-success');
+            if (successAlert && successAlert.textContent.includes('ulasan')) {
+                // Add confetti effect or celebration
+                setTimeout(() => {
+                    showSuccessAnimation();
+                }, 500);
+            }
+        });
+
+        function validateReviewForm(form) {
+            const rating = form.querySelector('select[name="rating"]').value;
+            const ulasan = form.querySelector('textarea[name="ulasan"]').value.trim();
+
+            if (!rating) {
+                alert('Silakan pilih rating terlebih dahulu!');
+                return false;
+            }
+
+            if (ulasan.length < 10) {
+                alert('Ulasan minimal 10 karakter!');
+                return false;
+            }
+
+            if (ulasan.length > 1000) {
+                alert('Ulasan maksimal 1000 karakter!');
+                return false;
+            }
+
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+            submitBtn.disabled = true;
+
+            return true;
+        }
+
+        function createFloatingStar() {
+            const star = document.createElement('div');
+            star.innerHTML = '⭐';
+            star.style.position = 'fixed';
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = window.innerHeight + 'px';
+            star.style.fontSize = '24px';
+            star.style.zIndex = '9999';
+            star.style.pointerEvents = 'none';
+            star.style.animation = 'floatUp 2s ease-out forwards';
+
+            document.body.appendChild(star);
+
+            setTimeout(() => {
+                star.remove();
+            }, 2000);
+        }
     </script>
+
+    <style>
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <style>
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+                max-height: 500px;
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+                max-height: 0;
+            }
+        }
+    </style>
 </body>
 
 </html>

@@ -65,8 +65,8 @@
     Route::delete('admin/peminjam/delete/{id}', [PeminjamController::class, 'destroy']);
 
     //Login
-    Route::get('login', function () {
-        return view('/auth/login');
+    Route::get('/auth/login', function () {
+        return view('auth.login');
     })->name('auth/login');
 
     Route::get('login', function () {
@@ -149,6 +149,7 @@
         Route::get('/favorit', [FavoriteController::class, 'index'])->name('favorit.index');
         Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::get('/peminjaman/{id}/pdf', [PeminjamanController::class, 'generatePDF'])->name('peminjaman.pdf');
+        Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
     });
 
 
@@ -225,7 +226,3 @@
         Route::get('/peminjaman', [LaporanController::class, 'peminjaman'])->name('laporan.peminjaman');
         Route::get('/pengembalian', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
     });
-
-
-
-    Route::post('/review', [ReviewController::class, 'store'])->name('review.store');

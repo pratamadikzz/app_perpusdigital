@@ -684,19 +684,15 @@
 
             <div class="footer-col">
                 <h4>Kontak Kami</h4>
-                <p>Email: support@pustakadigital.id</p>
-                <p>Tel: +62 821-2509-8439</p>
+                <p><strong>Alamat:</strong> Jl. Perpustakaan Digital No. 123, Kota Buku, Indonesia</p>
+                <p><strong>Email:</strong> info@pustakadigital.id</p>
+                <p><strong>Telepon:</strong> +62 21-1234-5678</p>
+                <p><strong>Jam Operasional:</strong> Senin-Jumat, 08:00-17:00 WIB</p>
                 <div class="socials">
                     <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
                     <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fa fa-linkedin"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
                 </div>
-                <form class="contact-form" style="margin-top: 16px;">
-                    <input type="text" placeholder="Nama" required>
-                    <input type="email" placeholder="Email" required>
-                    <textarea placeholder="Pesan" rows="3" required></textarea>
-                    <button type="submit" class="btn secondary">Kirim</button>
-                </form>
             </div>
 
         </div>

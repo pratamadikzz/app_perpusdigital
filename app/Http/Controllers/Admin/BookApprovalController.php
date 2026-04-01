@@ -34,6 +34,8 @@ class BookApprovalController extends Controller
                 'publication_year' => $requestData->publication_year,
                 'description' => $requestData->description,
                 'cover' => $requestData->cover,
+                'isbn' => $this->generateISBN(),
+                'languange' => 'Indonesia', // Default language
             ]);
         }
 
@@ -54,6 +56,8 @@ class BookApprovalController extends Controller
                     'publication_year' => $requestData->publication_year,
                     'description' => $requestData->description,
                     'cover' => $requestData->cover ?? $book->cover,
+                    'isbn' => $book->isbn ?? $this->generateISBN(), // Keep existing or generate new
+                    'languange' => $book->languange ?? 'Indonesia', // Keep existing or default
                 ]);
             }
         }
@@ -80,5 +84,16 @@ class BookApprovalController extends Controller
         ]);
 
         return back()->with('success', 'Request ditolak');
+    }
+
+    private function generateISBN()
+    {
+        do {
+            $datePart = now()->format('Ymd');
+            $randomPart = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $isbn = "IS-{$datePart}-{$randomPart}";
+        } while (Book::where('isbn', $isbn)->exists());
+
+        return $isbn;
     }
 }

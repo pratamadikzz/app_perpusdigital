@@ -138,32 +138,27 @@ class BookController extends Controller
 
     public function Formpinjam(Book $book)
     {
-        // Cek apakah user sudah memiliki peminjaman aktif
+        $peminjaman = null;
+
+        // Coba ambil dari session (untuk show struk setelah submit)
+        if ($peminjamanId = session('peminjaman_id')) {
+            $peminjaman = Peminjaman::with(['user', 'buku'])->find($peminjamanId);
+        }
+
+        // Cek apakah user sudah memiliki peminjaman aktif (kecuali peminjaman yang baru dibuat dan sedang ditampilkan)
         if (Auth::check()) {
-            $peminjamanAktif = Peminjaman::where('user_id', Auth::id())
-                ->whereIn('status', ['pending', 'aktif', 'menunggu'])
-                ->exists();
+            $query = Peminjaman::where('user_id', Auth::id())
+                ->whereIn('status', ['pending', 'aktif', 'menunggu']);
+
+            if ($peminjaman) {
+                $query->where('id', '!=', $peminjaman->id);
+            }
+
+            $peminjamanAktif = $query->exists();
 
             if ($peminjamanAktif) {
                 return redirect()->back()->with('error', 'Anda masih memiliki peminjaman aktif. Harap kembalikan buku terlebih dahulu sebelum meminjam buku baru.');
             }
-        }
-
-        $peminjaman = null;
-
-        // Coba ambil dari session terlebih dahulu
-        if (session('peminjaman_id')) {
-            $peminjaman = Peminjaman::with(['user', 'buku'])
-                ->find(session('peminjaman_id'));
-        }
-
-        // Jika tidak ada di session, ambil peminjaman terakhir user yang sedang login
-        if (!$peminjaman && Auth::check()) {
-            $peminjaman = Peminjaman::with(['user', 'buku'])
-                ->where('user_id', Auth::id())
-                ->where('buku_id', $book->id)
-                ->latest()
-                ->first();
         }
 
         return view('peminjam.peminjaman.form', compact('book', 'peminjaman'));
