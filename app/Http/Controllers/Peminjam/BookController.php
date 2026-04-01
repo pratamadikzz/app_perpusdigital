@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Peminjam;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Peminjaman;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -25,6 +26,14 @@ class BookController extends Controller
         // Hitung rata-rata rating dari collection review yang sudah di-load
         $rating = $book->reviews->isEmpty() ? 0 : $book->reviews->avg('rating');
 
-        return view('peminjam.buku.detail', compact('book', 'rating'));
+        // Cek apakah user sudah memiliki peminjaman aktif
+        $hasActiveLoan = false;
+        if (Auth::check()) {
+            $hasActiveLoan = Peminjaman::where('user_id', Auth::id())
+                ->whereIn('status', ['pending', 'aktif', 'menunggu'])
+                ->exists();
+        }
+
+        return view('peminjam.buku.detail', compact('book', 'rating', 'hasActiveLoan'));
     }
 }

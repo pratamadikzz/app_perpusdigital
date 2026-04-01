@@ -103,7 +103,16 @@ class StaffController extends Controller
 
     public function settings()
     {
-        $staff = \App\Models\Staff::where('name', session('staff_name'))->first();
+        if (!session()->has('staff_username')) {
+            return redirect('/petugas/login');
+        }
+
+        $staff = \App\Models\Staff::where('username', session('staff_username'))->first();
+
+        if (!$staff) {
+            session()->flush();
+            return redirect('/petugas/login');
+        }
 
         // Stats untuk sidebar berdasarkan role
         if (session('staff_role') === 'admin') {
@@ -123,12 +132,12 @@ class StaffController extends Controller
             $dipinjam = 0;
         }
 
-        return view('admin.settings', compact('staff', 'userAktif', 'pinjamHariIni', 'totalPengembalian', 'dipinjam'));
+        return view('petugas.settings', compact('staff', 'userAktif', 'pinjamHariIni', 'totalPengembalian', 'dipinjam'));
     }
 
     public function updateSettings(Request $request)
     {
-        $staff = \App\Models\Staff::where('name', session('staff_name'))->first();
+        $staff = \App\Models\Staff::where('username', session('staff_username'))->first();
 
         // Validasi dasar
         $rules = [

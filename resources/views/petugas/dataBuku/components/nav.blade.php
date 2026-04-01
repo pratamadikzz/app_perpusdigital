@@ -249,13 +249,43 @@
         line-height: 1.2;
     }
 
-    .user-info .name {
+    .user-profile-trigger {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 12px;
+        transition: var(--transition);
+        font-weight: 500;
+        color: var(--text-dark);
+    }
+
+    .user-profile-trigger:hover {
+        background: var(--bg-light);
+    }
+
+    .user-profile-trigger img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--secondary-color);
+    }
+
+    .user-profile-trigger .user-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+
+    .user-profile-trigger .user-info .name {
         font-size: 16px;
         font-weight: 600;
         color: var(--text-dark);
     }
 
-    .user-info .role {
+    .user-profile-trigger .user-info .role {
         font-size: 13px;
         color: #6b7280;
         font-weight: 400;
@@ -332,11 +362,27 @@
             <a href="#">Lihat semua notif</a>
         </div>
     </div>
-    <div class="user-profile">
+    <!-- <div class="user-profile">
         <img src="{{ asset('img/WhatsApp Image 2026-02-04 at 09.32.43.jpeg') }}" alt="">
         <div class="user-info">
             <span class="name">{{ session('staff_username') }}</span>
             <span class="role">Petugas</span>
+        </div>
+    </div> -->
+
+    <!-- USER PROFILE DROPDOWN -->
+    <div class="nav-dropdown">
+        <div class="nav-trigger user-profile-trigger">
+            <img src="{{ asset('img/WhatsApp Image 2026-02-04 at 09.32.43.jpeg') }}" alt="">
+            <div class="user-info">
+                <span class="name">{{ session('staff_username') }}</span>
+                <span class="role">Petugas</span>
+            </div>
+            <i class="fa fa-chevron-down arrow"></i>
+        </div>
+        <div class="nav-menu">
+            <a href="{{ route('petugas.settings') }}"><i class="fa fa-cog"></i> Pengaturan</a>
+            <a href="{{ route('staff.logout') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
 

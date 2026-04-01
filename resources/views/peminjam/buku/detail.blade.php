@@ -292,6 +292,26 @@
             color: white;
         }
 
+        .borrow-disabled {
+            background: var(--light);
+            color: var(--warning);
+            border: 2px solid var(--warning);
+            padding: 16px 32px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .borrow-disabled i {
+            font-size: 1.2rem;
+        }
+
         @media (max-width: 768px) {
             .book-header {
                 padding: 30px 20px;
@@ -446,9 +466,16 @@
 
     <!-- Borrow Bar -->
     <div class="borrow-bar">
-        <a href="{{ route('buku.Formpinjam', $book->id) }}" class="borrow-btn">
-            <i class="fas fa-book"></i> Pinjam Buku Sekarang
-        </a>
+        @if ($hasActiveLoan)
+            <div class="borrow-disabled">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Anda masih memiliki peminjaman aktif. Harap kembalikan buku terlebih dahulu.</span>
+            </div>
+        @else
+            <a href="{{ route('buku.Formpinjam', $book->id) }}" class="borrow-btn">
+                <i class="fas fa-book"></i> Pinjam Buku Sekarang
+            </a>
+        @endif
     </div>
 
     <script>
@@ -463,7 +490,7 @@
         });
     </script>
 
-        <script src="{{ asset('js/script1.js') }}"></script>
+    <script src="{{ asset('js/script1.js') }}"></script>
 
 </body>
 
