@@ -20,6 +20,15 @@ class PeminjamanController extends Controller
             'tanggal_pengembalian' => 'required|date|after:tanggal_peminjaman',
         ]);
 
+        // Cek apakah user sudah memiliki peminjaman aktif
+        $peminjamanAktif = Peminjaman::where('user_id', Auth::id())
+            ->whereIn('status', ['pending', 'aktif', 'menunggu'])
+            ->exists();
+
+        if ($peminjamanAktif) {
+            return redirect()->back()->with('error', 'Anda masih memiliki peminjaman aktif. Harap kembalikan buku terlebih dahulu sebelum meminjam buku baru.');
+        }
+
         $peminjaman = Peminjaman::create([
             'nomor_peminjaman' => 'PMJ-' . strtoupper(Str::random(6)),
             'user_id' => Auth::id(),

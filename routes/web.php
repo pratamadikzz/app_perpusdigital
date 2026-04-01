@@ -69,6 +69,10 @@
         return view('/auth/login');
     })->name('auth/login');
 
+    Route::get('login', function () {
+        return redirect('/petugas/login');
+    })->name('login');
+
     Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
 
     //register
@@ -160,7 +164,7 @@
 
 
 
-    Route::prefix('petugas')->middleware('auth')->group(function () {
+    Route::prefix('petugas')->middleware('staff.auth')->group(function () {
         Route::get('/peminjaman', [PetugasPeminjaman::class, 'index'])
             ->name('petugas.peminjaman.index');
 
@@ -178,6 +182,9 @@
 
         Route::post('/pengembalian/tolak/{id}', [PetugasPengembalian::class, 'tolak'])
             ->name('petugas.pengembalian.tolak');
+
+        Route::get('/settings', [StaffController::class, 'settings'])->name('petugas.settings');
+        Route::post('/settings/update', [StaffController::class, 'updateSettings'])->name('petugas.settings.update');
     });
 
 

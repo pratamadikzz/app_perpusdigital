@@ -138,6 +138,17 @@ class BookController extends Controller
 
     public function Formpinjam(Book $book)
     {
+        // Cek apakah user sudah memiliki peminjaman aktif
+        if (Auth::check()) {
+            $peminjamanAktif = Peminjaman::where('user_id', Auth::id())
+                ->whereIn('status', ['pending', 'aktif', 'menunggu'])
+                ->exists();
+
+            if ($peminjamanAktif) {
+                return redirect()->back()->with('error', 'Anda masih memiliki peminjaman aktif. Harap kembalikan buku terlebih dahulu sebelum meminjam buku baru.');
+            }
+        }
+
         $peminjaman = null;
 
         // Coba ambil dari session terlebih dahulu

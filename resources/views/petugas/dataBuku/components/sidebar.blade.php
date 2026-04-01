@@ -207,7 +207,7 @@
     <a href="{{ route('petugas.peminjaman.index') }}"><i class="fa fa-arrow-right-arrow-left"></i> Peminjaman</a>
     <a href="{{ route('petugas.pengembalian.index') }}"><i class="fa fa-rotate-left"></i> Pengembalian</a>
     <a href="#"><i class="fa fa-file-alt"></i> Laporan</a>
-    <a href="{{ route('petugas.login') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
+    <a href="{{ route('staff.logout') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
 
 <script>
