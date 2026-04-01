@@ -12,8 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // MySQL: Alter enum column to include 'selesai'
-        DB::statement("ALTER TABLE peminjamans MODIFY COLUMN status ENUM('pending', 'aktif', 'dikembalikan', 'ditolak', 'menunggu', 'selesai') DEFAULT 'pending'");
+        Schema::table('peminjamans', function (Blueprint $table) {
+            $table->dropColumn('status');
+            $table->enum('status', ['pending', 'aktif', 'dikembalikan', 'ditolak', 'menunggu', 'selesai'])->default('pending');
+        });
     }
 
     /**
@@ -21,7 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // MySQL: Revert to original enum
-        DB::statement("ALTER TABLE peminjamans MODIFY COLUMN status ENUM('pending', 'aktif', 'dikembalikan', 'ditolak', 'menunggu') DEFAULT 'pending'");
+        Schema::table('peminjamans', function (Blueprint $table) {
+            $table->dropColumn('status');
+            $table->enum('status', ['pending', 'aktif', 'dikembalikan', 'ditolak', 'menunggu'])->default('pending');
+        });
     }
 };
