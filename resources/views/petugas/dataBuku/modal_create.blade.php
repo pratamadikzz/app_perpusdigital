@@ -1,42 +1,103 @@
 <div class="modal fade" id="modalTambah">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content shadow">
 
             <form method="POST" action="/petugas/dataBuku/store" enctype="multipart/form-data">
                 @csrf
 
+                <!-- Header -->
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title">Ajukan Tambah Buku</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
+                <!-- Body -->
                 <div class="modal-body">
 
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <label class="form-label">Cover Buku</label>
                         <input type="file" name="cover" class="form-control">
                     </div>
 
-                    <input type="text" name="title" class="form-control mb-2" placeholder="Judul Buku">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Judul Buku</label>
+                            <input type="text" name="title" class="form-control" placeholder="Masukkan judul buku">
+                        </div>
 
-                    <input type="text" name="author" class="form-control mb-2" placeholder="Penulis">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Penulis</label>
+                            <input type="text" name="author" class="form-control" placeholder="Nama penulis">
+                        </div>
 
-                    <input type="text" name="publisher" class="form-control mb-2" placeholder="Penerbit">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Penerbit</label>
+                            <input type="text" name="publisher" class="form-control" placeholder="Nama penerbit">
+                        </div>
 
-                    <select name="KategoriID" class="form-select mb-2" required>
-                        <option value="">-- Pilih Kategori --</option>
-                        @foreach ($kategori as $k)
-                            <option value="{{ $k->KategoriID }}">
-                                {{ $k->NamaKategori }}
-                            </option>
-                        @endforeach
-                    </select>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">ISBN</label>
+                            <input type="text" name="isbn" id="nomor_isbn" class="form-control"
+                                placeholder="ISBN buku" readonly>
+                        </div>
 
-                    <input type="number" name="stock" class="form-control mb-2" placeholder="Stok">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Bahasa</label>
+                            <input type="text" name="languange" class="form-control" placeholder="Bahasa buku">
+                        </div>
 
-                    <input type="number" name="publication_year" class="form-control mb-2" placeholder="Tahun">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Panjang Buku</label>
+                            <input type="number" name="book_length" class="form-control"
+                                placeholder="Panjang buku (cm)">
+                        </div>
 
-                    <textarea name="description" class="form-control" placeholder="Deskripsi"></textarea>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Berat Buku</label>
+                            <input type="number" name="book_weight" class="form-control"
+                                placeholder="Berat buku (gram)">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Lebar Buku</label>
+                            <input type="number" name="book_width" class="form-control" placeholder="Lebar buku (cm)">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Jumlah Halaman</label>
+                            <input type="number" name="number_of_books" class="form-control"
+                                placeholder="Jumlah halaman">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select name="category" class="form-control">
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach ($kategori as $k)
+                                    <option value="{{ $k->NamaKategori }}">
+                                        {{ $k->NamaKategori }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Jumlah Stok</label>
+                            <input type="number" name="stock" class="form-control"
+                                placeholder="Jumlah buku tersedia">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tahun Terbit</label>
+                            <input type="number" name="publication_year" class="form-control"
+                                placeholder="Contoh: 2024">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Deskripsi Buku</label>
+                        <textarea name="description" rows="4" class="form-control" placeholder="Ringkasan atau informasi buku..."></textarea>
+                    </div>
 
                 </div>
 

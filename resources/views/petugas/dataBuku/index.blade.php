@@ -35,7 +35,7 @@
 
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
-                                <thead class="table-light text-center">
+                                <thead class="table-light">
                                     <tr>
                                         <th>Cover</th>
                                         <th>Judul</th>
@@ -43,33 +43,64 @@
                                         <th>Penerbit</th>
                                         <th>Kategori</th>
                                         <th>Stok</th>
-                                        <th>Tahun</th>
-                                        <th width="200">Deskripsi</th>
-                                        <th width="220">Aksi</th>
+                                        <th>ISBN</th>
+                                        <th>Bahasa</th>
+                                        <th>Panjang Buku</th>
+                                        <th>Berat Buku</th>
+                                        <th>Lebar Buku</th>
+                                        <th>Jumlah Halaman</th>
+                                        <th>Tahun Terbit</th>
+                                        <th width="250">Deskripsi</th>
+                                        <th width="150">Aksi</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     @foreach ($books as $book)
                                         <tr>
-                                            <td width="70">
+                                            <td>
                                                 <img src="{{ asset('storage/' . $book->cover) }}" width="50"
                                                     class="rounded shadow-sm">
                                             </td>
 
-                                            <td>
-                                                <div class="fw-semibold">{{ $book->title }}</div>
-                                                <small class="text-muted">
-                                                    {{ Str::limit($book->description, 50) }}
-                                                </small>
-                                            </td>
-
+                                            <td class="fw-semibold">{{ $book->title }}</td>
                                             <td>{{ $book->author }}</td>
                                             <td>{{ $book->publisher }}</td>
-                                            <td>{{ $book->category}}</td>
-                                            <td class="text-center">{{ $book->stock }}</td>
-                                            <td class="text-center">{{ $book->publication_year }}</td>
-                                            <td>{{ Str::limit($book->description, 60) }}</td>
+                                            <td>{{ $book->category }}</td>
+
+                                            <td>
+                                                {{ $book->stock }}
+                                            </td>
+
+                                            <td>
+                                                {{ $book->isbn }}
+                                            </td>
+
+                                            <td>
+                                                {{ $book->languange }}
+                                            </td>
+
+                                            <td>
+                                                {{ $book->book_length }}
+                                            </td>
+
+                                            <td>
+                                                {{ $book->book_weight }}
+                                            </td>
+
+                                            <td>
+                                                {{ $book->book_width }}
+                                            </td>
+
+                                            <td>
+                                                {{ $book->number_of_books }}
+                                            </td>
+
+                                            <td>{{ $book->publication_year }}</td>
+
+                                            <td>
+                                                {{ Str::limit($book->description, 80) }}
+                                            </td>
 
                                             <td>
                                                 <div class="d-flex gap-2">

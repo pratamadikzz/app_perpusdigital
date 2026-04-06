@@ -1,45 +1,112 @@
 <div class="modal fade" id="edit{{ $book->id }}">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content shadow">
 
             <form method="POST" action="/petugas/dataBuku/update/{{ $book->id }}" enctype="multipart/form-data">
                 @csrf
 
+                <!-- Header -->
                 <div class="modal-header bg-warning text-white">
                     <h5 class="modal-title">Ajukan Edit Buku</h5>
-                    <button type="button" class="btn-close btn-close-white"
-                        data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
+                <!-- Body -->
                 <div class="modal-body">
 
-                    <div class="mb-3 text-center">
-                        <img src="{{ asset('storage/' . $book->cover) }}" width="80"
-                            class="rounded shadow-sm mb-2">
+                    <div class="mb-3">
+                        <label class="form-label">Cover Buku</label>
+                        <div class="text-center mb-2">
+                            <img src="{{ asset('storage/' . $book->cover) }}" width="80" class="rounded shadow-sm">
+                        </div>
                         <input type="file" name="cover" class="form-control">
                     </div>
 
-                    <input type="text" name="title" class="form-control mb-2"
-                        value="{{ $book->title }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Judul Buku</label>
+                            <input type="text" name="title" class="form-control" placeholder="Masukkan judul buku"
+                                value="{{ $book->title }}">
+                        </div>
 
-                    <input type="text" name="author" class="form-control mb-2"
-                        value="{{ $book->author }}">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Penulis</label>
+                            <input type="text" name="author" class="form-control" placeholder="Nama penulis"
+                                value="{{ $book->author }}">
+                        </div>
 
-                    <input type="text" name="publisher" class="form-control mb-2"
-                        value="{{ $book->publisher }}">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Penerbit</label>
+                            <input type="text" name="publisher" class="form-control" placeholder="Nama penerbit"
+                                value="{{ $book->publisher }}">
+                        </div>
 
-                    <input type="text" name="category" class="form-control mb-2"
-                        value="{{ $book->category }}">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">ISBN</label>
+                            <input type="text" name="isbn" class="form-control" placeholder="ISBN buku"
+                                value="{{ $book->isbn }}">
+                        </div>
 
-                    <input type="number" name="stock" class="form-control mb-2"
-                        value="{{ $book->stock }}">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Bahasa</label>
+                            <input type="text" name="languange" class="form-control" placeholder="Bahasa buku"
+                                value="{{ $book->languange }}">
+                        </div>
 
-                    <input type="number" name="publication_year"
-                        class="form-control mb-2"
-                        value="{{ $book->publication_year }}">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Panjang Buku</label>
+                            <input type="number" name="book_length" class="form-control"
+                                placeholder="Panjang buku (cm)" value="{{ $book->book_length }}">
+                        </div>
 
-                    <textarea name="description"
-                        class="form-control">{{ $book->description }}</textarea>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Berat Buku</label>
+                            <input type="number" name="book_weight" class="form-control"
+                                placeholder="Berat buku (gram)" value="{{ $book->book_weight }}">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Lebar Buku</label>
+                            <input type="number" name="book_width" class="form-control" placeholder="Lebar buku (cm)"
+                                value="{{ $book->book_width }}">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Jumlah Halaman</label>
+                            <input type="number" name="number_of_books" class="form-control"
+                                placeholder="Jumlah halaman" value="{{ $book->number_of_books }}">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select name="category" class="form-control">
+                                <option value="">-- Pilih Kategori --</option>
+                                @foreach ($kategori as $k)
+                                    <option value="{{ $k->NamaKategori }}"
+                                        {{ $book->category === $k->NamaKategori ? 'selected' : '' }}>
+                                        {{ $k->NamaKategori }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Jumlah Stok</label>
+                            <input type="number" name="stock" class="form-control" placeholder="Jumlah buku tersedia"
+                                value="{{ $book->stock }}">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tahun Terbit</label>
+                            <input type="number" name="publication_year" class="form-control"
+                                placeholder="Contoh: 2024" value="{{ $book->publication_year }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Deskripsi Buku</label>
+                        <textarea name="description" rows="4" class="form-control" placeholder="Ringkasan atau informasi buku...">{{ $book->description }}</textarea>
+                    </div>
 
                 </div>
 

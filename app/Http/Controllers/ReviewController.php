@@ -27,6 +27,15 @@ class ReviewController extends Controller
             return redirect()->route('peminjam.riwayat')->with('error', 'Anda belum menyelesaikan peminjaman untuk buku ini.');
         }
 
+        // Cek apakah user sudah pernah memberikan ulasan untuk buku ini
+        $existingReview = Review::where('user_id', Auth::id())
+            ->where('book_id', $request->book_id)
+            ->first();
+
+        if ($existingReview) {
+            return redirect()->route('peminjam.riwayat')->with('error', 'Anda sudah memberi ulasan untuk buku ini.');
+        }
+
         // Untuk sementara, izinkan ulasan tanpa cek denda dulu
         // if ($peminjaman->denda > 0 && !$peminjaman->denda_dibayar) {
         //     return back()->with('error', 'Harap selesaikan denda terlebih dahulu sebelum memberikan ulasan.');
@@ -42,7 +51,7 @@ class ReviewController extends Controller
 
             return redirect()->route('peminjam.riwayat')->with('success', 'Terima kasih atas ulasan anda');
         } catch (\Illuminate\Database\QueryException $e) {
-            // Handle unique constraint violation
+            // Handle unique constraint violation (fallback)
             if ($e->getCode() == 23000) {
                 return redirect()->route('peminjam.riwayat')->with('error', 'Anda sudah memberi ulasan untuk buku ini.');
             }

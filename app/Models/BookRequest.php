@@ -13,8 +13,14 @@ class BookRequest extends Model
         'title',
         'author',
         'publisher',
-        'KategoriID',
+        'category',
         'stock',
+        'isbn',
+        'languange',
+        'book_length',
+        'book_weight',
+        'book_width',
+        'number_of_books',
         'publication_year',
         'description',
         'cover',
@@ -22,8 +28,7 @@ class BookRequest extends Model
     ];
 
     public function category()
-{
-    return $this->belongsTo(KategoriBuku::class);
-}
-
+    {
+        return $this->belongsTo(KategoriBuku::class);
+    }
 }

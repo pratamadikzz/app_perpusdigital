@@ -26,8 +26,14 @@ class BookRequestController extends Controller
             'title' => 'required',
             'author' => 'required',
             'publisher' => 'required',
-            'KategoriID' => 'required|exists:kategoribuku,KategoriID',
+            'category' => 'required',
             'stock' => 'required|numeric',
+            'isbn' => 'nullable',
+            'languange' => 'nullable',
+            'book_length' => 'nullable|numeric',
+            'book_weight' => 'nullable|numeric',
+            'book_width' => 'nullable|numeric',
+            'number_of_books' => 'nullable|numeric',
             'publication_year' => 'required|numeric',
             'description' => 'required',
             'cover' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
@@ -44,8 +50,14 @@ class BookRequestController extends Controller
             'title' => $request->title,
             'author' => $request->author,
             'publisher' => $request->publisher,
-            'KategoriID' => $request->KategoriID,
+            'category' => $request->category,
             'stock' => $request->stock,
+            'isbn' => $request->isbn,
+            'languange' => $request->languange,
+            'book_length' => $request->book_length,
+            'book_weight' => $request->book_weight,
+            'book_width' => $request->book_width,
+            'number_of_books' => $request->number_of_books,
             'publication_year' => $request->publication_year,
             'description' => $request->description,
             'cover' => $coverPath,
@@ -61,6 +73,23 @@ class BookRequestController extends Controller
     // =========================
     public function update(Request $request, Book $book)
     {
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'publisher' => 'required',
+            'category' => 'required',
+            'stock' => 'required|numeric',
+            'isbn' => 'nullable',
+            'languange' => 'nullable',
+            'book_length' => 'nullable|numeric',
+            'book_weight' => 'nullable|numeric',
+            'book_width' => 'nullable|numeric',
+            'number_of_books' => 'nullable|numeric',
+            'publication_year' => 'required|numeric',
+            'description' => 'required',
+            'cover' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
         $coverPath = null;
 
         if ($request->hasFile('cover')) {
@@ -73,8 +102,14 @@ class BookRequestController extends Controller
             'title' => $request->title,
             'author' => $request->author,
             'publisher' => $request->publisher,
-            'KategoriID' => $request->KategoriID,
+            'category' => $request->category,
             'stock' => $request->stock,
+            'isbn' => $request->isbn,
+            'languange' => $request->languange,
+            'book_length' => $request->book_length,
+            'book_weight' => $request->book_weight,
+            'book_width' => $request->book_width,
+            'number_of_books' => $request->number_of_books,
             'publication_year' => $request->publication_year,
             'description' => $request->description,
             'cover' => $coverPath,

@@ -74,7 +74,7 @@ class PeminjamanController extends Controller
         // Load informasi apakah user sudah memberi ulasan untuk setiap buku
         foreach ($peminjamans as $pinjam) {
             $review = Review::where('user_id', Auth::id())
-                ->where('book_id', $pinjam->book_id)
+                ->where('book_id', $pinjam->buku_id)
                 ->first();
 
             $pinjam->sudahUlasan = $review ? true : false;

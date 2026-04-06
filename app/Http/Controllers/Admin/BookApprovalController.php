@@ -20,6 +20,11 @@ class BookApprovalController extends Controller
 
     public function approve(BookRequest $requestData)
     {
+        // Validasi dasar
+        if ($requestData->action == 'create' && empty($requestData->category)) {
+            return back()->with('error', 'Kategori tidak boleh kosong untuk request create');
+        }
+
         // ======================
         // CREATE
         // ======================
@@ -29,13 +34,17 @@ class BookApprovalController extends Controller
                 'title' => $requestData->title,
                 'author' => $requestData->author,
                 'publisher' => $requestData->publisher,
-                'category' => $requestData->KategoriID,
+                'category' => $requestData->category,
                 'stock' => $requestData->stock,
                 'publication_year' => $requestData->publication_year,
                 'description' => $requestData->description,
                 'cover' => $requestData->cover,
-                'isbn' => $this->generateISBN(),
-                'languange' => 'Indonesia', // Default language
+                'isbn' => $requestData->isbn ?? $this->generateISBN(),
+                'languange' => $requestData->languange ?? 'Indonesia',
+                'book_length' => $requestData->book_length,
+                'book_weight' => $requestData->book_weight,
+                'book_width' => $requestData->book_width,
+                'number_of_books' => $requestData->number_of_books,
             ]);
         }
 
@@ -51,13 +60,17 @@ class BookApprovalController extends Controller
                     'title' => $requestData->title,
                     'author' => $requestData->author,
                     'publisher' => $requestData->publisher,
-                    'category' => $requestData->KategoriID,
+                    'category' => $requestData->category ?? $book->category,
                     'stock' => $requestData->stock,
                     'publication_year' => $requestData->publication_year,
                     'description' => $requestData->description,
                     'cover' => $requestData->cover ?? $book->cover,
-                    'isbn' => $book->isbn ?? $this->generateISBN(), // Keep existing or generate new
-                    'languange' => $book->languange ?? 'Indonesia', // Keep existing or default
+                    'isbn' => $requestData->isbn ?? $book->isbn ?? $this->generateISBN(),
+                    'languange' => $requestData->languange ?? $book->languange ?? 'Indonesia',
+                    'book_length' => $requestData->book_length ?? $book->book_length,
+                    'book_weight' => $requestData->book_weight ?? $book->book_weight,
+                    'book_width' => $requestData->book_width ?? $book->book_width,
+                    'number_of_books' => $requestData->number_of_books ?? $book->number_of_books,
                 ]);
             }
         }
