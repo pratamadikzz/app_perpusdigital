@@ -264,13 +264,13 @@
         function openEdit(id, nama) {
             document.getElementById('editNama').value = nama;
             document.getElementById('formEdit').action =
-                '/kategori/' + id;
+                '/admin/kategori/' + id;
             openModal('modalEdit');
         }
 
         function openDelete(id) {
             document.getElementById('formDelete').action =
-                '/kategori/' + id;
+                '/admin/kategori/' + id;
             openModal('modalDelete');
         }
     </script>
