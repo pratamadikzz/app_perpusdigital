@@ -55,19 +55,19 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Panjang Buku</label>
-                            <input type="number" name="book_length" class="form-control"
+                            <input type="number" name="book_length" class="form-control" step="0.01" min="0"
                                 placeholder="Panjang buku (cm)" value="{{ $book->book_length }}">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Berat Buku</label>
-                            <input type="number" name="book_weight" class="form-control"
+                            <input type="number" name="book_weight" class="form-control" step="0.01" min="0"
                                 placeholder="Berat buku (gram)" value="{{ $book->book_weight }}">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Lebar Buku</label>
-                            <input type="number" name="book_width" class="form-control" placeholder="Lebar buku (cm)"
+                            <input type="number" name="book_width" class="form-control" step="0.01" min="0" placeholder="Lebar buku (cm)"
                                 value="{{ $book->book_width }}">
                         </div>
 
@@ -79,15 +79,15 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Kategori</label>
-                            <select name="category" class="form-control">
-                                <option value="">-- Pilih Kategori --</option>
+                            <select name="category[]" class="form-control" multiple size="4">
                                 @foreach ($kategori as $k)
-                                    <option value="{{ $k->NamaKategori }}"
-                                        {{ $book->category === $k->NamaKategori ? 'selected' : '' }}>
+                                    <option value="{{ $k->KategoriID }}"
+                                        {{ $book->categories->contains('KategoriID', $k->KategoriID) ? 'selected' : '' }}>
                                         {{ $k->NamaKategori }}
                                     </option>
                                 @endforeach
                             </select>
+                            <div class="form-text">Tekan Ctrl/Cmd + klik untuk memilih lebih dari satu kategori.</div>
                         </div>
 
                         <div class="col-md-6 mb-3">

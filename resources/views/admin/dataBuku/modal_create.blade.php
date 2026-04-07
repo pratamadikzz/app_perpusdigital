@@ -47,17 +47,20 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Panjang Buku</label>
-                            <input type="number" name="book_length" class="form-control" placeholder="Nama penerbit">
+                            <input type="number" name="book_length" class="form-control" step="0.01" min="0"
+                                placeholder="Panjang buku (cm)">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Berat Buku</label>
-                            <input type="number" name="book_weight" class="form-control" placeholder="Nama penerbit">
+                            <input type="number" name="book_weight" class="form-control" step="0.01" min="0"
+                                placeholder="Berat buku (gram)">
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Lebar Buku</label>
-                            <input type="number" name="book_width" class="form-control" placeholder="Nama penerbit">
+                            <input type="number" name="book_width" class="form-control" step="0.01" min="0"
+                                placeholder="Lebar buku (cm)">
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -68,16 +71,14 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Kategori</label>
 
-                            <select name="category" class="form-control">
-                                <option value="">-- Pilih Kategori --</option>
-
+                            <select name="category[]" class="form-control" multiple size="4">
                                 @foreach ($kategori as $k)
-                                    <option value="{{ $k->NamaKategori}}">
+                                    <option value="{{ $k->KategoriID}}">
                                         {{ $k->NamaKategori }}
                                     </option>
                                 @endforeach
-
                             </select>
+                            <div class="form-text">Tekan Ctrl/Cmd + klik untuk memilih lebih dari satu kategori.</div>
                         </div>
 
 

@@ -31,9 +31,18 @@ class Book extends Model
     ];
 
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(KategoriBuku::class, 'KategoriID', 'id');
+        return $this->belongsToMany(KategoriBuku::class, 'kategoribuku_relasi', 'BukuID', 'KategoriID');
+    }
+
+    public function getCategoryListAttribute()
+    {
+        $names = $this->categories->pluck('NamaKategori')->filter();
+
+        return $names->isNotEmpty()
+            ? $names->join(', ')
+            : $this->category;
     }
 
     public function favoredBy()

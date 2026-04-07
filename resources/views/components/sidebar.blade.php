@@ -60,6 +60,16 @@
          color: #ffffff;
      }
 
+     .sidebar .badge-count {
+         margin-left: auto;
+         background: #2563eb;
+         color: white;
+         border-radius: 999px;
+         padding: 2px 10px;
+         font-size: 11px;
+         font-weight: 700;
+     }
+
      .sidebar i {
          width: 20px;
          margin-right: 8px;
@@ -455,6 +465,10 @@
          margin-left: -10px;
      }
  </style>
+ @php
+     $adminMessagesCount = \App\Models\Message::where('recipient', 'admin')->count();
+     $adminReviewCount = \App\Models\Review::count();
+ @endphp
  <aside class="sidebar">
 
 
@@ -499,10 +513,10 @@
 
      <hr>
 
-     <a href="{{ route('admin/dashboard') }}" class="active"><i class="fa fa-home"></i>Dashboard</a>
+     <a href="{{ route('admin/dashboard') }}" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}"><i class="fa fa-home"></i>Dashboard</a>
 
      <!-- MASTER DATA -->
-     <div class="menu-dropdown">
+     <div class="menu-dropdown {{ request()->is('admin/dataPengguna*') || request()->is('admin/kategori') || request()->is('admin/dataBuku*') ? 'active' : '' }}">
          <button class="dropdown-btn">
              <span>
                  <i class="fa fa-database"></i>Master Data
@@ -511,7 +525,7 @@
          </button>
 
          <div class="dropdown-content">
-             <div class="pengguna-dropdown">
+             <div class="pengguna-dropdown {{ request()->is('admin/dataPengguna*') ? 'active' : '' }}">
                  <button class="pengguna-btn">
                      <span>
                          <i class="fa fa-users"></i>Data Pengguna
@@ -520,20 +534,22 @@
                  </button>
 
                  <div class="pengguna-content">
-                     <a href="{{ route('admin/dataPengguna/petugas/index') }}" style="color: #7e8a9b"><i
+                     <a href="{{ route('admin.dataPengguna.petugas.index') }}" style="color: #7e8a9b" class="{{ request()->is('admin/dataPengguna/petugas*') ? 'active' : '' }}"><i
                              class="fa fa-user-tie"></i>Petugas</a>
-                     <a href="{{ route('admin/dataPengguna/peminjam/index') }}" style="color: #7e8a9b"><i
+                     <a href="{{ route('admin.dataPengguna.peminjam.index') }}" style="color: #7e8a9b" class="{{ request()->is('admin/dataPengguna/peminjam*') ? 'active' : '' }}"><i
                              class="fa fa-user"></i>Peminjam</a>
                  </div>
              </div>
-             <a href="{{ url('admin/kategori') }}"><i class="fa fa-tags"></i>Data Kategori</a>
-             <a href="{{ route('admin.dataBuku.index') }}"><i class="fa fa-book"></i>Data Buku</a>
+             <a href="{{ url('admin/kategori') }}" class="{{ request()->is('admin/kategori') ? 'active' : '' }}"><i class="fa fa-tags"></i>Data Kategori</a>
+             <a href="{{ route('admin.dataBuku.index') }}" class="{{ request()->is('admin/dataBuku*') ? 'active' : '' }}"><i class="fa fa-book"></i>Data Buku</a>
          </div>
      </div>
-     <a href="{{ route('admin.book.requests') }}"><i class="fa fa-book-reader"></i>Persetujuan</a>
-     <a href="{{ route('admin.peminjaman.index') }}"><i class="fa fa-book-reader"></i>Peminjaman</a>
-     <a href="{{ route('admin.pengembalian') }}"><i class="fa fa-rotate-left"></i>Pengembalian</a>
-     {{-- <a href="#"><i class="fa fa-chart-bar"></i>Laporan</a> --}}
+     <a href="{{ route('admin.book.requests') }}" class="{{ request()->is('admin/book-requests*') ? 'active' : '' }}"><i class="fa fa-book-reader"></i>Persetujuan</a>
+     <a href="{{ route('admin.peminjaman.index') }}" class="{{ request()->is('admin/peminjaman*') ? 'active' : '' }}"><i class="fa fa-book-reader"></i>Peminjaman</a>
+     <a href="{{ route('admin.pengembalian') }}" class="{{ request()->is('admin/pengembalian*') ? 'active' : '' }}"><i class="fa fa-rotate-left"></i>Pengembalian</a>
+     <a href="{{ route('admin.messages.index') }}" class="{{ request()->is('admin/messages*') ? 'active' : '' }}"><i class="fa fa-envelope"></i>Pesan <span class="badge-count">{{ $adminMessagesCount }}</span></a>
+     <a href="{{ route('admin.reviews.index') }}" class="{{ request()->is('admin/reviews*') ? 'active' : '' }}"><i class="fa fa-star"></i>Ulasan <span class="badge-count">{{ $adminReviewCount }}</span></a>
+     <a href="{{ route('admin.laporan.index') }}" class="{{ request()->is('admin/laporan*') ? 'active' : '' }}"><i class="fa fa-chart-bar"></i>Laporan</a>
      {{-- <div class="logout">
          <a href="#"><i class="fa fa-right-from-bracket"></i>Logout</a>
      </div> --}}
@@ -554,5 +570,20 @@
 
      penggunaBtn.addEventListener('click', () => {
          penggunaDropdown.classList.toggle('active');
+     });
+
+     // Auto-expand dropdowns if child is active
+     document.addEventListener('DOMContentLoaded', function() {
+         // Check for active items in main dropdown
+         const activeMainItems = document.querySelectorAll('.dropdown-content a.active');
+         if (activeMainItems.length > 0) {
+             menuDropdown.classList.add('active');
+         }
+
+         // Check for active items in pengguna dropdown
+         const activePenggunaItems = document.querySelectorAll('.pengguna-content a.active');
+         if (activePenggunaItems.length > 0) {
+             penggunaDropdown.classList.add('active');
+         }
      });
  </script>

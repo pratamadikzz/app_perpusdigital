@@ -512,7 +512,7 @@
                         <input type="checkbox" name="remember">
                         Ingat saya
                     </label>
-                    <a href="#">Lupa password?</a>
+                    <a href="{{ route('password.request') }}">Lupa password?</a>
                 </div>
 
                 <button type="submit" class="btn">Login</button>

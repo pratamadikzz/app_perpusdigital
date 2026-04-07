@@ -338,9 +338,9 @@
     </div>
     <div class="nav-dropdown">
         <div class="nav-trigger">
-            <i class="fa-solid fa-envelope"></i>
-            <span>Pesan</span>
-            <i class="fa fa-chevron-down arrow"></i>
+            <!-- <i class="fa-solid fa-envelope"></i> -->
+            <!-- <span>Pesan</span>
+            <i class="fa fa-chevron-down arrow"></i> -->
         </div>
         <div class="nav-menu">
             <a href="#">Pesan dari Andi</a>
@@ -352,9 +352,9 @@
     <!-- NOTIF -->
     <div class="nav-dropdown">
         <div class="nav-trigger">
-            <i class="fa fa-bell"></i>
+            <!-- <i class="fa fa-bell"></i>
             <span>Notif</span>
-            <i class="fa fa-chevron-down arrow"></i>
+            <i class="fa fa-chevron-down arrow"></i> -->
         </div>
         <div class="nav-menu">
             <a href="#">Buku dikembalikan</a>

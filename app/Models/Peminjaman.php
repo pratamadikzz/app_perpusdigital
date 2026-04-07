@@ -10,6 +10,9 @@ class Peminjaman extends Model
 {
     protected $table = 'peminjamans';
 
+    protected $casts = [
+    'tanggal_peminjaman' => 'datetime',
+];
     protected $fillable = [
         'nomor_peminjaman',
         'user_id',

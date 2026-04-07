@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Peminjam;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\KategoriBuku;
 use App\Models\Peminjaman;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,10 +12,12 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books   = Book::with('category')
+        $books   = Book::with('categories')
             ->withAvg('reviews', 'rating')
             ->get();
-        return view('peminjam.index', compact('books'));
+        $kategori = KategoriBuku::all();
+
+        return view('peminjam.index', compact('books', 'kategori'));
     }
 
     public function show(Book $book)

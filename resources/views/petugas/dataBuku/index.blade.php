@@ -6,7 +6,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Document</title>
+    <title>Data Buku - Petugas</title>
+    <style>
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+            font-family: Inter, system-ui, sans-serif;
+        }
+
+        .main {
+            min-height: 100vh;
+        }
+
+        .content {
+            padding: 32px;
+        }
+
+        .page-heading {
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-cards {
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .summary-card {
+            background: #ffffff;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 18px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+        }
+
+        .summary-card h5 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 0.5rem;
+        }
+
+        .card {
+            border-radius: 20px;
+        }
+
+        .table thead th {
+            background: #0f172a;
+            color: #fff;
+            border: none;
+        }
+
+        .table tbody tr {
+            background: #fff;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .badge-status {
+            border-radius: 999px;
+            font-size: 0.75rem;
+            padding: 0.45rem 0.7rem;
+            font-weight: 700;
+        }
+
+        .table-responsive {
+            overflow: hidden;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,16 +93,79 @@
             <div class="container-fluid py-4">
 
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="page-heading d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
                     <div>
-                        <h4 class="fw-bold mb-0">Data Buku</h4>
-                        <small class="text-muted">Semua perubahan harus disetujui admin</small>
+                        <h4 class="fw-bold mb-1">Data Buku</h4>
+                        <p class="text-muted mb-0">Kelola koleksi buku dan ajukan perubahan ke admin.</p>
                     </div>
 
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                    <button class="btn btn-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
                         + Tambah Buku
                     </button>
                 </div>
+
+                <div class="d-flex flex-column flex-lg-row summary-cards">
+                    <div class="summary-card col">
+                        <h5>Total Buku</h5>
+                        <div class="value">{{ $books->count() }}</div>
+                    </div>
+                    <div class="summary-card col">
+                        <h5>Request Pending</h5>
+                        <div class="value">{{ isset($bookRequests) ? $bookRequests->count() : 0 }}</div>
+                    </div>
+                </div>
+
+                @if(session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
+                @if(isset($bookRequests) && $bookRequests->count())
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-header bg-warning text-dark">
+                            <strong>Permintaan Buku Pending</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Cover</th>
+                                            <th>Judul</th>
+                                            <th>Penulis</th>
+                                            <th>Penerbit</th>
+                                            <th>Kategori</th>
+                                            <th>Stok</th>
+                                            <th>Tahun Terbit</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($bookRequests as $request)
+                                            <tr>
+                                                <td>
+                                                    @if($request->cover)
+                                                        <img src="{{ asset('storage/' . $request->cover) }}" width="50" class="rounded shadow-sm">
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                                <td class="fw-semibold">{{ $request->title }}</td>
+                                                <td>{{ $request->author }}</td>
+                                                <td>{{ $request->publisher }}</td>
+                                                <td>{{ $request->category }}</td>
+                                                <td>{{ $request->stock }}</td>
+                                                <td>{{ $request->publication_year }}</td>
+                                                <td>
+                                                    <span class="badge bg-warning text-dark">Menunggu Persetujuan</span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Card Table -->
                 <div class="card shadow-sm border-0">

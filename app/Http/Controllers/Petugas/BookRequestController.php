@@ -13,8 +13,9 @@ class BookRequestController extends Controller
     public function index()
     {
         $books = Book::latest()->get();
+        $bookRequests = BookRequest::where('status', 'pending')->latest()->get();
         $kategori = KategoriBuku::all();
-        return view('petugas.dataBuku.index', compact('books', 'kategori'));
+        return view('petugas.dataBuku.index', compact('books', 'kategori', 'bookRequests'));
     }
 
     // =========================
@@ -26,7 +27,8 @@ class BookRequestController extends Controller
             'title' => 'required',
             'author' => 'required',
             'publisher' => 'required',
-            'category' => 'required',
+            'category' => 'required|array|min:1',
+            'category.*' => 'required|exists:kategoribuku,KategoriID',
             'stock' => 'required|numeric',
             'isbn' => 'nullable',
             'languange' => 'nullable',
@@ -45,12 +47,16 @@ class BookRequestController extends Controller
             $coverPath = $request->file('cover')->store('books', 'public');
         }
 
+        $kategoriNames = KategoriBuku::whereIn('KategoriID', $request->category)
+            ->pluck('NamaKategori')
+            ->toArray();
+
         BookRequest::create([
             'action' => 'create',
             'title' => $request->title,
             'author' => $request->author,
             'publisher' => $request->publisher,
-            'category' => $request->category,
+            'category' => implode(', ', $kategoriNames),
             'stock' => $request->stock,
             'isbn' => $request->isbn,
             'languange' => $request->languange,
@@ -77,7 +83,8 @@ class BookRequestController extends Controller
             'title' => 'required',
             'author' => 'required',
             'publisher' => 'required',
-            'category' => 'required',
+            'category' => 'required|array|min:1',
+            'category.*' => 'required|exists:kategoribuku,KategoriID',
             'stock' => 'required|numeric',
             'isbn' => 'nullable',
             'languange' => 'nullable',
@@ -96,13 +103,17 @@ class BookRequestController extends Controller
             $coverPath = $request->file('cover')->store('books', 'public');
         }
 
+        $kategoriNames = KategoriBuku::whereIn('KategoriID', $request->category)
+            ->pluck('NamaKategori')
+            ->toArray();
+
         BookRequest::create([
             'book_id' => $book->id,
             'action' => 'update',
             'title' => $request->title,
             'author' => $request->author,
             'publisher' => $request->publisher,
-            'category' => $request->category,
+            'category' => implode(', ', $kategoriNames),
             'stock' => $request->stock,
             'isbn' => $request->isbn,
             'languange' => $request->languange,

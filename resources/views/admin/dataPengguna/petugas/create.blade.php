@@ -598,7 +598,7 @@
 
                     {{-- Form Actions --}}
                     <div class="form-actions">
-                        <a href="{{ route('admin/dataPengguna/petugas/index') }}" class="btn btn-secondary">
+                        <a href="{{ route('admin.dataPengguna.petugas.index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Kembali ke Daftar Petugas
                         </a>
                         <button type="submit" class="btn btn-primary">

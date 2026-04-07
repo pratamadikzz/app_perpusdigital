@@ -12,7 +12,15 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class LaporanController extends Controller
 {
     /**
-     * Laporan Data Buku
+     * Halaman Laporan
+     */
+    public function index()
+    {
+        return view('admin.laporan.index');
+    }
+
+    /**
+     * Laporan Data Buku - PDF
      */
     public function buku()
     {
@@ -22,7 +30,7 @@ class LaporanController extends Controller
     }
 
     /**
-     * Laporan Data Peminjam / User
+     * Laporan Data Peminjam / User - PDF
      */
     public function peminjam()
     {
@@ -32,7 +40,7 @@ class LaporanController extends Controller
     }
 
     /**
-     * Laporan Data Petugas
+     * Laporan Data Petugas - PDF
      */
     public function petugas()
     {
@@ -42,7 +50,7 @@ class LaporanController extends Controller
     }
 
     /**
-     * Laporan Data Peminjaman
+     * Laporan Data Peminjaman - PDF
      */
     public function peminjaman()
     {
@@ -52,7 +60,7 @@ class LaporanController extends Controller
     }
 
     /**
-     * Laporan Data Pengembalian
+     * Laporan Data Pengembalian - PDF
      */
     public function pengembalian()
     {

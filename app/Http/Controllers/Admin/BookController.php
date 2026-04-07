@@ -13,7 +13,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::latest()->get();
+        $books = Book::orderBy('id', 'desc')->get();
         $kategori = KategoriBuku::all();
         return view('admin.dataBuku.index', compact('books', 'kategori'));
     }
@@ -30,7 +30,8 @@ class BookController extends Controller
             'title' => 'required',
             'author' => 'required',
             'publisher' => 'required',
-            'category' => 'required',
+            'category' => 'required|array|min:1',
+            'category.*' => 'required|exists:kategoribuku,KategoriID',
             'stock' => 'required|numeric',
             'isbn' => 'required|string|max:250',
             'languange' => 'required|string|max:250',
@@ -52,14 +53,16 @@ class BookController extends Controller
                 ->store('covers', 'public');
         }
 
-        // $kategori = KategoriBuku::find($request->category);
+        $kategoriNames = KategoriBuku::whereIn('KategoriID', $request->category)
+            ->pluck('NamaKategori')
+            ->toArray();
 
         $buku = Book::create([
             'cover' => $coverPath,
             'title' => $request->title,
             'author' => $request->author,
             'publisher' => $request->publisher,
-            'category' => $request->category,
+            'category' => implode(', ', $kategoriNames),
             'stock' => $request->stock,
             'isbn' => $request->isbn,
             'languange' => $request->languange,
@@ -71,6 +74,8 @@ class BookController extends Controller
             'description' => $request->description
         ]);
 
+        $buku->categories()->sync($request->category);
+
 
 
 
@@ -79,7 +84,7 @@ class BookController extends Controller
         //     'KategoriID' => $request->KategoriID
         // ]);
 
-        return back()->with('success', 'Buku ditambahkan');
+        return redirect()->route('admin.dataBuku.index')->with('success', 'Buku ditambahkan');
     }
 
 
@@ -102,11 +107,15 @@ class BookController extends Controller
             'description' => 'required',
         ]);
 
+        $kategoriNames = KategoriBuku::whereIn('KategoriID', $request->category)
+            ->pluck('NamaKategori')
+            ->toArray();
+
         $data = [
             'title' => $request->title,
             'author' => $request->author,
             'publisher' => $request->publisher,
-            'category' => $request->category,
+            'category' => implode(', ', $kategoriNames),
             'stock' => $request->stock,
             'isbn' => $request->isbn,
             'languange' => $request->languange,
@@ -124,6 +133,7 @@ class BookController extends Controller
         }
 
         $book->update($data);
+        $book->categories()->sync($request->category);
 
         return back()->with('success', 'Buku diperbarui');
     }

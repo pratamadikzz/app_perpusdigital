@@ -66,6 +66,16 @@
         position: relative;
     }
 
+    .sidebar .badge-count {
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        border-radius: 999px;
+        padding: 2px 10px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
     .sidebar a:hover {
         background: rgba(255, 255, 255, 0.15);
         transform: translateX(5px);
@@ -109,6 +119,11 @@
     .dropdown-btn:hover {
         background: rgba(255, 255, 255, 0.15);
         transform: translateX(5px);
+    }
+
+    .dropdown-btn.active {
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .dropdown-btn i {
@@ -185,28 +200,34 @@
     }
 </style>
 </style>
+@php
+    $petugasMessagesCount = \App\Models\Message::where('recipient', 'petugas')->count();
+    $petugasReviewCount = \App\Models\Review::count();
+@endphp
 <!-- Sidebar -->
 <div class="sidebar">
     <h2><i class="fa fa-book-open"></i> PustakaDigital</h2>
 
-    <a href="{{ url('/petugas/dashboard') }}" class="active"><i class="fa fa-home"></i> Dashboard</a>
+    <a href="{{ url('/petugas/dashboard') }}" class="{{ request()->is('petugas/dashboard') ? 'active' : '' }}"><i class="fa fa-home"></i> Dashboard</a>
 
     <!-- Master Data Dropdown -->
-    <div class="menu-dropdown">
+    <div class="menu-dropdown {{ request()->is('petugas/dataBuku*') || request()->is('petugas/kategori*') ? 'active' : '' }}">
         <button class="dropdown-btn">
             <i class="fa fa-database"></i> <span>Master Data</span>
             <span class="arrow">▾</span>
         </button>
 
         <div class="dropdown-content">
-            <a href="{{ url('petugas/dataBuku') }}"><i class="fa fa-book"></i> Data Buku</a>
-            <a href="{{ route('petugas.dataKategori.index') }}"><i class="fa fa-tags"></i> Data Kategori</a>
+            <a href="{{ url('petugas/dataBuku') }}" class="{{ request()->is('petugas/dataBuku*') ? 'active' : '' }}"><i class="fa fa-book"></i> Data Buku</a>
+            <a href="{{ route('petugas.dataKategori.index') }}" class="{{ request()->is('petugas/kategori*') ? 'active' : '' }}"><i class="fa fa-tags"></i> Data Kategori</a>
         </div>
     </div>
 
-    <a href="{{ route('petugas.peminjaman.index') }}"><i class="fa fa-arrow-right-arrow-left"></i> Peminjaman</a>
-    <a href="{{ route('petugas.pengembalian.index') }}"><i class="fa fa-rotate-left"></i> Pengembalian</a>
-    <!-- <a href="#"><i class="fa fa-file-alt"></i> Laporan</a> -->
+    <a href="{{ route('petugas.peminjaman.index') }}" class="{{ request()->is('petugas/peminjaman*') ? 'active' : '' }}"><i class="fa fa-arrow-right-arrow-left"></i> Peminjaman</a>
+    <a href="{{ route('petugas.pengembalian.index') }}" class="{{ request()->is('petugas/pengembalian*') ? 'active' : '' }}"><i class="fa fa-rotate-left"></i> Pengembalian</a>
+    <a href="{{ route('petugas.messages.index') }}" class="{{ request()->is('petugas/messages*') ? 'active' : '' }}"><i class="fa fa-envelope"></i> Pesan <span class="badge-count">{{ $petugasMessagesCount }}</span></a>
+    <a href="{{ route('petugas.reviews.index') }}" class="{{ request()->is('petugas/reviews*') ? 'active' : '' }}"><i class="fa fa-star"></i> Ulasan <span class="badge-count">{{ $petugasReviewCount }}</span></a>
+    <a href="{{ route('petugas.laporan.index') }}" class="{{ request()->is('petugas/laporan*') ? 'active' : '' }}"><i class="fa fa-file-alt"></i> Laporan</a>
     <a href="{{ route('staff.logout') }}"><i class="fa fa-sign-out-alt"></i> Logout</a>
 </div>
 
@@ -215,6 +236,17 @@
     document.querySelectorAll('.dropdown-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             this.parentElement.classList.toggle('active');
+        });
+    });
+
+    // Auto-expand dropdown if child is active
+    document.addEventListener('DOMContentLoaded', function() {
+        const activeDropdownItems = document.querySelectorAll('.dropdown-content a.active');
+        activeDropdownItems.forEach(item => {
+            const dropdown = item.closest('.menu-dropdown');
+            if (dropdown) {
+                dropdown.classList.add('active');
+            }
         });
     });
 </script>

@@ -20,6 +20,8 @@ class PeminjamanController extends Controller
             'tanggal_pengembalian' => 'required|date|after:tanggal_peminjaman',
         ]);
 
+        // dd($request->all()); // 🔥 Debugging: Pastikan variabel dan properti yang digunakan benar
+
         // Cek apakah user sudah memiliki peminjaman aktif
         $peminjamanAktif = Peminjaman::where('user_id', Auth::id())
             ->whereIn('status', ['pending', 'aktif', 'menunggu'])

@@ -138,9 +138,9 @@
         <!-- PESAN -->
         <div class="nav-dropdown">
             <div class="nav-trigger">
-                <i class="fa-solid fa-envelope"></i>
+                <!-- <i class="fa-solid fa-envelope"></i>
                 <span>Pesan</span>
-                <i class="fa fa-chevron-down arrow"></i>
+                <i class="fa fa-chevron-down arrow"></i> -->
             </div>
             <div class="nav-menu">
                 <a href="#">Pesan dari Andi</a>
@@ -152,7 +152,7 @@
         <!-- NOTIF -->
         <div class="nav-dropdown">
             <div class="nav-trigger position-relative">
-                <i class="fa fa-bell"></i>
+                <!-- <i class="fa fa-bell"></i>
                 <span>Notif</span>
 
                 @if (isset($pendingCount) && $pendingCount > 0)
@@ -162,17 +162,17 @@
                 @endif
 
 
-                <i class="fa fa-chevron-down arrow"></i>
+                <i class="fa fa-chevron-down arrow"></i> -->
             </div>
 
             <div class="nav-menu">
-                @if (isset($pendingCount) && $pendingCount > 0)
+                <!-- @if (isset($pendingCount) && $pendingCount > 0)
                     <a href="{{ url('/admin/book-requests') }}">
                         🔔 {{ $pendingCount }} Request Buku Pending
                     </a>
                 @else
                     <a href="#">Tidak ada notifikasi</a>
-                @endif
+                @endif -->
             </div>
         </div>
 

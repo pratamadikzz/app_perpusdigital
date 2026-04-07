@@ -6,7 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Data Kategori</title>
+    <title>Data Kategori - Petugas</title>
+    <style>
+        body {
+            background: #eef2ff;
+            color: #1e293b;
+            font-family: Inter, system-ui, sans-serif;
+        }
+
+        .main {
+            min-height: 100vh;
+        }
+
+        .content {
+            padding: 32px;
+        }
+
+        .page-heading {
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.05);
+        }
+
+        .table thead th {
+            background: #312e81;
+            color: #fff;
+            border: none;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .btn-primary {
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.18);
+        }
+
+        .modal-content {
+            border-radius: 20px;
+        }
+
+        .empty-state {
+            padding: 2rem;
+            text-align: center;
+            color: #475569;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,13 +67,13 @@
             <div class="container-fluid py-4">
 
                 <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="page-heading d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
                     <div>
-                        <h4 class="fw-bold mb-0">Data Kategori</h4>
-                        <small class="text-muted">Kelola kategori buku</small>
+                        <h4 class="fw-bold mb-1">Data Kategori</h4>
+                        <p class="text-muted mb-0">Kelola kategori buku agar pencarian menjadi lebih mudah.</p>
                     </div>
 
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                    <button class="btn btn-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
                         + Tambah Kategori
                     </button>
                 </div>
@@ -43,17 +92,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($kategori as $index => $kat)
-                                        <tr>
-                                            <td class="text-center">{{ $index + 1 }}</td>
-                                            <td>{{ $kat->NamaKategori }}</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-sm btn-warning">Edit</button>
-                                                <button class="btn btn-sm btn-danger">Hapus</button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                                @forelse ($kategori as $index => $kat)
+                                    <tr>
+                                        <td class="text-center">{{ $index + 1 }}</td>
+                                        <td>{{ $kat->NamaKategori }}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-warning">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger">Hapus</button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="empty-state">
+                                                Tidak ada kategori tersedia.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
                             </table>
                         </div>
                     </div>

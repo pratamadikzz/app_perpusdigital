@@ -33,9 +33,7 @@
     });
 
     //data petugas
-    Route::get('admin/dataPengguna/petugas/index', function () {
-        return view('admin/dataPengguna/petugas/index');
-    })->name('admin/dataPengguna/petugas/index');
+    Route::get('admin/dataPengguna/petugas/index', [StaffController::class, 'index'])->name('admin.dataPengguna.petugas.index');
 
 
     //admin
@@ -43,7 +41,7 @@
 
 
     //data peminjam
-    Route::get('admin/dataPengguna/peminjam/index', [PeminjamController::class, 'index'])->name('admin/dataPengguna/peminjam/index');
+    Route::get('admin/dataPengguna/peminjam/index', [PeminjamController::class, 'index'])->name('admin.dataPengguna.peminjam.index');
 
     //peminjam
     Route::get('/peminjam', [PeminjamBookController::class, 'index'])->name('peminjam.index');
@@ -75,6 +73,12 @@
 
     Route::post('/login', [AuthController::class, 'loginProcess'])->name('login.process');
 
+    // Forgot Password for Users
+    Route::get('/auth/forgot-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showForgotForm'])->name('password.request');
+    Route::post('/auth/forgot-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLink'])->name('password.email');
+    Route::get('/auth/reset-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+    Route::post('/auth/reset-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'resetPassword'])->name('password.update');
+
     //register
     Route::get('register', function () {
         return view('auth/register');
@@ -86,7 +90,6 @@
 
     Route::get('admin/dataPengguna/petugas/create', [StaffController::class, 'create']);
     Route::post('admin/dataPengguna/petugas/store', [StaffController::class, 'store']);
-    Route::get('admin/dataPengguna/petugas/index', [StaffController::class, 'index'])->name('admin/dataPengguna/petugas/index');
 
     // halaman login
     Route::get('/petugas/login', [StaffAuthController::class, 'showLogin'])
@@ -95,6 +98,12 @@
     // proses login
     Route::post('/petugas/login', [StaffAuthController::class, 'login'])
         ->name('petugas.login.process');
+
+    // Forgot Password for Staff
+    Route::get('/petugas/forgot-password', [App\Http\Controllers\Admin\StaffForgotPasswordController::class, 'showForgotForm'])->name('staff.password.request');
+    Route::post('/petugas/forgot-password', [App\Http\Controllers\Admin\StaffForgotPasswordController::class, 'sendResetLink'])->name('staff.password.email');
+    Route::get('/petugas/reset-password', [App\Http\Controllers\Admin\StaffForgotPasswordController::class, 'showResetForm'])->name('staff.password.reset');
+    Route::post('/petugas/reset-password', [App\Http\Controllers\Admin\StaffForgotPasswordController::class, 'resetPassword'])->name('staff.password.update');
 
     Route::view('/petugas/dashboard', 'petugas.dashboard');
 
@@ -130,6 +139,14 @@
         Route::get('/book-requests', [BookApprovalController::class, 'index'])->name('admin.book.requests');
         Route::post('/book-requests/approve/{requestData}', [BookApprovalController::class, 'approve']);
         Route::post('/book-requests/reject/{requestData}', [BookApprovalController::class, 'reject']);
+        Route::get('/messages', function () {
+            $messages = \App\Models\Message::where('recipient', 'admin')->orderBy('created_at', 'desc')->get();
+            return view('admin.messages.index', compact('messages'));
+        })->name('admin.messages.index');
+        Route::get('/reviews', function () {
+            $reviews = \App\Models\Review::with(['user', 'book'])->orderBy('created_at', 'desc')->get();
+            return view('admin.reviews.index', compact('reviews'));
+        })->name('admin.reviews.index');
     });
 
     Route::get('peminjam/peminjaman/form', function () {
@@ -150,6 +167,9 @@
         Route::post('/peminjaman/store', [PeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::get('/peminjaman/{id}/pdf', [PeminjamanController::class, 'generatePDF'])->name('peminjaman.pdf');
         Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
+
+        Route::get('/peminjam/settings', [AuthController::class, 'showProfile'])->name('peminjam.settings');
+        Route::post('/peminjam/settings/update', [AuthController::class, 'updateProfile'])->name('peminjam.settings.update');
     });
 
 
@@ -183,6 +203,16 @@
 
         Route::post('/pengembalian/tolak/{id}', [PetugasPengembalian::class, 'tolak'])
             ->name('petugas.pengembalian.tolak');
+
+        Route::get('/messages', function () {
+            $messages = \App\Models\Message::where('recipient', 'petugas')->orderBy('created_at', 'desc')->get();
+            return view('petugas.messages.index', compact('messages'));
+        })->name('petugas.messages.index');
+
+        Route::get('/reviews', function () {
+            $reviews = \App\Models\Review::with(['user', 'book'])->orderBy('created_at', 'desc')->get();
+            return view('petugas.reviews.index', compact('reviews'));
+        })->name('petugas.reviews.index');
 
         Route::get('/settings', [StaffController::class, 'settings'])->name('petugas.settings');
         Route::post('/settings/update', [StaffController::class, 'updateSettings'])->name('petugas.settings.update');
@@ -220,9 +250,24 @@
 
     // Route Laporan PDF
     Route::prefix('admin/laporan')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('admin.laporan.index');
         Route::get('/buku', [LaporanController::class, 'buku'])->name('laporan.buku');
         Route::get('/peminjam', [LaporanController::class, 'peminjam'])->name('laporan.peminjam');
         Route::get('/petugas', [LaporanController::class, 'petugas'])->name('laporan.petugas');
         Route::get('/peminjaman', [LaporanController::class, 'peminjaman'])->name('laporan.peminjaman');
         Route::get('/pengembalian', [LaporanController::class, 'pengembalian'])->name('laporan.pengembalian');
     });
+
+    // Route Laporan PDF Petugas
+    Route::prefix('petugas/laporan')->middleware('staff.auth')->group(function () {
+        Route::get('/', [App\Http\Controllers\Petugas\LaporanController::class, 'index'])->name('petugas.laporan.index');
+        Route::get('/buku', [App\Http\Controllers\Petugas\LaporanController::class, 'buku'])->name('petugas.laporan.buku');
+        Route::get('/peminjam', [App\Http\Controllers\Petugas\LaporanController::class, 'peminjam'])->name('petugas.laporan.peminjam');
+        Route::get('/petugas', [App\Http\Controllers\Petugas\LaporanController::class, 'petugas'])->name('petugas.laporan.petugas');
+        Route::get('/peminjaman', [App\Http\Controllers\Petugas\LaporanController::class, 'peminjaman'])->name('petugas.laporan.peminjaman');
+        Route::get('/pengembalian', [App\Http\Controllers\Petugas\LaporanController::class, 'pengembalian'])->name('petugas.laporan.pengembalian');
+        Route::get('/kategori', [App\Http\Controllers\Petugas\LaporanController::class, 'kategori'])->name('petugas.laporan.kategori');
+    });
+
+// Contact form route
+Route::post('/contact/submit', [App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');

@@ -81,15 +81,20 @@
             <a href="{{ route('favorit.index') }}" title="Favorit">
                 <i data-lucide="heart"></i>
             </a>
-            <a href="#" title="Koleksi Buku">
+            <!-- <a href="#" title="Koleksi Buku">
                 <i data-lucide="book-open"></i>
-            </a>
-            <a href="#" title="Ulasan Buku">
+            </a> -->
+            <!-- <a href="#" title="Ulasan Buku">
                 <i data-lucide="message-square"></i>
-            </a>
+            </a> -->
             <a href="{{ route('peminjam.riwayat') }}" title="Riwayat">
                 <i data-lucide="history"></i>
             </a>
+            @auth
+                <a href="{{ route('peminjam.settings') }}" title="Profil Saya">
+                    <i data-lucide="user"></i>
+                </a>
+            @endauth
         </div>
 
 

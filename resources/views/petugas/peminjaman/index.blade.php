@@ -12,31 +12,85 @@
     <style>
         body {
             margin: 0;
-            background-color: #f4f6f9;
-        }
-
-        .layout-wrapper {
-            display: flex;
+            background-color: #eff4ff;
+            color: #0f172a;
+            font-family: Inter, system-ui, sans-serif;
         }
 
         .main-content {
             flex: 1;
             min-height: 100vh;
             margin-left: 250px;
-            /* penting kalau sidebar pakai fixed */
         }
 
         .content-wrapper {
-            padding: 30px;
+            padding: 32px;
+        }
+
+        .page-heading {
+            margin-bottom: 1.5rem;
+        }
+
+        .page-heading h3 {
+            font-weight: 700;
         }
 
         .card {
-            border-radius: 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.06);
         }
 
-        .table th {
-            background-color: #212529;
-            color: white;
+        .card-body {
+            padding: 1.75rem;
+        }
+
+        .table thead th {
+            background-color: #1e293b;
+            color: #fff;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .badge-status {
+            border-radius: 999px;
+            font-size: 0.8rem;
+            padding: 0.45rem 0.75rem;
+            font-weight: 700;
+        }
+
+        .status-pending {
+            background: #facc15;
+            color: #1e293b;
+        }
+
+        .status-aktif {
+            background: #22c55e;
+            color: #0f172a;
+        }
+
+        .status-menunggu {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .status-dikembalikan {
+            background: #64748b;
+            color: #ffffff;
+        }
+
+        .status-ditolak {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .btn-action {
+            min-width: 120px;
         }
     </style>
 </head>
@@ -94,15 +148,15 @@
                                         <td>{{ $item->buku->title }}</td>
                                         <td>
                                             @if ($item->status == 'pending')
-                                                <span class="badge bg-warning text-dark">Pending</span>
+                                                <span class="badge badge-status status-pending">Pending</span>
                                             @elseif($item->status == 'aktif')
-                                                <span class="badge bg-success">Sedang Dipinjam</span>
+                                                <span class="badge badge-status status-aktif">Sedang Dipinjam</span>
                                             @elseif($item->status == 'menunggu')
-                                                <span class="badge bg-info">Menunggu Persetujuan Pengembalian</span>
+                                                <span class="badge badge-status status-menunggu">Menunggu Persetujuan</span>
                                             @elseif($item->status == 'dikembalikan')
-                                                <span class="badge bg-secondary">Sudah Dikembalikan</span>
+                                                <span class="badge badge-status status-dikembalikan">Sudah Dikembalikan</span>
                                             @elseif($item->status == 'ditolak')
-                                                <span class="badge bg-danger">Ditolak</span>
+                                                <span class="badge badge-status status-ditolak">Ditolak</span>
                                             @endif
                                         </td>
                                         <td>
@@ -111,7 +165,7 @@
                                                     <form action="{{ route('petugas.peminjaman.approve', $item->id) }}"
                                                         method="POST">
                                                         @csrf
-                                                        <button class="btn btn-success btn-sm">
+                                                        <button class="btn btn-success btn-sm btn-action">
                                                             Approve
                                                         </button>
                                                     </form>
@@ -119,7 +173,7 @@
                                                     <form action="{{ route('petugas.peminjaman.reject', $item->id) }}"
                                                         method="POST">
                                                         @csrf
-                                                        <button class="btn btn-danger btn-sm">
+                                                        <button class="btn btn-danger btn-sm btn-action">
                                                             Tolak
                                                         </button>
                                                     </form>

@@ -15,10 +15,23 @@ use Carbon\Carbon;
 
 class StaffController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $peminjamans = Peminjaman::with(['user', 'book']);
-        $staffs = staff::all();
+
+        // Handle search functionality
+        $search = $request->get('search');
+        $staffsQuery = staff::query();
+
+        if ($search) {
+            $staffsQuery->where(function($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                      ->orWhere('username', 'LIKE', '%' . $search . '%')
+                      ->orWhere('email', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        $staffs = $staffsQuery->get();
 
         // Stats untuk sidebar berdasarkan role
         if (session('staff_role') === 'admin') {
@@ -38,7 +51,7 @@ class StaffController extends Controller
             $dipinjam = 0;
         }
 
-        return view('admin.dataPengguna.petugas.index', compact('staffs', 'userAktif', 'pinjamHariIni', 'totalPengembalian', 'dipinjam'));
+        return view('admin.dataPengguna.petugas.index', compact('staffs', 'userAktif', 'pinjamHariIni', 'totalPengembalian', 'dipinjam', 'search'));
     }
 
     public function create()
@@ -114,25 +127,20 @@ class StaffController extends Controller
             return redirect('/petugas/login');
         }
 
-        // Stats untuk sidebar berdasarkan role
+        // Stats untuk sidebar sama untuk admin dan petugas, tapi view dipilih berdasarkan route.
         if (session('staff_role') === 'admin') {
             $userAktif = User::where('created_at', '>=', Carbon::now()->subDays(30))->count();
-            $pinjamHariIni = Peminjaman::whereDate('tanggal_peminjaman', Carbon::today())->count();
-            $totalPengembalian = Peminjaman::whereIn('status', ['dikembalikan', 'selesai'])->count();
-            $dipinjam = Peminjaman::whereIn('status', ['aktif', 'menunggu'])->count();
-        } elseif (session('staff_role') === 'petugas') {
-            $userAktif = 0; // Petugas tidak perlu lihat user aktif
-            $pinjamHariIni = Peminjaman::whereDate('tanggal_peminjaman', Carbon::today())->count();
-            $totalPengembalian = Peminjaman::whereIn('status', ['dikembalikan', 'selesai'])->count();
-            $dipinjam = Peminjaman::whereIn('status', ['aktif', 'menunggu'])->count();
         } else {
-            $userAktif = User::where('created_at', '>=', Carbon::now()->subDays(30))->count();
-            $pinjamHariIni = Peminjaman::whereDate('tanggal_peminjaman', Carbon::today())->count();
-            $totalPengembalian = Peminjaman::whereIn('status', ['dikembalikan', 'selesai'])->count();
-            $dipinjam = 0;
+            $userAktif = 0; // Petugas tidak perlu lihat user aktif
         }
 
-        return view('petugas.settings', compact('staff', 'userAktif', 'pinjamHariIni', 'totalPengembalian', 'dipinjam'));
+        $pinjamHariIni = Peminjaman::whereDate('tanggal_peminjaman', Carbon::today())->count();
+        $totalPengembalian = Peminjaman::whereIn('status', ['dikembalikan', 'selesai'])->count();
+        $dipinjam = Peminjaman::whereIn('status', ['aktif', 'menunggu'])->count();
+
+        $view = request()->routeIs('admin.*') ? 'admin.settings' : 'petugas.settings';
+
+        return view($view, compact('staff', 'userAktif', 'pinjamHariIni', 'totalPengembalian', 'dipinjam'));
     }
 
     public function updateSettings(Request $request)

@@ -32,25 +32,12 @@
             <span>Semua</span>
         </button>
 
-        <button class="category" data-category="fiksi">
-            <i data-lucide="book-text"></i>
-            <span>Fiksi</span>
-        </button>
-
-        <button class="category" data-category="nonfiksi">
-            <i data-lucide="library"></i>
-            <span>Non Fiksi</span>
-        </button>
-
-        <button class="category" data-category="anak">
-            <i data-lucide="baby"></i>
-            <span>Anak</span>
-        </button>
-
-        <button class="category" data-category="teknologi">
-            <i data-lucide="laptop"></i>
-            <span>Teknologi</span>
-        </button>
+        @foreach ($kategori as $kat)
+            <button class="category" data-category="{{ Str::slug($kat->NamaKategori, '-') }}">
+                <i data-lucide="book-text"></i>
+                <span>{{ $kat->NamaKategori }}</span>
+            </button>
+        @endforeach
     </div>
 
 
@@ -431,6 +418,65 @@
             box-shadow: 0 4px 12px rgba(27, 39, 65, 0.3);
             transform: translateY(-2px);
         }
+
+        .read-more-btn {
+            border: none;
+            background: transparent;
+            color: #1b2741;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 10px;
+            text-decoration: underline;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: min(600px, 100%);
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            border: none;
+            background: transparent;
+            font-size: 22px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .modal-title {
+            margin-bottom: 12px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .modal-description {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+        }
     </style>
 
     <div class="container">
@@ -441,7 +487,15 @@
 
             <!-- BOOK 1 -->
             @foreach ($books as $book)
-                <div class="book">
+                @php
+                    $categorySlugs = $book->categories->pluck('NamaKategori')
+                        ->map(function ($name) {
+                            return \Illuminate\Support\Str::slug($name, '-');
+                        })
+                        ->filter()
+                        ->join(' ');
+                @endphp
+                <div class="book" data-categories="{{ $categorySlugs }}">
                     @auth
                         <button type="button" class="wishlist-btn" data-book-id="{{ $book->id }}"
                             data-is-favorited="{{ auth()->user()->favorites->contains($book->id) ? 'true' : 'false' }}">
@@ -476,6 +530,13 @@
                         <div class="book-back">
                             <h3>Sinopsis</h3>
                             <p>{{ Str::limit($book->description, 120) }}</p>
+                            @if (Str::length($book->description) > 120)
+                                <button type="button" class="btn btn-sm btn-link p-0 text-primary read-more-btn"
+                                    data-book-id="{{ $book->id }}">
+                                    Lihat Selengkapnya
+                                </button>
+                            @endif
+                            <div class="book-description-text" style="display:none;">{{ $book->description }}</div>
                         </div>
                     </div>
 
@@ -487,6 +548,13 @@
 
     </div>
 
+    <div id="descriptionModal" class="modal-overlay" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button type="button" class="modal-close" aria-label="Tutup">×</button>
+            <h3 id="modalTitle" class="modal-title">Sinopsis Lengkap</h3>
+            <p id="modalDescription" class="modal-description"></p>
+        </div>
+    </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
@@ -495,7 +563,66 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category');
+            const bookCards = document.querySelectorAll('.book');
             const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+            const modalOverlay = document.getElementById('descriptionModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const closeModalButton = modalOverlay.querySelector('.modal-close');
+            const readMoreButtons = document.querySelectorAll('.read-more-btn');
+
+            readMoreButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const bookCard = this.closest('.book');
+                    const descriptionText = bookCard.querySelector('.book-description-text').textContent.trim();
+                    const bookTitle = bookCard.querySelector('.book-title').textContent.trim();
+
+                    modalTitle.textContent = `Sinopsis ${bookTitle}`;
+                    modalDescription.textContent = descriptionText;
+                    modalOverlay.classList.add('show');
+                    modalOverlay.setAttribute('aria-hidden', 'false');
+                });
+            });
+
+            function closeModal() {
+                modalOverlay.classList.remove('show');
+                modalOverlay.setAttribute('aria-hidden', 'true');
+            }
+
+            closeModalButton.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function(event) {
+                if (event.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modalOverlay.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const selectedCategory = this.dataset.category;
+
+                    bookCards.forEach(card => {
+                        const categories = card.dataset.categories
+                            ? card.dataset.categories.split(' ').filter(Boolean)
+                            : [];
+
+                        if (selectedCategory === 'all' || categories.includes(selectedCategory)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
 
             wishlistButtons.forEach(button => {
                 button.addEventListener('click', function(e) {

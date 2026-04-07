@@ -256,6 +256,154 @@
             line-height: 1.6;
         }
 
+        /* Book Cards */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .book-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.06);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            overflow: hidden;
+            transition: transform var(--transition), box-shadow var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+        }
+
+        .book-cover {
+            height: 200px;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover .cover-image {
+            transform: scale(1.05);
+        }
+
+        .no-cover {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .no-cover i {
+            font-size: 48px;
+            margin-bottom: 8px;
+            opacity: 0.6;
+        }
+
+        .no-cover span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .book-info {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .book-title {
+            margin: 0 0 8px 0;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .book-author {
+            margin: 0 0 4px 0;
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .book-category {
+            margin: 0 0 12px 0;
+            color: var(--muted);
+            font-size: 0.85rem;
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .book-description {
+            margin: 0 0 16px 0;
+            color: var(--muted);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .book-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stock-info, .year-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .stock-info i, .year-info i {
+            color: var(--secondary);
+        }
+
+        .btn-book-detail {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all var(--transition);
+            align-self: flex-start;
+        }
+
+        .btn-book-detail:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 64, 175, 0.3);
+            color: white;
+        }
+
         /* Testimonials */
         .testimonials {
             padding: 80px 32px;
@@ -395,28 +543,72 @@
         .contact-form {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .contact-form input,
+        .contact-form select,
         .contact-form textarea {
-            padding: 8px 12px;
+            padding: 12px 16px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
+            border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
             color: #cbd5e1;
             font-family: inherit;
+            font-size: 0.9rem;
+            transition: all var(--transition);
+        }
+
+        .contact-form input:focus,
+        .contact-form select:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+        }
+
+        .contact-form select {
+            cursor: pointer;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 80px;
         }
 
         .contact-form input::placeholder,
+        .contact-form select::placeholder,
         .contact-form textarea::placeholder {
             color: rgba(203, 213, 225, 0.7);
         }
 
-        .contact-form .btn {
-            align-self: flex-start;
-            padding: 8px 16px;
+        .btn-contact-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--accent) 0%, #f97316 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
             font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            align-self: flex-start;
+        }
+
+        .btn-contact-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+            color: white;
         }
 
         /* Modal */
@@ -527,6 +719,21 @@
 </head>
 
 <body>
+
+    @if(session('success'))
+        <div id="successAlert" style="position: fixed; top: 100px; right: 20px; background: #10b981; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); z-index: 1000; font-weight: 500;">
+            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+        </div>
+        <script>
+            setTimeout(() => {
+                const alert = document.getElementById('successAlert');
+                if (alert) {
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 300);
+                }
+            }, 5000);
+        </script>
+    @endif
     <nav>
         <div class="logo">
            <img src="{{ asset('img/logo pustakadigital - Copy.png') }}" alt="">
@@ -583,17 +790,42 @@
         <p>Selami koleksi terbaik kami dan mulai jelajahi dunia literasi. Semua dapat diakses kapan saja lewat satu
             akun.</p>
 
-        <div class="feature-grid">
+        <div class="books-grid">
             @php
-                $books = \App\Models\Book::take(6)->get();
+                $books = \App\Models\Book::with('categories')->take(6)->get();
             @endphp
             @foreach ($books as $book)
-                <div class="feature-card">
-                    <i class="fa fa-book"></i>
-                    <h3>{{ $book->title }}</h3>
-                    <p class="muted">{{ $book->author }} · {{ $book->category->nama ?? 'Kategori' }}</p>
-                    <p class="muted">{{ Str::limit($book->description, 50) }}</p>
-                    <a href="#" class="btn secondary">Lihat Detail</a>
+                <div class="book-card">
+                    <div class="book-cover">
+                        @if($book->cover)
+                            <img src="{{ asset('storage/' . $book->cover) }}" alt="{{ $book->title }}" class="cover-image">
+                        @else
+                            <div class="no-cover">
+                                <i class="fas fa-book"></i>
+                                <span>Tidak ada cover</span>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">{{ $book->title }}</h3>
+                        <p class="book-author">{{ $book->author }}</p>
+                        <p class="book-category">{{ $book->category_list ?: 'Kategori' }}</p>
+                        <p class="book-description">{{ Str::limit($book->description, 80) }}</p>
+                        <div class="book-meta">
+                            <span class="stock-info">
+                                <i class="fas fa-boxes"></i>
+                                Stok: {{ $book->stock }}
+                            </span>
+                            <span class="year-info">
+                                <i class="fas fa-calendar"></i>
+                                {{ $book->publication_year }}
+                            </span>
+                        </div>
+                        <a href="{{ route('auth/login') }}" class="btn-book-detail">
+                            <i class="fas fa-eye"></i>
+                            Lihat Detail
+                        </a>
+                    </div>
                 </div>
             @endforeach
         </div>
@@ -683,16 +915,32 @@
             </div> --}}
 
             <div class="footer-col">
-                <h4>Kontak Kami</h4>
-                <p><strong>Alamat:</strong> Jl. Perpustakaan Digital No. 123, Kota Buku, Indonesia</p>
-                <p><strong>Email:</strong> info@pustakadigital.id</p>
-                <p><strong>Telepon:</strong> +62 21-1234-5678</p>
-                <p><strong>Jam Operasional:</strong> Senin-Jumat, 08:00-17:00 WIB</p>
-                <div class="socials">
-                    <a href="#" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
-                </div>
+                <h4>Tulis Pesan</h4>
+                <p>Kirim pesan kepada admin atau petugas perpustakaan. Kami akan segera merespons pertanyaan Anda.</p>
+
+                <form class="contact-form" action="{{ route('contact.submit') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Nama Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="recipient" required>
+                            <option value="">Pilih Penerima</option>
+                            <option value="admin">Admin</option>
+                            <option value="petugas">Petugas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Tulis pesan Anda..." rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-contact-submit">
+                        <i class="fas fa-paper-plane"></i>
+                        Kirim Pesan
+                    </button>
+                </form>
             </div>
 
         </div>

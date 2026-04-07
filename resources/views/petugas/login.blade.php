@@ -221,6 +221,7 @@
       </button>
     </form>
     <div class="login-footer">
+      <p><a href="{{ route('staff.password.request') }}">Lupa Password?</a></p>
       <p>&copy; 2026 Perpustakaan Digital. <a href="/">Kembali ke Beranda</a></p>
     </div>
   </div>

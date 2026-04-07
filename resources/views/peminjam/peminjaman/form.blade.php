@@ -817,13 +817,9 @@
             document.getElementById('tanggal_peminjaman').min = today;
             document.getElementById('tanggal_peminjaman').value = today;
 
-            // Set minimum date untuk tanggal pengembalian (besok)
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const tomorrowStr = tomorrow.toISOString().split('T')[0];
-            document.getElementById('tanggal_pengembalian').min = tomorrowStr;
-
-            // Update tanggal pengembalian ketika tanggal peminjaman berubah
+            // Hapus batas minimum khusus untuk tanggal pengembalian supaya tanggal bisa diset bebas.
+            // Update tanggal pengembalian tetap diberikan default 7 hari setelah tanggal peminjaman,
+            // namun pengguna bisa mengubahnya secara manual.
             document.getElementById('tanggal_peminjaman').addEventListener('change', function() {
                 const selectedDate = new Date(this.value);
                 selectedDate.setDate(selectedDate.getDate() + 7); // Default 7 hari
@@ -866,12 +862,6 @@
         document.querySelector('form').addEventListener('submit', function(e) {
             const tanggalPinjam = new Date(document.getElementById('tanggal_peminjaman').value);
             const tanggalKembali = new Date(document.getElementById('tanggal_pengembalian').value);
-
-            if (tanggalKembali <= tanggalPinjam) {
-                e.preventDefault();
-                alert('Tanggal pengembalian harus lebih besar dari tanggal peminjaman!');
-                return false;
-            }
 
             const diffTime = Math.abs(tanggalKembali - tanggalPinjam);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
